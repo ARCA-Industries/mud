@@ -1,0 +1,29 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="feedback"
+        android:title="Variable management"
+        android:summary="Create, delete, or modify variables"/>
+
+    <Preference
+        android:key="feedback"
+        android:title="Notification time"
+        android:summary="2:00 PM"/>
+
+    <Preference
+        android:key="feedback"
+        android:title="Select theme"
+        android:summary=""/>
+
+    <Preference
+        android:key="feedback"
+        android:title="Select weather location"
+        android:summary="Long Beach, CA"/>
+
+    <Preference
+        android:key="feedback"
+        android:title="Sync now"
+        android:summary="Last sync: October 21, 2019"/>
+
+</PreferenceScreen>
