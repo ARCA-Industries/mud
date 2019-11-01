@@ -1,11 +1,22 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight">>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="actionBarTheme">@style/MyActionBar</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
     </style>
 
+    <style name="AppTheme" parent="AppBaseTheme">
+    </style>
+
+    <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
 </resources>
