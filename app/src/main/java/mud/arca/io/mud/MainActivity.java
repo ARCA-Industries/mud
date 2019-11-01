@@ -9,9 +9,16 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import mud.arca.io.mud.Analysis.AnalysisFragment;
+import mud.arca.io.mud.DataRecordList.DataRecordListFragment;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    private FrameLayout mTextMessage;
+
+    final private Fragment fragmentHome = new AnalysisFragment();
+    final private Fragment fragmentDashboard = new DataRecordListFragment();
+    final private Fragment fragmentNotifications = new Fragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -19,16 +26,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_analysis);
+                case R.id.navigation_analysis:
+                    setTitle(R.string.title_analysis);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, fragmentHome)
+                            .commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                    setTitle(R.string.title_dashboard);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, fragmentDashboard)
+                            .commit();
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_profile);
+                    setTitle(R.string.title_profile);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, fragmentNotifications)
+                            .commit();
                     return true;
             }
+//
+//            switch (item.getItemId()) {
+//                case R.id.navigation_home:
+//
+//            }
+
             return false;
         }
     };
@@ -38,9 +60,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM); // TODO: Load from preferences
+
+        mTextMessage = findViewById(R.id.main_container);
+//        getSupportFragmentManager().beginTransaction().add(R.id.main_container, fragmentHome).commit();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        navigation.setSelectedItemId(R.id.navigation_dashboard);
     }
 
 }
