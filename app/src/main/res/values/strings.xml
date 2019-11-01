@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">müd</string>
     <string name="title_analysis">Analysis</string>
-    <string name="title_dashboard">@string/app_name</string>
+    <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
