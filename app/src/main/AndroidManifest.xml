@@ -21,7 +21,7 @@
         <activity android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
             android:label="Record Details"
             ></activity>
-        <activity android:name=".VariableManagement"></activity>
+        <activity android:name=".Settings.VariableManagement"></activity>
     </application>
 
 </manifest>

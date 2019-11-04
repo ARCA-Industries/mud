@@ -1,6 +1,8 @@
-package mud.arca.io.mud;
+package mud.arca.io.mud.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import mud.arca.io.mud.R;
+
 import android.os.Bundle;
 
 

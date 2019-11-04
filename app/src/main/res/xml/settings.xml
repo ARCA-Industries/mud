@@ -2,9 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="feedback"
-        android:title="Variable management"
-        android:summary="Create, delete, or modify variables"/>
+        android:summary="Create, delete, or modify variables"
+        android:title="Variable management">
+            <intent
+                android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
+                android:targetPackage="mud.arca.io.mud" />
+    </Preference>
 
     <Preference
         android:key="feedback"
