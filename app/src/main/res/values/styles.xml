@@ -8,12 +8,16 @@
 
         <item name="actionBarTheme">@style/MyActionBar</item>
 
-        <item name="android:navigationBarColor">@color/temp_nav</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
+    </style>
+
+    <style name="AppTheme.CardBottomBar" parent="AppBaseTheme">
+        <item name="android:navigationBarColor">@color/temp_nav</item>
     </style>
 
     <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
