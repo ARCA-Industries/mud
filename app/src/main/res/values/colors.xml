@@ -17,6 +17,8 @@
     <color name="orange_light">#f7bfa9</color>
     <color name="orange">#EC8F6A</color>
     <color name="orange_dark">#A5674A</color>
+    <color name="text_color">#000000</color>
+    <color name="table_background">#E0E0E0</color>
 
     <color name="temp_nav">#ffffff</color>
 </resources>
