@@ -1,32 +1,45 @@
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        android:summary="Create, delete, or modify variables"
-        android:title="Variable management">
+    <PreferenceCategory app:title="Personalization">
+
+        <Preference
+            app:summary="Create, delete, or modify variables"
+            app:title="Variable management">
             <intent
                 android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
                 android:targetPackage="mud.arca.io.mud" />
-    </Preference>
+        </Preference>
 
-    <Preference
-        android:key="feedback"
-        android:title="Notification time"
-        android:summary="2:00 PM"/>
+        <EditTextPreference
+            app:defaultValue="2:00 PM"
+            app:key="notification_time"
+            app:title="Notification time"
+            app:useSimpleSummaryProvider="true" />
 
-    <Preference
-        android:key="feedback"
-        android:title="Select theme"
-        android:summary=""/>
+        <ListPreference
+            app:defaultValue="auto"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="Theme"
+            app:useSimpleSummaryProvider="true" />
 
-    <Preference
-        android:key="feedback"
-        android:title="Select weather location"
-        android:summary="Long Beach, CA"/>
+        <EditTextPreference
+            app:defaultValue="Long Beach, CA"
+            app:key="location_weather"
+            app:title="Select weather location"
+            app:useSimpleSummaryProvider="true" />
 
-    <Preference
-        android:key="feedback"
-        android:title="Sync now"
-        android:summary="Last sync: October 21, 2019"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory app:title="Backup &amp; Sync">
+
+
+        <Preference
+            app:defaultValue="Last sync: October 21, 2019"
+            app:key="last_sync"
+            app:title="Sync now" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

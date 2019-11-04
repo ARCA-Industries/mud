@@ -5,4 +5,15 @@
         <item>Meals</item>
         <item>Glasses of Water</item>
     </string-array>
+
+    <string-array name="theme_entries">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Follow System</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>night</item>
+        <item>day</item>
+        <item>auto</item>
+    </string-array>
 </resources>
