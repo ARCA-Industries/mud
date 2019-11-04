@@ -18,4 +18,5 @@
     <color name="orange">#EC8F6A</color>
     <color name="orange_dark">#A5674A</color>
 
+    <color name="temp_nav">#ffffff</color>
 </resources>
