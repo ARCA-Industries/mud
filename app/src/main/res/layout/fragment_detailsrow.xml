@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
 
 
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
 
     >
 
     <TextView
-        android:id="@+id/dateTextView"
+        android:id="@+id/variableTypeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
@@ -24,23 +24,12 @@
         tools:text="@tools:sample/date/mmddyy" />
 
     <TextView
-        android:id="@+id/moodTextView"
+        android:id="@+id/valueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/attributeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/moodTextView"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/lorem" />
 
@@ -56,12 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".33" />
+        app:layout_constraintGuide_begin="200dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".66" />
 </androidx.constraintlayout.widget.ConstraintLayout>

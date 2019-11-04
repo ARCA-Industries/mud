@@ -1,6 +1,8 @@
 package mud.arca.io.mud.DataRecordList.recorddetails;
 
 import androidx.lifecycle.ViewModelProviders;
+
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import mud.arca.io.mud.DataRecordList.recorddetails.dummy.DummyContent;
 import mud.arca.io.mud.R;
 
 public class RecordDetailsFragment extends Fragment {
@@ -23,7 +28,16 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.record_details_fragment, container, false);
+        View view = inflater.inflate(R.layout.record_details_fragment, container, false);
+
+        // Set the adapter
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        Context context = view.getContext();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(DummyContent.ITEMS));
+        return view;
     }
 
     @Override

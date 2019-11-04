@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataRecordList.recorddetails;
+package mud.arca.io.mud.DataRecordList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
+import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
 import mud.arca.io.mud.R;
 
 import java.util.List;

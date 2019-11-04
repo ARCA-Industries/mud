@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent;
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
-import mud.arca.io.mud.DataRecordList.recorddetails.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.R;
 
 /**
