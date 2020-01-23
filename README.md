@@ -1,6 +1,6 @@
 Müd
 ===
-Müd is a mood optimizer mobile app that allows users to describe their mood on a daily basis. It provides users with an advanced overview of their mood that includes history and data visualizations. Also, Mood Optimizer app uses machine learning in order to make suggestions on how to improve users mood which takes user data about daily activities and global factors that can have an effect on their mood. This app will help to improve users mood in different ways.
+Müd is a mood optimizer mobile app that allows users to describe their mood on a daily basis. It provides users with an advanced overview of their mood that includes history and data visualizations. Also, Müd uses machine learning in order to make suggestions on how to improve users mood which takes user data about daily activities and global factors that can have an effect on their mood. This app will help to improve users mood in different ways.
 
 Features
 --------
@@ -36,7 +36,7 @@ Install Müd by running:
 
 Contribute
 ----------
--Github: github.com/ARCA-Industries/Mud
+- Github: https://github.com/ARCA-Industries/Mud
 
 Support
 -------
