@@ -30,9 +30,10 @@ Components
 
 Installation 
 ------------
-Install Müd by running: 
-	- .apk link
-	- Play Store
+Install Müd by downloading: 
+
+- The apk from our [releases](https://github.com/ARCA-Industries/mud/releases/latest) page
+- The app from [Google Play Store listing](https://play.google.com/store/apps/details?id=mud.arca.io)
 
 Contribute
 ----------
