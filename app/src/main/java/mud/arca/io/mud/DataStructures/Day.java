@@ -23,8 +23,13 @@ public class Day {
     }
 
     public double getAverageMood() {
-        // TODO: Implement method
-        return 0;
+        double average = 0;
+        for (MoodRecording recording : moodRecordings) {
+            average += recording.getValue();
+        }
+        average /= moodRecordings.size();
+
+        return average;
     }
 
     public Date getDate() {
