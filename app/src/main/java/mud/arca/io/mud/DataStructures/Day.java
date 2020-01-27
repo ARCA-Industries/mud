@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class Day {
 
-    Date date;
-    Collection<MoodRecording> moodRecordings;
-    Collection<Variable> variables;
+    private Date date;
+    private Collection<MoodRecording> moodRecordings;
+    private Collection<Variable> variables;
 
     public Day(Date date) {
         this.date = date;
