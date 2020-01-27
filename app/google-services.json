@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:689530235111:android:ccfe4ad360573d099d1a42",
+        "android_client_info": {
+          "package_name": "io.arca.mud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689530235111-q8073vj0uhugfdobi6u9q7kitm09osol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4-wtyt3BGoQXLKkcK8sD6uKKEVXGMqOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689530235111-q8073vj0uhugfdobi6u9q7kitm09osol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:689530235111:android:94b0e655a02427929d1a42",
         "android_client_info": {
           "package_name": "mud.arca.io.mud"
