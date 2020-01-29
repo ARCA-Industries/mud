@@ -1,19 +1,21 @@
 package mud.arca.io.mud.DataStructures;
 
-public class Measurement<T extends Number> {
-    private T value;
+public class Measurement {
+    private float value;
     private String unit;
+    private Variable variable;
 
-    public Measurement(T value, String unit) {
+    public Measurement(float value, String unit, Variable variable) {
         this.value = value;
         this.unit = unit;
+        this.variable = variable;
     }
 
-    public T getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public void setValue(float value) {
         this.value = value;
     }
 
@@ -23,5 +25,13 @@ public class Measurement<T extends Number> {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public Variable getVariable() {
+        return variable;
+    }
+
+    public void setVariable(Variable variable) {
+        this.variable = variable;
     }
 }

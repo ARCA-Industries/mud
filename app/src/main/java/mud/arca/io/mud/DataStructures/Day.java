@@ -8,18 +8,18 @@ public class Day {
 
     private Date date;
     private Collection<MoodRecording> moodRecordings;
-    private Collection<Variable> variables;
+    private Collection<Measurement> measurements;
 
     public Day(Date date) {
         this.date = date;
         this.moodRecordings = new ArrayList<>();
-        this.variables = new ArrayList<>();
+        this.measurements = new ArrayList<>();
     }
 
-    public Day(Date date, Collection<MoodRecording> moodRecordings, Collection<Variable> variables) {
+    public Day(Date date, Collection<MoodRecording> moodRecordings, Collection<Measurement> measurements) {
         this.date = date;
         this.moodRecordings = moodRecordings;
-        this.variables = variables;
+        this.measurements = measurements;
     }
 
     public double getAverageMood() {
@@ -48,11 +48,11 @@ public class Day {
         this.moodRecordings = moodRecordings;
     }
 
-    public Collection<Variable> getVariables() {
-        return variables;
+    public Collection<Measurement> getMeasurements() {
+        return measurements;
     }
 
-    public void setVariables(Collection<Variable> variables) {
-        this.variables = variables;
+    public void setMeasurements(Collection<Measurement> measurements) {
+        this.measurements = measurements;
     }
 }
