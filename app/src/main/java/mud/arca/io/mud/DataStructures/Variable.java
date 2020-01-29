@@ -7,12 +7,10 @@ enum VarType
 
 public class Variable {
     private String name;
-    private Measurement measurement;
     private VarType vartype;
 
-    public Variable(String name, Measurement measurement, VarType vartype) {
+    public Variable(String name, VarType vartype) {
         this.name = name;
-        this.measurement = measurement;
         this.vartype = vartype;
     }
 
@@ -22,14 +20,6 @@ public class Variable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Measurement getMeasurement() {
-        return measurement;
-    }
-
-    public void setMeasurement(Measurement m) {
-        this.measurement = m;
     }
 
     public VarType getVartype() {
