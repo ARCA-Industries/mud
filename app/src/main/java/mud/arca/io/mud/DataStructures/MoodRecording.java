@@ -6,6 +6,11 @@ public class MoodRecording {
     private Timestamp timestamp;
     private int value;
 
+    public MoodRecording(Timestamp timestamp, int value) {
+        this.timestamp = timestamp;
+        this.value = value;
+    }
+
     public Timestamp getTimestamp() {
         return timestamp;
     }

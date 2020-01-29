@@ -1,9 +1,13 @@
 package mud.arca.io.mud.DataStructures;
 
 public class Variable {
-
     private String name;
     private Measurement measurement;
+
+    public Variable(String name, Measurement measurement) {
+        this.name = name;
+        this.measurement = measurement;
+    }
 
     public String getName() {
         return name;
@@ -18,6 +22,6 @@ public class Variable {
     }
 
     public void setMeasurement(Measurement m) {
-        this.measurement = measurement;
+        this.measurement = m;
     }
 }

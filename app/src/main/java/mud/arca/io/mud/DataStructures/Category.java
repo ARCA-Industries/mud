@@ -1,9 +1,8 @@
 package mud.arca.io.mud.DataStructures;
 
 public class Category {
-
-    String name;
-    String color;
+    private String name;
+    private String color;
 
     public Category(String name, String color) {
         this.name = name;
