@@ -15,6 +15,7 @@ public class MockUser extends User {
 
     private final static int NUM_DAYS = 500;
     private final static int NUM_MOODRECORDINGS = 10;
+    private final static int NUM_MEASUREMENTS = 5;
 
     private Random r;
 
@@ -66,8 +67,10 @@ public class MockUser extends User {
     private ArrayList<Measurement> getMockMeasurements(Day day) {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
-        Measurement measurement = new Measurement((float) (r.nextGaussian() + 8), "hr", new Variable("Sleep", VarType.FLOAT));
-        measurements.add(measurement);
+        for (int i = 0; i < NUM_MEASUREMENTS; i++) {
+            Measurement measurement = new Measurement((float) (r.nextGaussian() + 8), "hr", new Variable("Sleep", VarType.FLOAT));
+            measurements.add(measurement);
+        }
 
         return measurements;
     }
