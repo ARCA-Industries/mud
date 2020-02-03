@@ -68,10 +68,8 @@ public class MockUser extends User {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
         for (int i = 0; i < NUM_MEASUREMENTS; i++) {
-            // TODO: Implement mock Measurements
-//            Measurement measurement = new Measurement();
-//
-//            measurements.add(measurement);
+            Measurement measurement = new Measurement((float) (r.nextGaussian() + 8), "hr", new Variable("Sleep", VarType.FLOAT));
+            measurements.add(measurement);
         }
 
         return measurements;
