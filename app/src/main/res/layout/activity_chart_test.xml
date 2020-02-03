@@ -6,16 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ChartTestActivity">
 
-    <mud.arca.io.mud.Views.YearSummaryView
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="#ccf"
-        app:exampleColor="#33b5e5"
-        app:exampleDimension="24sp"
-        app:exampleDrawable="@android:drawable/ic_menu_add"
-        app:exampleString="Hello, YearSummaryView" />
-    <!--        android:paddingLeft="20dp"-->
-    <!--        android:paddingBottom="40dp"-->
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
