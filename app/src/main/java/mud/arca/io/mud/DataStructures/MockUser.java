@@ -15,6 +15,7 @@ public class MockUser extends User {
 
     private final static int NUM_DAYS = 500;
     private final static int NUM_MOODRECORDINGS = 10;
+    private final static double PROB_DAY = .9;  // Probability that for any given day exists
 
     private Random r;
 
@@ -37,6 +38,11 @@ public class MockUser extends User {
     private ArrayList<Day> getMockDays() {
         ArrayList<Day> days = new ArrayList<>();
         for (int i = 0; i < NUM_DAYS; i++) {
+
+            if (r.nextDouble() > PROB_DAY) {
+                continue;
+            }
+
             Day day = new Day(new Date(2020, 1, i + 1));
             day.getMoodRecordings().clear();
             day.getMoodRecordings().addAll(getMockMoodRecordings(day));
