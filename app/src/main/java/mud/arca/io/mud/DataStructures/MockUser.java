@@ -1,9 +1,14 @@
 package mud.arca.io.mud.DataStructures;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
+
+import mud.arca.io.mud.VariableVsTimeActivity;
 
 /**
  * Use this as you'd use any User. For example,
@@ -13,7 +18,7 @@ import java.util.Random;
  */
 public class MockUser extends User {
 
-    private final static int NUM_DAYS = 500;
+    private final static int NUM_DAYS = 30;
     private final static int NUM_MOODRECORDINGS = 10;
 
     private Random r;
@@ -29,15 +34,16 @@ public class MockUser extends User {
 
         getDayData().clear();
         getDayData().addAll(getMockDays());
-
-
     }
 
+    static Date getBaseDate() {
+        return Util.parseDate("15-December-2016");
+    }
 
     private ArrayList<Day> getMockDays() {
         ArrayList<Day> days = new ArrayList<>();
         for (int i = 0; i < NUM_DAYS; i++) {
-            Day day = new Day(new Date(2020, 1, i + 1));
+            Day day = new Day(Util.intToDate(getBaseDate(), i));
             day.getMoodRecordings().clear();
             day.getMoodRecordings().addAll(getMockMoodRecordings(day));
 
