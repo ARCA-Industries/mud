@@ -39,7 +39,7 @@ public class VariableVsTimeActivity extends AppCompatActivity {
     void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys) {
         setContentView(R.layout.activity_chart_test);
 
-        // in this example, a LineChart is initialized from xml
+        // BarChart is initialized from xml
         BarChart barChart = (BarChart) findViewById(R.id.chart);
 
         List<BarEntry> entries = new ArrayList<BarEntry>();
@@ -65,6 +65,7 @@ public class VariableVsTimeActivity extends AppCompatActivity {
         // Disable the text above each bar for each data pt
         barChart.setMaxVisibleValueCount(0);
 
+        // Apply the value formatter DayAxisVF
         barChart.getXAxis().setValueFormatter(new DayAxisVF(barChart));
     }
 
@@ -82,14 +83,14 @@ public class VariableVsTimeActivity extends AppCompatActivity {
         ArrayList<Float> ys = new ArrayList<>();
 
         for (Day day : dayData) {
-            Date d = day.getDate();
-            xs.add(d);
-            Log.d("QQ66", "" + d);
-
             Collection<Measurement> measurements = day.getMeasurements();
             for (Measurement m : measurements) {
                 if (m.getVariable().getName() == varName) {
                     ys.add(m.getValue());
+
+                    Date d = day.getDate();
+                    xs.add(d);
+                    Log.d("QQ66", "" + d);
                 }
             }
         }
