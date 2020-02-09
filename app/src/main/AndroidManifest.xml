@@ -9,22 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChartTestActivity" android:label="test123">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Settings.NotificationTestActivity" android:label="notifications">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.CardBottomBar">
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +20,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.CardBottomBar">
+        </activity>
+        <activity
             android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
             android:label="Record Details" />
         <activity android:name=".Settings.VariableManagement" />
+
+
     </application>
 
 </manifest>
