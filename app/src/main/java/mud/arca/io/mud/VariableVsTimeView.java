@@ -1,9 +1,14 @@
 package mud.arca.io.mud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.util.Log;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
+import android.util.AttributeSet;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -18,13 +23,35 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.DayAxisVF;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.R;
 
-public class VariableVsTimeActivity extends AppCompatActivity {
+public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarChart implements AnalysisChart {
+
+    public VariableVsTimeView(Context context) {
+        super(context);
+        init(null, 0);
+    }
+
+    public VariableVsTimeView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(attrs, 0);
+    }
+
+    public VariableVsTimeView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(attrs, defStyle);
+    }
+
+    private void init(AttributeSet attrs, int defStyle) {
+
+    }
+
     public static Date getBaseDate() {
         return Util.parseDate("01-January-1970");
     }
@@ -37,10 +64,10 @@ public class VariableVsTimeActivity extends AppCompatActivity {
     }
 
     void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys) {
-        setContentView(R.layout.activity_chart_test);
+//        setContentView(R.layout.activity_chart_test);
 
-        // BarChart is initialized from xml
-        BarChart barChart = (BarChart) findViewById(R.id.chart);
+        // This view is a BarChart
+        BarChart barChart = this;
 
         List<BarEntry> entries = new ArrayList<BarEntry>();
         int sz = xs.size();
@@ -105,10 +132,7 @@ public class VariableVsTimeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        plotMockUser();
-        //test10();
+    public void setDays(Collection<Day> days) {
+        plotMockUser(); // TODO: Use days
     }
 }
