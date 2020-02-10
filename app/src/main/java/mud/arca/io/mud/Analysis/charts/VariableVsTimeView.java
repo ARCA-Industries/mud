@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
@@ -52,22 +53,27 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
 
     }
 
+    @Override
+    public void setDays(Collection<Day> days) {
+        plotMockUser(); // TODO: Use days
+    }
+
     public static Date getBaseDate() {
         return Util.parseDate("01-January-1970");
     }
 
     // Convert a date to float.
     // Returns the number of days passed since base date.
-    float dateToFloat(Date d) {
+    static float dateToFloat(Date d) {
         long diff = d.getTime() - getBaseDate().getTime();
         return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys) {
+    static void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys, BarChart barChart) {
 //        setContentView(R.layout.activity_chart_test);
 
         // This view is a BarChart
-        BarChart barChart = this;
+        //BarChart barChart = this;
 
         List<BarEntry> entries = new ArrayList<BarEntry>();
         int sz = xs.size();
@@ -96,12 +102,12 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
         barChart.getXAxis().setValueFormatter(new DayAxisVF(barChart));
     }
 
-    void plotDates(ArrayList<Date> xs, ArrayList<Float> ys) {
+    public static void plotDates(ArrayList<Date> xs, ArrayList<Float> ys, BarChart barchart) {
         ArrayList<Float> xsFloat = new ArrayList<>();
         for (Date d : xs) {
             xsFloat.add(dateToFloat(d));
         }
-        plotFloats(xsFloat, ys);
+        plotFloats(xsFloat, ys, barchart);
     }
 
     // Given a list of days and a name of variable, plot the variable over those days.
@@ -111,28 +117,22 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
 
         for (Day day : dayData) {
             Collection<Measurement> measurements = day.getMeasurements();
-            for (Measurement m : measurements) {
-                if (m.getVariable().getName() == varName) {
-                    ys.add(m.getValue());
-
-                    Date d = day.getDate();
-                    xs.add(d);
-
-                    Util.debug("" + d);
-                }
+            try {
+                Measurement m = Measurement.searchList(measurements, varName);
+                ys.add(m.getValue());
+                Date d = day.getDate();
+                xs.add(d);
+                Util.debug("" + d);
+            } catch (NoSuchElementException e) {
+                // do nothing
             }
         }
 
-        plotDates(xs, ys);
+        plotDates(xs, ys, this);
     }
 
     void plotMockUser() {
         MockUser mockUser = new MockUser();
         plotListOfDays(mockUser.getDayData(), "Sleep");
-    }
-
-    @Override
-    public void setDays(Collection<Day> days) {
-        plotMockUser(); // TODO: Use days
     }
 }

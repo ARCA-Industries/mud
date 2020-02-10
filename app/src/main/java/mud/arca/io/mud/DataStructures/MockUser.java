@@ -3,6 +3,7 @@ package mud.arca.io.mud.DataStructures;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Random;
 public class MockUser extends User {
 
     private final static int NUM_DAYS = 30;
-    private final static int NUM_MOODRECORDINGS = 10;
+    private final static int NUM_MOODRECORDINGS = 1;
     private final static double PROB_DAY = .9;  // Probability that for any given day exists
 
     // number of milliseconds in 1 day
@@ -48,11 +49,13 @@ public class MockUser extends User {
             }
 
             Day day = new Day(Util.intToDate(getBaseDate(), i));
-            day.getMoodRecordings().clear();
-            day.getMoodRecordings().addAll(getMockMoodRecordings(day));
 
+            ArrayList<Measurement> mockMeasurements = getMockMeasurements(day);
             day.getMeasurements().clear();
-            day.getMeasurements().addAll(getMockMeasurements(day));
+            day.getMeasurements().addAll(mockMeasurements);
+
+            day.getMoodRecordings().clear();
+            day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
 
             days.add(day);
         }
@@ -60,15 +63,23 @@ public class MockUser extends User {
     }
 
 
-    private ArrayList<MoodRecording> getMockMoodRecordings(Day day) {
+    private ArrayList<MoodRecording> getMockMoodRecordings(Day day, ArrayList<Measurement> mockMeasurements) {
         ArrayList<MoodRecording> recordings = new ArrayList<>();
         // TODO: Generating recordings this way will mean that the average recording for each day is around 0.5. Maybe I should pick a random value and generate mood recordings around that so that each day has a nice distribution from 0 to 10.
         for (int i = 0; i < NUM_MOODRECORDINGS; i++) {
             Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
+            //Timestamp timestamp = new Timestamp(day.getDate().getTime() + MS_PER_DAY / 2);
+            //Timestamp timestamp = new Timestamp(day.getDate().getTime());
 
-            MoodRecording recording = new MoodRecording(timestamp, r.nextInt(10));
+            try {
+                Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
+                int moodValue = (int) (m.getValue() - 3);
+                MoodRecording recording = new MoodRecording(timestamp, moodValue);
+                recordings.add(recording);
+            } catch (NoSuchElementException e) {
 
-            recordings.add(recording);
+            }
+
         }
         return recordings;
     }
