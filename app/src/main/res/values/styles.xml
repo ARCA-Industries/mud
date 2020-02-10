@@ -23,11 +23,9 @@
     <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
         <item name="android:background">?attr/colorSurface</item>
     </style>
-    
-    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="android:windowBackground"> @drawable/background_splashscreen </item>
-
-
+    <style name ="LoginScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>

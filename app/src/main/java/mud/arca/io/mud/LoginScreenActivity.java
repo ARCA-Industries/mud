@@ -29,6 +29,8 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.login_activity);
 
+        // TODO: Check if we've got a saved session and don't show the login button. Immediately launch the main activity.
+
         findViewById(R.id.sign_in_button).setOnClickListener(v -> login());
 
     }
