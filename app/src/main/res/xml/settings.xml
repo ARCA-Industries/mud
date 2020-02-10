@@ -9,13 +9,15 @@
             <intent
                 android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
                 android:targetPackage="io.arca.mud" />
+
         </Preference>
 
         <EditTextPreference
             app:defaultValue="2:00 PM"
             app:key="notification_time"
             app:title="Notification time"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true">
+        </EditTextPreference>
 
         <ListPreference
             app:defaultValue="auto"
@@ -42,4 +44,5 @@
             app:title="Sync now" />
 
     </PreferenceCategory>
+
 </PreferenceScreen>
