@@ -17,10 +17,12 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="@+id/guidelineTop">
 
-        <AutoCompleteTextView
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/inputPlotTypeDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:ignore="Deprecated"
+            android:editable="false"
             android:text="Mood vs Variable" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,6 +41,8 @@
             android:id="@+id/inputVariableDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:ignore="Deprecated"
+            android:editable="false"
             android:text="Sleep (hr)" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +90,7 @@
             android:text="October 24, 2019" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
+    <FrameLayout
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -104,6 +108,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/activity_horizontal_margin" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight"
         android:layout_width="wrap_content"
