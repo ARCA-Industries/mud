@@ -23,6 +23,10 @@ public class Day {
     }
 
     public double getAverageMood() {
+        if (moodRecordings.isEmpty()) {
+            return -1;
+        }
+
         double average = 0;
         for (MoodRecording recording : moodRecordings) {
             average += recording.getValue();

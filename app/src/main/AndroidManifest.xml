@@ -30,10 +30,8 @@
         <activity
             android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
             android:label="Record Details" />
-        <activity android:name=".Settings.VariableManagement" />
-
-
-
+        <activity android:name=".Settings.VariableManagement"
+            android:label="Variable Management"/>
     </application>
 
 </manifest>
