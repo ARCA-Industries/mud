@@ -1,7 +1,10 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    tools:context=".Settings.VariableManagement">
+
 
     <TableRow
         android:layout_width="fill_parent"
@@ -95,12 +98,13 @@
     </TableRow>
 
     <TableRow>
+
         <ImageView
             android:id="@+id/image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_circle_orange_24dp"
-            />
+            android:src="@drawable/ic_add_circle_orange_24dp" />
+
         <TextView
             android:text="Add new variable..."
             android:layout_width="wrap_content"
