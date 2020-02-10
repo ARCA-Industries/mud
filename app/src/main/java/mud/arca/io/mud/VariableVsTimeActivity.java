@@ -90,7 +90,8 @@ public class VariableVsTimeActivity extends AppCompatActivity {
 
                     Date d = day.getDate();
                     xs.add(d);
-                    Log.d("QQ66", "" + d);
+
+                    Util.debug("" + d);
                 }
             }
         }

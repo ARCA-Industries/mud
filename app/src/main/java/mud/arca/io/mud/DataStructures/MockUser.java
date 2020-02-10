@@ -37,7 +37,7 @@ public class MockUser extends User {
     }
 
     static Date getBaseDate() {
-        return Util.parseDate("15-December-2015");
+        return Util.parseDate("15-December-2019");
     }
 
     private ArrayList<Day> getMockDays() {

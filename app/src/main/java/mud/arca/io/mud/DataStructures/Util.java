@@ -24,7 +24,7 @@ public class Util {
         return d;
     }
 
-    // input: days since base date (int)
+    // input: i = number of days since base date (int)
     // output: date
     public static Date intToDate(Date baseDate, int i) {
         Calendar c = Calendar.getInstance();
@@ -38,7 +38,7 @@ public class Util {
     }
 
     // output an ArrayList to debug
-    public void printList(ArrayList<Long> al) {
+    public static void printList(ArrayList<Long> al) {
         StringBuffer sb = new StringBuffer();
 
         sb.append("[");
@@ -48,12 +48,18 @@ public class Util {
         }
         sb.append("]");
         String str = sb.toString();
-        Log.d("QQ55", str);
+        debug(str);
     }
 
     // normal aqua/green: #7ECFC0
     public static final int[] MUD_GRAPH_COLORS = {
             ColorTemplate.rgb("#7ECFC0")
     };
+
+    public static final boolean DEBUG_ENABLED = true;
+
+    public static void debug(String s) {
+        Log.d("QQ66", s);
+    }
 
 }
