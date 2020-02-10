@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreen"
+            android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashScreen">
             <intent-filter>
@@ -23,6 +23,11 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.CardBottomBar">
+        </activity>
+        <activity
+            android:name=".LoginScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppBaseTheme">
         </activity>
         <activity
             android:name=".DataRecordList.recorddetails.RecordDetailsActivity"

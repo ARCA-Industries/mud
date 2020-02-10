@@ -40,8 +40,8 @@ public class NotificationTestActivity extends AppCompatActivity {
 
         Notification notification = new NotificationCompat.Builder(this, AppNotifications.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_one)
-                .setContentTitle(title)
-                .setContentText(message)
+                .setContentTitle("Test")
+                .setContentText("This is a test")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();

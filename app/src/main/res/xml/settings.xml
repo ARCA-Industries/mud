@@ -15,7 +15,9 @@
             app:defaultValue="2:00 PM"
             app:key="notification_time"
             app:title="Notification time"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            android:onClick="sendOnChannel1"
+            />
 
         <ListPreference
             app:defaultValue="auto"
