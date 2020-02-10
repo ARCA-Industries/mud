@@ -17,6 +17,9 @@ public class MockUser extends User {
     private final static int NUM_MOODRECORDINGS = 10;
     private final static double PROB_DAY = .9;  // Probability that for any given day exists
 
+    // number of milliseconds in 1 day
+    private final static int MS_PER_DAY = 1000*60*60*24;
+
     private Random r;
 
     public MockUser() {
@@ -61,7 +64,7 @@ public class MockUser extends User {
         ArrayList<MoodRecording> recordings = new ArrayList<>();
         // TODO: Generating recordings this way will mean that the average recording for each day is around 0.5. Maybe I should pick a random value and generate mood recordings around that so that each day has a nice distribution from 0 to 10.
         for (int i = 0; i < NUM_MOODRECORDINGS; i++) {
-            Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(86400000));
+            Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
 
             MoodRecording recording = new MoodRecording(timestamp, r.nextInt(10));
 

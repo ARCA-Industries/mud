@@ -59,7 +59,9 @@ public class Util {
     public static final boolean DEBUG_ENABLED = true;
 
     public static void debug(String s) {
-        Log.d("QQ66", s);
+        if (DEBUG_ENABLED) {
+            Log.d("QQ66", s);
+        }
     }
 
 }
