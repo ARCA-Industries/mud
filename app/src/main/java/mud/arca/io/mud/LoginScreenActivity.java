@@ -17,6 +17,11 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Login method: executes when login is clicked
+     * currently redirects to main screen
+     * @param v View to return when clicked
+     */
    public void login(View v) {
 
         String username;

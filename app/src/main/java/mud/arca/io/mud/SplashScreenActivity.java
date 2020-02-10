@@ -12,7 +12,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // This one line of code took me an hour.
+        // This one line of code took me an hour. - Robert
         startActivity(new Intent(this, LoginScreenActivity.class));
     }
 
