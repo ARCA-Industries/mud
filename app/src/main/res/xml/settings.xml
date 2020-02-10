@@ -7,17 +7,16 @@
             app:summary="Create, delete, or modify variables"
             app:title="Variable management">
             <intent
-                android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
-                android:targetPackage="mud.arca.io.mud" />
+                android:targetPackage="mud.arca.io.mud"
+                android:targetClass="mud.arca.io.mud.Settings.VariableManagement" />
         </Preference>
 
         <EditTextPreference
             app:defaultValue="2:00 PM"
             app:key="notification_time"
             app:title="Notification time"
-            app:useSimpleSummaryProvider="true"
-            android:onClick="sendOnChannel1"
-            />
+            app:useSimpleSummaryProvider="true">
+        </EditTextPreference>
 
         <ListPreference
             app:defaultValue="auto"

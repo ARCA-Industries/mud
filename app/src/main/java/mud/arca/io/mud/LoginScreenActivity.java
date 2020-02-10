@@ -15,6 +15,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.login_activity);
 
+
     }
 
     /**
