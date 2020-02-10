@@ -6,7 +6,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import mud.arca.io.mud.VariableVsTimeView;
+import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 
 // Custom Value formatter.
 // It is used to convert the x-axis date values (stored as floats) to strings.

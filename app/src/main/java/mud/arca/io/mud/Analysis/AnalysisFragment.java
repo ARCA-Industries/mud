@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
+import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Analysis.tempanalysisviews.BlueChartView;
@@ -32,6 +33,7 @@ public class AnalysisFragment extends Fragment {
         BLUE_CHART(BlueChartView.class, "Blue Box"),
         GREEN_CHART(GreenChartView.class, "Green Box"),
         YELLOW_CHART(YellowChartView.class, "Yellow Box"),
+        VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
         ;
 
         Class<? extends AnalysisChart> view;
