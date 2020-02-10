@@ -8,7 +8,7 @@
             app:title="Variable management">
             <intent
                 android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
-                android:targetPackage="mud.arca.io.mud" />
+                android:targetPackage="io.arca.mud" />
         </Preference>
 
         <EditTextPreference
