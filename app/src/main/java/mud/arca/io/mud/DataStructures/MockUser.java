@@ -65,12 +65,11 @@ public class MockUser extends User {
 
     private ArrayList<MoodRecording> getMockMoodRecordings(Day day, ArrayList<Measurement> mockMeasurements) {
         ArrayList<MoodRecording> recordings = new ArrayList<>();
-        // TODO: Generating recordings this way will mean that the average recording for each day is around 0.5. Maybe I should pick a random value and generate mood recordings around that so that each day has a nice distribution from 0 to 10.
+
         for (int i = 0; i < NUM_MOODRECORDINGS; i++) {
             Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
-            //Timestamp timestamp = new Timestamp(day.getDate().getTime() + MS_PER_DAY / 2);
-            //Timestamp timestamp = new Timestamp(day.getDate().getTime());
 
+            // Later, can consider adding a linear component and a noise component.
             try {
                 Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
                 int moodValue = (int) (m.getValue() - 3);

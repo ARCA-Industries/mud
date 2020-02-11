@@ -1,5 +1,6 @@
 package mud.arca.io.mud.DataStructures;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -9,6 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import mud.arca.io.mud.App;
+import mud.arca.io.mud.R;
 
 // Collection of utility functions
 public class Util {
@@ -24,7 +29,7 @@ public class Util {
         return d;
     }
 
-    // input: i = number of days since base date (int)
+    // input: i = number of days since baseDate
     // output: date
     public static Date intToDate(Date baseDate, int i) {
         Calendar c = Calendar.getInstance();
@@ -35,6 +40,13 @@ public class Util {
 
     public static Date floatToDate(Date baseDate, float f) {
         return intToDate(baseDate, (int) f);
+    }
+
+    // Convert a date to float.
+    // Returns the number of days passed since base date.
+    public static float dateToFloat(Date d, Date baseDate) {
+        long diff = d.getTime() - baseDate.getTime();
+        return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
     // output an ArrayList to debug
@@ -48,12 +60,13 @@ public class Util {
         }
         sb.append("]");
         String str = sb.toString();
-        debug(str);
+        Util.debug(str);
     }
 
-    // normal aqua/green: #7ECFC0
     public static final int[] MUD_GRAPH_COLORS = {
-            ColorTemplate.rgb("#7ECFC0")
+            // getColor() requires minSdkVersion 23 in app/gradle
+            App.getContext().getColor(R.color.green),
+            //App.getContext().getColor(R.color.green_dark),
     };
 
     public static final boolean DEBUG_ENABLED = true;
