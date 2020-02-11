@@ -3,6 +3,8 @@ package mud.arca.io.mud.Analysis.charts;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.github.mikephil.charting.charts.BarChart;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,7 +15,7 @@ import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.Util;
 
-public class MoodVsTimeView extends com.github.mikephil.charting.charts.BarChart implements AnalysisChart {
+public class MoodVsTimeView extends BarChart implements AnalysisChart {
     public MoodVsTimeView(Context context) {
         super(context);
         init(null, 0);

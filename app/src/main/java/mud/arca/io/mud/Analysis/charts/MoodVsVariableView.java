@@ -1,11 +1,21 @@
 package mud.arca.io.mud.Analysis.charts;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+
+import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.data.ScatterDataSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
@@ -14,7 +24,7 @@ import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.Util;
 
-public class MoodVsVariableView extends com.github.mikephil.charting.charts.BarChart implements AnalysisChart {
+public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
     public MoodVsVariableView(Context context) {
         super(context);
         init(null, 0);
@@ -53,8 +63,7 @@ public class MoodVsVariableView extends com.github.mikephil.charting.charts.BarC
             }
 
         }
-
-        VariableVsTimeView.plotFloats(xs, ys, this);
+        plotFloatsScatter(xs, ys, this);
     }
 
     void plotMockUser() {
@@ -62,8 +71,32 @@ public class MoodVsVariableView extends com.github.mikephil.charting.charts.BarC
         plotListOfDays(mockUser.getDayData(), "Sleep");
     }
 
+    static void plotFloatsScatter(ArrayList<Float> xs, ArrayList<Float> ys, ScatterChart scatterChart) {
+        List<Entry> scatterEntries = new ArrayList<>();
+        for (int i = 0; i < xs.size(); i++) {
+            scatterEntries.add(new BarEntry(xs.get(i), ys.get(i)));
+        }
+
+        ScatterDataSet scatterDataSet = new ScatterDataSet(scatterEntries, "");
+        ScatterData scatterData = new ScatterData(scatterDataSet);
+        scatterChart.setData(scatterData);
+        scatterDataSet.setColors(Util.MUD_GRAPH_COLORS);
+
+        scatterDataSet.setScatterShapeSize(30f);
+        scatterDataSet.setScatterShape(ScatterShape.CIRCLE);
+
+        // Disable legend, disable description
+        Legend legend = scatterChart.getLegend();
+        legend.setEnabled(false);
+        Description description = scatterChart.getDescription();
+        description.setEnabled(false);
+        // Disable the text labeling data points
+        scatterChart.setMaxVisibleValueCount(0);
+    }
+
     @Override
     public void setDays(Collection<Day> days) {
         plotMockUser(); // TODO: Use days
+
     }
 }

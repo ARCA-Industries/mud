@@ -32,7 +32,7 @@ import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
-public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarChart implements AnalysisChart {
+public class VariableVsTimeView extends BarChart implements AnalysisChart {
 
     public VariableVsTimeView(Context context) {
         super(context);
@@ -68,29 +68,25 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
         // This view is a BarChart
         //BarChart barChart = this;
 
-        List<BarEntry> entries = new ArrayList<BarEntry>();
-        int sz = xs.size();
-        for (int i = 0; i < sz; i++) {
+        List<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < xs.size(); i++) {
             entries.add(new BarEntry(xs.get(i), ys.get(i)));
         }
 
         // add entries to dataset
         BarDataSet dataSet = new BarDataSet(entries, "Label");
-        //dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
         dataSet.setColors(Util.MUD_GRAPH_COLORS);
-        // dataSet.setValueTextColor(...); // styling, ...
-
-        BarData lineData = new BarData(dataSet);
-        barChart.setData(lineData);
+        BarData barData = new BarData(dataSet);
+        barChart.setData(barData);
         barChart.invalidate();
 
+        // Disable legend, disable description
         Legend legend = barChart.getLegend();
         legend.setEnabled(false);
         Description description = barChart.getDescription();
         description.setEnabled(false);
-        // Disable the text above each bar for each data pt
+        // Disable the text labeling data points
         barChart.setMaxVisibleValueCount(0);
-
     }
 
     public static void plotDates(ArrayList<Date> xs, ArrayList<Float> ys, BarChart barChart) {
