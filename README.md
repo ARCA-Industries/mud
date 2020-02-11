@@ -5,6 +5,8 @@ Müd is a mood optimizer mobile app that allows users to describe their mood on 
 Features
 --------
 - Analysis page
+	- Plot variable vs. time
+	- Plot mood vs. time
 	- Plot mood vs. variable
 	- Year long summary
 	- View variable importances
