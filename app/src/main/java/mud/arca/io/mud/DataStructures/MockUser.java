@@ -69,11 +69,12 @@ public class MockUser extends User {
         for (int i = 0; i < NUM_MOODRECORDINGS; i++) {
             Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
 
-            // Later, can consider adding a linear component and a noise component.
             try {
                 Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
-                int moodValue = (int) (m.getValue() - 3);
-                MoodRecording recording = new MoodRecording(timestamp, moodValue);
+                // Mood is calculated as a linear function of Sleep plus some random noise.
+                int moodValue = (int) (m.getValue() - 1);
+                int noise = r.nextInt(2) - 1;
+                MoodRecording recording = new MoodRecording(timestamp, moodValue+noise);
                 recordings.add(recording);
             } catch (NoSuchElementException e) {
 
