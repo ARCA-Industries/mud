@@ -62,13 +62,6 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
         return Util.parseDate("01-January-1970");
     }
 
-    // Convert a date to float.
-    // Returns the number of days passed since base date.
-    static float dateToFloat(Date d) {
-        long diff = d.getTime() - getBaseDate().getTime();
-        return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-    }
-
     static void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys, BarChart barChart) {
 //        setContentView(R.layout.activity_chart_test);
 
@@ -98,19 +91,21 @@ public class VariableVsTimeView extends com.github.mikephil.charting.charts.BarC
         // Disable the text above each bar for each data pt
         barChart.setMaxVisibleValueCount(0);
 
+    }
+
+    public static void plotDates(ArrayList<Date> xs, ArrayList<Float> ys, BarChart barChart) {
+        ArrayList<Float> xsFloat = new ArrayList<>();
+        for (Date d : xs) {
+            xsFloat.add(Util.dateToFloat(d, getBaseDate()));
+        }
+        plotFloats(xsFloat, ys, barChart);
+
         // Apply the value formatter DayAxisVF
         barChart.getXAxis().setValueFormatter(new DayAxisVF(barChart));
     }
 
-    public static void plotDates(ArrayList<Date> xs, ArrayList<Float> ys, BarChart barchart) {
-        ArrayList<Float> xsFloat = new ArrayList<>();
-        for (Date d : xs) {
-            xsFloat.add(dateToFloat(d));
-        }
-        plotFloats(xsFloat, ys, barchart);
-    }
-
-    // Given a list of days and a name of variable, plot the variable over those days.
+    // Input: a list of days, variable name
+    // Plots the variable over those days.
     void plotListOfDays(ArrayList<Day> dayData, String varName) {
         ArrayList<Date> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();

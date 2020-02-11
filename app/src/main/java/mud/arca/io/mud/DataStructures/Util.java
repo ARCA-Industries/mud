@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 // Collection of utility functions
 public class Util {
@@ -35,6 +36,13 @@ public class Util {
 
     public static Date floatToDate(Date baseDate, float f) {
         return intToDate(baseDate, (int) f);
+    }
+
+    // Convert a date to float.
+    // Returns the number of days passed since base date.
+    public static float dateToFloat(Date d, Date baseDate) {
+        long diff = d.getTime() - baseDate.getTime();
+        return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
     // output an ArrayList to debug

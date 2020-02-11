@@ -20,6 +20,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
+import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.R;
@@ -37,6 +38,7 @@ public class AnalysisFragment extends Fragment {
         YELLOW_CHART(YellowChartView.class, "Yellow Box"),
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
         MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
+        MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
         ;
 
         Class<? extends AnalysisChart> view;
