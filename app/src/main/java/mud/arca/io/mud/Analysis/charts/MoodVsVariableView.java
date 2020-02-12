@@ -47,7 +47,7 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
 
     // Input: a list of days, variable name
     // Makes a plot with variable on X-axis, mood on Y-axis.
-    void plotListOfDays(ArrayList<Day> dayData, String varName) {
+    void plotListOfDays(Collection<Day> dayData, String varName) {
         ArrayList<Float> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();
 
@@ -67,11 +67,6 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
 
         }
         plotFloatsScatter(xs, ys, this);
-    }
-
-    void plotMockUser() {
-        //MockUser mockUser = new MockUser();
-        plotListOfDays(User.getCurrentUser().getDayData(), "Sleep");
     }
 
     static void plotFloatsScatter(ArrayList<Float> xs, ArrayList<Float> ys, ScatterChart scatterChart) {
@@ -99,6 +94,6 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
 
     @Override
     public void setDays(Collection<Day> days) {
-        plotMockUser(); // TODO: Use days
+        plotListOfDays(days, "Sleep");
     }
 }
