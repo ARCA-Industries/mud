@@ -87,7 +87,7 @@ public class MockUser extends User {
     private ArrayList<Measurement> getMockMeasurements(Day day) {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
-        float val = Util.roundToHalf((float) (r.nextGaussian() + 8));
+        float val = (float) (r.nextGaussian() + 8);
         Measurement measurement = new Measurement(val, "hr", new Variable("Sleep", VarType.FLOAT));
         measurements.add(measurement);
 
