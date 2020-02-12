@@ -53,26 +53,10 @@ public class DummyContent {
 
         public DummyItem(Day d) {
             this.day = d;
-
             String dateStr = Util.formatDate(d.getDate());
-            String moodStr = "-";
-            try {
-                double avgMood = d.getAverageMood();
-                moodStr = String.format("%.1f", avgMood);
-            } catch (NoSuchElementException e) {
-                // do nothing
-            }
-            String sleepStr = "-";
-            try {
-                Measurement m = Measurement.searchList(d.getMeasurements(), "Sleep");
-                sleepStr = String.format("%.1f", m.getValue());
-            } catch (NoSuchElementException e) {
-                // do nothing
-            }
-
             this.id = dateStr;
-            this.content = moodStr;
-            this.details = sleepStr;
+            this.content = d.getMoodString();
+            this.details = d.getVarString("Sleep");
         }
 
         @Override

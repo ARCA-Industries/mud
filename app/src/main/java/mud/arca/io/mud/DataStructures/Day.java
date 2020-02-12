@@ -61,4 +61,35 @@ public class Day {
     public void setMeasurements(Collection<Measurement> measurements) {
         this.measurements = measurements;
     }
+
+    /**
+     * Return the average mood formatted as a String, or "-" if there are no mood recordings.
+     * @return
+     */
+    public String getMoodString() {
+        String moodStr = "-";
+        try {
+            double avgMood = getAverageMood();
+            moodStr = String.format("%.1f", avgMood);
+        } catch (NoSuchElementException e) {
+            // do nothing
+        }
+        return moodStr;
+    }
+
+    /**
+     * Return the variable's measurement formatted as a String, or "-" if there
+     * are no measurements.
+     * @return
+     */
+    public String getVarString(String varName) {
+        String varStr = "-";
+        try {
+            Measurement m = Measurement.searchList(getMeasurements(), varName);
+            varStr = String.format("%.1f", m.getValue());
+        } catch (NoSuchElementException e) {
+            // do nothing
+        }
+        return varStr;
+    }
 }
