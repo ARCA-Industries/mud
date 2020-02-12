@@ -10,4 +10,6 @@
     <string name="hello_blank_fragment"></string>
     <string name="channel_name">notification test</string>
     <string name="channel_description">test description</string>
+    <string name="preference_auth_logout_summary">Signed in as %1$s</string>
+    <string name="preference_auth_logout_summary_error">Error: can\'t get logged in user!</string>
 </resources>
