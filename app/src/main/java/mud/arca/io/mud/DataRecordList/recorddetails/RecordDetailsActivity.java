@@ -3,6 +3,10 @@ package mud.arca.io.mud.DataRecordList.recorddetails;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.Date;
+
+import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
 public class RecordDetailsActivity extends AppCompatActivity {
@@ -22,6 +26,9 @@ public class RecordDetailsActivity extends AppCompatActivity {
         String value = extras.getString("key1");
 
         //setTitle("October 24");
+
+        Date d = User.getCurrentUser().getDayData().get(0).getDate();
+        value = Util.formatDate(d);
         setTitle(value);
     }
 }

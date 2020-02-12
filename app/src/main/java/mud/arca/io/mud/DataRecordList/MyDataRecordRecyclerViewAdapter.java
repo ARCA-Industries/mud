@@ -13,6 +13,7 @@ import android.widget.TextView;
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     private Context context;
 
+    // This variable keeps track of which day the user has clicked on.
+    public static Day daySelected;
+
     public MyDataRecordRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -44,6 +48,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // mItem has type DummyItem
         holder.mItem = mValues.get(position);
         holder.mDateView.setText(mValues.get(position).id);
         holder.mMoodView.setText(mValues.get(position).content);
