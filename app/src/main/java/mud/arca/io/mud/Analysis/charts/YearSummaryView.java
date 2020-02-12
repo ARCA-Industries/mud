@@ -1,11 +1,8 @@
-package mud.arca.io.mud.Views;
+package mud.arca.io.mud.Analysis.charts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -16,23 +13,15 @@ import android.widget.TextView;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.NoSuchElementException;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
@@ -202,15 +191,13 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             // ANYTHING HERE?
 
-            double mood = userData.get(position).getAverageMood();
-
-            ((TextView) holder.itemView.findViewById(R.id.textview)).setText(String.valueOf(mood));
-
             int color;
-            if (mood == -1) {
-                color = Color.BLUE;
-            } else {
+            try {
+                double mood = userData.get(position).getAverageMood();
                 color = Color.rgb((int) (255 * (mood / 10)), 0, 0);
+                ((TextView) holder.itemView.findViewById(R.id.textview)).setText(String.valueOf(mood));
+            } catch (NoSuchElementException e) {
+                color = Color.BLUE;
             }
 
             holder.itemView.findViewById(R.id.textview).setBackgroundColor(color);

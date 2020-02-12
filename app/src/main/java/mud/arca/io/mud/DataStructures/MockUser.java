@@ -16,7 +16,15 @@ public class MockUser extends User {
 
     private final static int NUM_DAYS = 30;
     private final static int NUM_MOODRECORDINGS = 1;
-    private final static double PROB_DAY = .9;  // Probability that for any given day exists
+
+    // Probability that any given day exists
+    private final static double PROB_DAY = .9;
+
+    // Probability that there are mood recordings in a day.
+    private final static double PROB_MOOD = 0.9;
+
+    // Probability that there are measurement recordings in a day.
+    private final static double PROB_MEASUREMENTS = 0.9;
 
     // number of milliseconds in 1 day
     private final static int MS_PER_DAY = 1000*60*60*24;
@@ -44,18 +52,22 @@ public class MockUser extends User {
         ArrayList<Day> days = new ArrayList<>();
         for (int i = 0; i < NUM_DAYS; i++) {
 
-            if (r.nextDouble() > PROB_DAY) {
-                continue;
-            }
+//            if (r.nextDouble() > PROB_DAY) {
+//                continue;
+//            }
 
             Day day = new Day(Util.intToDate(getBaseDate(), i));
-
             ArrayList<Measurement> mockMeasurements = getMockMeasurements(day);
-            day.getMeasurements().clear();
-            day.getMeasurements().addAll(mockMeasurements);
 
-            day.getMoodRecordings().clear();
-            day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
+            if (r.nextDouble() < PROB_MEASUREMENTS) {
+                day.getMeasurements().clear();
+                day.getMeasurements().addAll(mockMeasurements);
+            }
+
+            if (r.nextDouble() < PROB_MOOD) {
+                day.getMoodRecordings().clear();
+                day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
+            }
 
             days.add(day);
         }

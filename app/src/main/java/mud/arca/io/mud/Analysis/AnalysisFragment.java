@@ -24,11 +24,7 @@ import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Analysis.tempanalysisviews.BlueChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.GreenChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.RedChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.YellowChartView;
-import mud.arca.io.mud.Views.YearSummaryView;
+import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 
 public class AnalysisFragment extends Fragment {
 
