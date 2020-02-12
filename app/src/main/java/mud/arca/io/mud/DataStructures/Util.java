@@ -82,6 +82,11 @@ public class Util {
         return sdf.format(d);
     }
 
+    public static String formatDateWithYear(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        return sdf.format(d);
+    }
+
     // Round a float to the nearest 0.5.
     public static float roundToHalf(float f) {
         double d = (double) f;

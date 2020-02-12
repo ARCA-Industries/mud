@@ -28,7 +28,7 @@ public class RecordDetailsActivity extends AppCompatActivity {
 //        setTitle(value);
 
         Day d = MyDataRecordRecyclerViewAdapter.daySelected;
-        String title = Util.formatDate(d.getDate());
+        String title = Util.formatDateWithYear(d.getDate());
         setTitle(title);
     }
 }
