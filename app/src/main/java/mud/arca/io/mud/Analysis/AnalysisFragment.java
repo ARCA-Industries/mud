@@ -28,14 +28,12 @@ import mud.arca.io.mud.Analysis.tempanalysisviews.BlueChartView;
 import mud.arca.io.mud.Analysis.tempanalysisviews.GreenChartView;
 import mud.arca.io.mud.Analysis.tempanalysisviews.RedChartView;
 import mud.arca.io.mud.Analysis.tempanalysisviews.YellowChartView;
+import mud.arca.io.mud.Views.YearSummaryView;
 
 public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
-//        RED_CHART(RedChartView.class, "Red Box"),
-//        BLUE_CHART(BlueChartView.class, "Blue Box"),
-//        GREEN_CHART(GreenChartView.class, "Green Box"),
-//        YELLOW_CHART(YellowChartView.class, "Yellow Box"),
+        YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
         MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
