@@ -16,6 +16,7 @@ import mud.arca.io.mud.DataRecordList.dummy.DummyContent;
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
 import mud.arca.io.mud.DataRecordList.dummy.UserContent;
 import mud.arca.io.mud.DataStructures.MockUser;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 
 /**
@@ -72,7 +73,8 @@ public class DataRecordListFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
         //recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        UserContent uc = new UserContent(new MockUser());
+        //UserContent uc = new UserContent(new MockUser());
+        UserContent uc = new UserContent(User.getCurrentUser());
         recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(uc.ITEMS, mListener));
         return view;
     }

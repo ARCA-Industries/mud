@@ -60,7 +60,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
                 // TODO: Start an activity with recorddetailsfragment
                 Intent intent = new Intent(context, RecordDetailsActivity.class);
-                intent.putExtra("key1", "hghg");
+                intent.putExtra("key1", String.valueOf(position));
                 context.startActivity(intent);
             }
         });
