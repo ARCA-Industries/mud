@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
@@ -48,10 +49,14 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
         ArrayList<Float> ys = new ArrayList<>();
 
         for (Day day : dayData) {
-            float avgMood = (float) day.getAverageMood();
-            ys.add(avgMood);
-            Date d = day.getDate();
-            xs.add(d);
+            try {
+                float avgMood = (float) day.getAverageMood();
+                ys.add(avgMood);
+                Date d = day.getDate();
+                xs.add(d);
+            } catch (NoSuchElementException e) {
+                // do not add to the lists
+            }
         }
 
         VariableVsTimeView.plotDates(xs, ys, this);

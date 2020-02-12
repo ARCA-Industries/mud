@@ -3,6 +3,7 @@ package mud.arca.io.mud.DataStructures;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 public class Day {
 
@@ -24,7 +25,8 @@ public class Day {
 
     public double getAverageMood() {
         if (moodRecordings.isEmpty()) {
-            return -1;
+            //return -1;
+            throw new NoSuchElementException("No mood recordings for that day");
         }
 
         double average = 0;
