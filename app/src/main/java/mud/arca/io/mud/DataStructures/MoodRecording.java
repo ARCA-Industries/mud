@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 public class MoodRecording {
     private Timestamp timestamp;
-    private int value;
+    private float value;
 
-    public MoodRecording(Timestamp timestamp, int value) {
+    public MoodRecording(Timestamp timestamp, float value) {
         this.timestamp = timestamp;
         this.value = value;
     }
@@ -19,11 +19,11 @@ public class MoodRecording {
         timestamp = t;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int v) {
+    public void setValue(float v) {
         value = v;
     }
 }

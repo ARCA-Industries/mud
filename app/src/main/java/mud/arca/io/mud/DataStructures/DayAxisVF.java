@@ -20,8 +20,6 @@ public class DayAxisVF extends ValueFormatter {
     @Override
     public String getFormattedValue(float value) {
         Date d = Util.floatToDate(VariableVsTimeView.getBaseDate(), value);
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-        String newDate = sdf.format(d);
-        return newDate;
+        return Util.formatDate(d);
     }
 }
