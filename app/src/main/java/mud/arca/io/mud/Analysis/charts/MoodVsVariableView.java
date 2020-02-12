@@ -53,10 +53,12 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
         for (Day day : dayData) {
             Collection<Measurement> measurements = day.getMeasurements();
             try {
+                // this line might throw Exception
                 Measurement m = Measurement.searchList(measurements, varName);
-                xs.add(m.getValue());
-
+                // this line also might throw Exception
                 float avgMood = (float) day.getAverageMood();
+
+                xs.add(m.getValue());
                 ys.add(avgMood);
             } catch (NoSuchElementException e) {
                 // do nothing
