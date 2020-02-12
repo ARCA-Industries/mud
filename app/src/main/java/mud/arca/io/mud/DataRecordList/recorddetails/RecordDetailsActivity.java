@@ -17,6 +17,11 @@ public class RecordDetailsActivity extends AppCompatActivity {
                     .commitNow();
         }
 
-        setTitle("October 24");
+        //String value = savedInstanceState.getString("key1");
+        Bundle extras = getIntent().getExtras();
+        String value = extras.getString("key1");
+
+        //setTitle("October 24");
+        setTitle(value);
     }
 }

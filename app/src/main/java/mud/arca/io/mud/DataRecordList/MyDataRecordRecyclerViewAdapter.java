@@ -3,6 +3,8 @@ package mud.arca.io.mud.DataRecordList;
 import android.content.Context;
 import android.content.Intent;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +56,11 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
                 }
 
                 // TODO: Start an activity with recorddetailsfragment
                 Intent intent = new Intent(context, RecordDetailsActivity.class);
+                intent.putExtra("key1", "hghg");
                 context.startActivity(intent);
             }
         });
