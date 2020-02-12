@@ -33,7 +33,6 @@
         android:id="@+id/add_variable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="createVariable"
         android:text="login" />
 
 </LinearLayout>
