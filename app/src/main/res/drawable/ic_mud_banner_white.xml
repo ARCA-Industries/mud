@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_mud_banner"
+        android:tint="@android:color/white"
+        android:color="@android:color/white"
+        android:foregroundTint="@android:color/white"
+        />
+</layer-list>

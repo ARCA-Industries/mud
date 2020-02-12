@@ -28,5 +28,7 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/gradient_red_green</item>
     </style>
-
+    <style name ="LoginScreenAuthUI" parent="AppTheme">
+        <!-- TODO: Get banner logo to be visible on both light and dark themes -->
+    </style>
 </resources>

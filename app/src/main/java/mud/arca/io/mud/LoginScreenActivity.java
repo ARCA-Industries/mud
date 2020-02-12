@@ -62,6 +62,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                                 new AuthUI.IdpConfig.EmailBuilder().build(),
                                 new AuthUI.IdpConfig.PhoneBuilder().build()
                         ))
+                        .setLogo(R.drawable.ic_mud_banner_white)
+                        .setTheme(R.style.LoginScreenAuthUI)
                         .build(),
                 RC_SIGN_IN);
     }
