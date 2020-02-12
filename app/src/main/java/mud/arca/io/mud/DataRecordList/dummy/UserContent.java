@@ -29,10 +29,10 @@ public class UserContent {
             Day d = dayData.get(i);
             String dateStr = Util.formatDate(d.getDate());
             // String moodStr = String.valueOf(d.getAverageMood());
-            String moodStr = String.format("%.2f", d.getAverageMood());
+            String moodStr = String.format("%.1f", d.getAverageMood());
             Measurement m = Measurement.searchList(d.getMeasurements(), "Sleep");
             // String sleepStr = String.valueOf(m.getValue());
-            String sleepStr = String.format("%.2f", m.getValue());
+            String sleepStr = String.format("%.1f", m.getValue());
 
             DummyContent.DummyItem item = new DummyContent.DummyItem(dateStr, moodStr, sleepStr);
             ITEMS.add(item);

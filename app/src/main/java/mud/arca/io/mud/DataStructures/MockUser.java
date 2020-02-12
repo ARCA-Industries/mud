@@ -72,9 +72,11 @@ public class MockUser extends User {
             try {
                 Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
                 // Mood is calculated as a linear function of Sleep plus some random noise.
-                int moodValue = (int) (m.getValue() - 1);
-                int noise = r.nextInt(2) - 1;
-                MoodRecording recording = new MoodRecording(timestamp, moodValue+noise);
+                //int moodValue = (int) (m.getValue() - 1);
+                //int noise = r.nextInt(2) - 1;
+                float linear = m.getValue() - 1;
+                float noise = r.nextFloat()*2 - 1;
+                MoodRecording recording = new MoodRecording(timestamp, linear+noise);
                 recordings.add(recording);
             } catch (NoSuchElementException e) {
 
