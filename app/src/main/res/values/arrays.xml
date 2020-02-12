@@ -16,4 +16,12 @@
         <item>day</item>
         <item>auto</item>
     </string-array>
+
+    <string-array name="variable_types">
+        <item>-Select Variable-</item>
+        <item>Integer</item>
+        <item>Floating Point</item>
+        <item>Boolean (True/False) </item>
+    </string-array>
+
 </resources>

@@ -1,115 +1,39 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:isScrollContainer="true"
+    android:orientation="vertical"
+    android:padding="16dp">
+    tools:context=".Settings.VariableManagement"
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Variable Management" />
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_marginRight="6dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:padding="@dimen/variable_management_padding"
-            android:text="Variable"
-            android:textColor="@color/text_color"
-            android:background="@color/table_background"
-            />
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:text="Type"
-            android:layout_column="2"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            android:background="@color/table_background"
-            />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <TextView
-            android:text="Sleep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-
-        <TextView
-            android:text="float"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-    </TableRow>
-
-    <TableRow>
-
-        <TextView
-            android:text="Number of meals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-
-        <TextView
-            android:text="int"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-    </TableRow>
-
-    <TableRow>
-
-        <TextView
-            android:text="Exercised"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-
-        <TextView
-            android:text="boolean"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:padding="@dimen/variable_management_padding"
-            android:textColor="@color/text_color"
-            />
-
-    </TableRow>
-
-    <TableRow>
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_circle_orange_24dp"
-            />
-        <TextView
-            android:text="Add new variable..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:padding="@dimen/variable_management_padding"
-
-            />
-    </TableRow>
+    <EditText
+        android:id="@+id/variable_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter Variable Name"
+        android:inputType="textPersonName" />
 
 
-</TableLayout>
+    <Spinner
+        android:id="@+id/variable_type"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:hint="Select Variable Type"
+        android:entries="@array/variable_types"/>
+
+    <Button
+        android:id="@+id/add_variable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="createVariable"
+        android:text="login" />
+
+</LinearLayout>
