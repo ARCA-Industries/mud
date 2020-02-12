@@ -57,9 +57,11 @@ public class LoginScreenActivity extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setAvailableProviders(
-                                Collections.singletonList(new AuthUI.IdpConfig.GoogleBuilder().build())
-                        )
+                        .setAvailableProviders(Arrays.asList(
+                                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                                new AuthUI.IdpConfig.EmailBuilder().build(),
+                                new AuthUI.IdpConfig.PhoneBuilder().build()
+                        ))
                         .build(),
                 RC_SIGN_IN);
     }
