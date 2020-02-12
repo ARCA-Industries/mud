@@ -2,7 +2,8 @@ package mud.arca.io.mud.DataStructures;
 
 enum VarType
 {
-    INT, FLOAT, BOOL;
+    INT, FLOAT, BOOL
+
 }
 
 public class Variable {
@@ -15,6 +16,29 @@ public class Variable {
         this.vartype = vartype;
     }
 
+    public Variable(String name, String type) {
+        this.name = name;
+        switch(type) {
+            case "Integer":
+                this.vartype = VarType.INT;
+                break;
+
+            case "Floating Point":
+                this.vartype = VarType.FLOAT;
+                break;
+
+            case "Boolean":
+                this.vartype = VarType.BOOL;
+                break;
+
+            default:
+                this.vartype = VarType.FLOAT;
+
+        }
+
+
+    }
+
     public String getName() {
         return name;
     }
@@ -23,8 +47,12 @@ public class Variable {
         this.name = name;
     }
 
-    public VarType getVartype() {
+    public VarType getVarType() {
         return vartype;
+    }
+
+    public String varTypeToString() {
+        return getVarType().toString();
     }
 
     public void setVartype(VarType vartype) {
