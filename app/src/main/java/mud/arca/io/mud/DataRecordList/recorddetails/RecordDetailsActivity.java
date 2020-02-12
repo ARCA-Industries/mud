@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import java.util.Date;
 
+import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
+import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
@@ -21,14 +23,12 @@ public class RecordDetailsActivity extends AppCompatActivity {
                     .commitNow();
         }
 
-        //String value = savedInstanceState.getString("key1");
-        Bundle extras = getIntent().getExtras();
-        String value = extras.getString("key1");
+//        Bundle extras = getIntent().getExtras();
+//        String value = extras.getString("key1");
+//        setTitle(value);
 
-        //setTitle("October 24");
-
-        Date d = User.getCurrentUser().getDayData().get(0).getDate();
-        value = Util.formatDate(d);
-        setTitle(value);
+        Day d = MyDataRecordRecyclerViewAdapter.daySelected;
+        String title = Util.formatDate(d.getDate());
+        setTitle(title);
     }
 }
