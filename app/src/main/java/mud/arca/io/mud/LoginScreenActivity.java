@@ -8,6 +8,10 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -15,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,10 +33,18 @@ public class LoginScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_activity);
-
-        // TODO: Check if we've got a saved session and don't show the login button. Immediately launch the main activity.
-
+        
         findViewById(R.id.sign_in_button).setOnClickListener(v -> login());
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            // If the user's already logged in, just continue to MainActivity
+            Toast.makeText(getApplicationContext(), "Welcome, " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " (" + FirebaseAuth.getInstance().getCurrentUser().getEmail() + ")", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        } else {
+            // Otherwise, show the login button
+
+        }
 
     }
 
@@ -63,10 +76,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                     Toast.makeText(getApplicationContext(), "Welcome, " + user.getDisplayName() + " (" + user.getEmail() + ")", Toast.LENGTH_LONG).show();
-
                     startActivity(new Intent(this, MainActivity.class));
-
-                    // ...
+                    finish();
                 } else {
                     // Sign in failed. If response is null the user canceled the
                     // sign-in flow using the back button. Otherwise check
