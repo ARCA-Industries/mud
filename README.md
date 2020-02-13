@@ -1,6 +1,6 @@
-Müd
+müd
 ===
-Müd is a mood optimizer mobile app that allows users to describe their mood on a daily basis. It provides users with an advanced overview of their mood that includes history and data visualizations. Also, Müd uses machine learning in order to make suggestions on how to improve users mood which takes user data about daily activities and global factors that can have an effect on their mood. This app will help to improve users mood in different ways.
+müd is a mood optimizer mobile app that allows users to describe their mood on a daily basis. It provides users with an advanced overview of their mood that includes history and data visualizations. Also, müd uses machine learning in order to make suggestions on how to improve users mood which takes user data about daily activities and global factors that can have an effect on their mood. This app will help to improve users mood in different ways.
 
 Features
 --------
@@ -32,7 +32,7 @@ Components
 
 Installation 
 ------------
-Install Müd by downloading: 
+Install müd by downloading: 
 
 - The apk from our [releases](https://github.com/ARCA-Industries/mud/releases/latest) page
 - The app from [Google Play Store listing](https://play.google.com/store/apps/details?id=mud.arca.io)
@@ -44,4 +44,4 @@ Contribute
 Support
 -------
 If you are having difficulties using the app, please contact us. 
-The mailing address is at: mud@arca.io
+The mailing address is at: arca-industries@googlegroups.com
