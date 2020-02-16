@@ -50,9 +50,9 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // mItem has type DayListItem
         holder.mItem = mValues.get(position);
-        holder.mDateView.setText(mValues.get(position).id);
-        holder.mMoodView.setText(mValues.get(position).content);
-        holder.mVariableView.setText(mValues.get(position).details);
+        holder.mDateView.setText(mValues.get(position).dateStr);
+        holder.mMoodView.setText(mValues.get(position).moodStr);
+        holder.mVariableView.setText(mValues.get(position).varStr);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,8 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
                 // TODO: Start an activity with recorddetailsfragment
                 Intent intent = new Intent(context, RecordDetailsActivity.class);
-                intent.putExtra("key1", String.valueOf(position));
+//                intent.putExtra("key1", String.valueOf(position));
+
                 daySelected = holder.mItem.day;
                 context.startActivity(intent);
             }

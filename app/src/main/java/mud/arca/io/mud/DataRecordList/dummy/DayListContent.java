@@ -21,26 +21,28 @@ public class DayListContent {
      */
     public static final List<DayListItem> ITEMS = new ArrayList<DayListItem>();
 
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    // Is the HashMap necessary?
-    public static final Map<String, DayListItem> ITEM_MAP = new HashMap<String, DayListItem>();
+//    /**
+//     * A map of sample (dummy) items, by ID.
+//     */
+//    // Is the HashMap necessary?
+//    public static final Map<String, DayListItem> ITEM_MAP = new HashMap<String, DayListItem>();
+//
+//    private static void addItem(DayListItem item) {
+//        ITEMS.add(item);
+//        ITEM_MAP.put(item.id, item);
+//    }
 
     private static final int COUNT = 25;
 
-    private static void addItem(DayListItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
-    }
+
 
     /**
      * A dummy item representing a piece of type.
      */
     public static class DayListItem {
-        public final String id;
-        public final String content;
-        public final String details;
+        public final String dateStr;
+        public final String moodStr;
+        public final String varStr;
         public final Day day;
 
 //        public DayListItem(String id, String content, String details) {
@@ -52,14 +54,14 @@ public class DayListContent {
         public DayListItem(Day d) {
             this.day = d;
             String dateStr = Util.formatDate(d.getDate());
-            this.id = dateStr;
-            this.content = d.getMoodString();
-            this.details = d.getVarString("Sleep");
+            this.dateStr = dateStr;
+            this.moodStr = d.getMoodString();
+            this.varStr = d.getVarString("Sleep");
         }
 
         @Override
         public String toString() {
-            return content;
+            return moodStr;
         }
     }
 }
