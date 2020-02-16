@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 
 /**
@@ -21,20 +22,22 @@ public class DayListContent {
      */
     public static final List<DayListItem> ITEMS = new ArrayList<DayListItem>();
 
-//    /**
-//     * A map of sample (dummy) items, by ID.
-//     */
-//    // Is the HashMap necessary?
-//    public static final Map<String, DayListItem> ITEM_MAP = new HashMap<String, DayListItem>();
-//
-//    private static void addItem(DayListItem item) {
-//        ITEMS.add(item);
-//        ITEM_MAP.put(item.id, item);
-//    }
+    private static final int COUNT = 30;
 
-    private static final int COUNT = 25;
+    private User user;
 
+    public DayListContent(User user) {
+        this.user = user;
+        ArrayList<Day> dayData = user.getDayData();
 
+        // add the DayListItems to ITEMS
+        int bound = Math.min(COUNT - 1, dayData.size() - 1);
+        for (int j = 0; j <= bound; j++) {
+            Day d = dayData.get(dayData.size() - 1 - j);
+            DayListItem item = new DayListItem(d);
+            ITEMS.add(item);
+        }
+    }
 
     /**
      * A dummy item representing a piece of type.
@@ -45,11 +48,6 @@ public class DayListContent {
         public final String varStr;
         public final Day day;
 
-//        public DayListItem(String id, String content, String details) {
-//            this.id = id;
-//            this.content = content;
-//            this.details = details;
-//        }
 
         public DayListItem(Day d) {
             this.day = d;

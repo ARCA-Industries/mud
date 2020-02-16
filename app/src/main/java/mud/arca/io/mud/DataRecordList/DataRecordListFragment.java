@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
-import mud.arca.io.mud.DataRecordList.dummy.UserContent;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 
@@ -70,10 +70,9 @@ public class DataRecordListFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        //recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(DayListContent.ITEMS, mListener));
-        //UserContent uc = new UserContent(new MockUser());
-        UserContent uc = new UserContent(User.getCurrentUser());
-        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(uc.ITEMS, mListener));
+
+        DayListContent cont = new DayListContent(User.getCurrentUser());
+        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(cont.ITEMS, mListener));
         return view;
     }
 
