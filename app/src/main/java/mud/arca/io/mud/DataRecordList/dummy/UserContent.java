@@ -27,25 +27,7 @@ public class UserContent {
 
         for (int i = dayData.size() - 1; i >= 0; i--) {
             Day d = dayData.get(i);
-            String dateStr = Util.formatDate(d.getDate());
-
-            String moodStr = "-";
-            try {
-                double avgMood = d.getAverageMood();
-                moodStr = String.format("%.1f", avgMood);
-            } catch (NoSuchElementException e) {
-                // do nothing
-            }
-
-            String sleepStr = "-";
-            try {
-                Measurement m = Measurement.searchList(d.getMeasurements(), "Sleep");
-                sleepStr = String.format("%.1f", m.getValue());
-            } catch (NoSuchElementException e) {
-                // do nothing
-            }
-
-            DummyContent.DummyItem item = new DummyContent.DummyItem(dateStr, moodStr, sleepStr);
+            DummyContent.DummyItem item = new DummyContent.DummyItem(d);
             ITEMS.add(item);
         }
     }

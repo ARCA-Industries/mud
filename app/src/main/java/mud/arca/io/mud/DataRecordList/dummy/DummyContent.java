@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
+import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.Util;
 
 /**
  * Helper class for providing sample type for user interfaces created by
@@ -21,32 +26,14 @@ public class DummyContent {
     /**
      * A map of sample (dummy) items, by ID.
      */
+    // Is the HashMap necessary?
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
     private static final int COUNT = 25;
 
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
-    }
-
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
-    }
-
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem("October " + (COUNT - position), makeMood(position), makeVariable(position));
-    }
-
-    private static String makeMood(int position) {
-        return String.valueOf(position);
-    }
-
-    private static String makeVariable(int position) {
-        return String.valueOf((position % 3 + 6));
     }
 
     /**
@@ -56,11 +43,20 @@ public class DummyContent {
         public final String id;
         public final String content;
         public final String details;
+        public final Day day;
 
-        public DummyItem(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
+//        public DummyItem(String id, String content, String details) {
+//            this.id = id;
+//            this.content = content;
+//            this.details = details;
+//        }
+
+        public DummyItem(Day d) {
+            this.day = d;
+            String dateStr = Util.formatDate(d.getDate());
+            this.id = dateStr;
+            this.content = d.getMoodString();
+            this.details = d.getVarString("Sleep");
         }
 
         @Override

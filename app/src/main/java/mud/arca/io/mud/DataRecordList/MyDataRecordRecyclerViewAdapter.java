@@ -3,6 +3,8 @@ package mud.arca.io.mud.DataRecordList;
 import android.content.Context;
 import android.content.Intent;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
 import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
 
 import java.util.List;
@@ -27,6 +30,9 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     private Context context;
 
+    // This variable keeps track of which day the user has clicked on.
+    public static Day daySelected;
+
     public MyDataRecordRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -42,6 +48,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // mItem has type DummyItem
         holder.mItem = mValues.get(position);
         holder.mDateView.setText(mValues.get(position).id);
         holder.mMoodView.setText(mValues.get(position).content);
@@ -54,11 +61,12 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
                 }
 
                 // TODO: Start an activity with recorddetailsfragment
                 Intent intent = new Intent(context, RecordDetailsActivity.class);
+                intent.putExtra("key1", String.valueOf(position));
+                daySelected = holder.mItem.day;
                 context.startActivity(intent);
             }
         });

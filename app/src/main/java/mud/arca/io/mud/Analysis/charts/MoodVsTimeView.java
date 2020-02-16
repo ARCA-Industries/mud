@@ -14,6 +14,7 @@ import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.MockUser;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 
 public class MoodVsTimeView extends BarChart implements AnalysisChart {
@@ -36,15 +37,9 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
 
     }
 
-    @Override
-    public void setDays(Collection<Day> days) {
-        plotMockUser(); // TODO: Use days
-    }
-
-
     // Input: a list of days
     // Plots the mood over those days.
-    void plotListOfDays(ArrayList<Day> dayData, String varName) {
+    void plotListOfDays(Collection<Day> dayData, String varName) {
         ArrayList<Date> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();
 
@@ -62,8 +57,8 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
         VariableVsTimeView.plotDates(xs, ys, this);
     }
 
-    void plotMockUser() {
-        MockUser mockUser = new MockUser();
-        plotListOfDays(mockUser.getDayData(), "Sleep");
+    @Override
+    public void setDays(Collection<Day> days) {
+        plotListOfDays(days, "Sleep");
     }
 }

@@ -7,6 +7,12 @@ public class User {
     private ArrayList<Day> dayData;
     private ArrayList<Variable> varData;
 
+    private static User currentUser = new MockUser();
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
     public User(String name) {
         this.name = name;
         this.dayData = new ArrayList<>();
