@@ -40,6 +40,11 @@ public class MockUser extends User {
 
         r = new Random(seed);
 
+        Variable sleep = new Variable("Sleep", VarType.FLOAT);
+        Variable pizza = new Variable("Slices of pizza", VarType.INT);
+        getVarData().add(sleep);
+        getVarData().add(pizza);
+
         getDayData().clear();
         getDayData().addAll(getMockDays());
     }
@@ -84,8 +89,6 @@ public class MockUser extends User {
             try {
                 Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
                 // Mood is calculated as a linear function of Sleep plus some random noise.
-                //int moodValue = (int) (m.getValue() - 1);
-                //int noise = r.nextInt(2) - 1;
                 float linear = m.getValue() - 1;
                 float noise = r.nextFloat()*2 - 1;
                 MoodRecording recording = new MoodRecording(timestamp, linear+noise);
@@ -101,9 +104,16 @@ public class MockUser extends User {
     private ArrayList<Measurement> getMockMeasurements(Day day) {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
-        float val = (float) (r.nextGaussian() + 8);
-        Measurement measurement = new Measurement(val, "hr", new Variable("Sleep", VarType.FLOAT));
-        measurements.add(measurement);
+        Variable sleep = getVarData().get(0);
+        Variable pizza = getVarData().get(1);
+
+        float sleepVal = (float) (r.nextGaussian() + 8);
+        Measurement sleepM = new Measurement(sleepVal, "hr", sleep);
+        measurements.add(sleepM);
+
+        float pizzaVal = (float) r.nextInt(4);
+        Measurement pizzaM = new Measurement(pizzaVal, "slices", pizza);
+        measurements.add(pizzaM);
 
         return measurements;
     }

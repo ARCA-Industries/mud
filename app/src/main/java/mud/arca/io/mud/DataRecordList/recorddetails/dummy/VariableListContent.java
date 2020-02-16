@@ -27,7 +27,7 @@ public class VariableListContent {
 
         addItem(createDummyItem(VariableType.SLEEP, makevalue(0)));
         addItem(createDummyItem(VariableType.MEALS, makevalue(1)));
-        addItem(createDummyItem(VariableType.EXERCISED, makevalue(1)));
+        addItem(createDummyItem(VariableType.EXERCISED, makevalue(2)));
     }
 
     private static void addItem(VariableListItem item) {
