@@ -39,5 +39,20 @@ public class Measurement {
         throw new NoSuchElementException("Measurement with that name not found");
     }
 
+    /**
+     * Return a string that displays the value based on VarType.
+     * e.g. If VarType=FLOAT, return "2.0"
+     *      If VarType=INT, return "2"
+     * @return
+     */
+    public String getFormattedValue() {
+        VarType vt = variable.getVartype();
+        if (vt == VarType.FLOAT) {
+            return String.format("%.3f", value);
+        } else if (vt == VarType.INT) {
+            return String.format("%d", Math.round(value));
+        }
+        return "TODO";
+    }
 
 }

@@ -29,7 +29,7 @@ public class VariableListContent2 {
 
             try {
                 Measurement m = Measurement.searchList(measurements, v.getName());
-                valueStr = String.valueOf(m.getValue());
+                valueStr = m.getFormattedValue();
             } catch (NoSuchElementException e) {
                 // do nothing
             }
