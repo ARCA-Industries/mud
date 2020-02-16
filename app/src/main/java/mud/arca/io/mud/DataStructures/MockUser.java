@@ -40,8 +40,8 @@ public class MockUser extends User {
 
         r = new Random(seed);
 
-        Variable sleep = new Variable("Sleep", VarType.FLOAT);
-        Variable pizza = new Variable("Slices of pizza", VarType.INT);
+        Variable sleep = new Variable("Sleep", "hours", VarType.FLOAT);
+        Variable pizza = new Variable("Pizza", "slices", VarType.INT);
         getVarData().add(sleep);
         getVarData().add(pizza);
 
@@ -108,11 +108,11 @@ public class MockUser extends User {
         Variable pizza = getVarData().get(1);
 
         float sleepVal = (float) (r.nextGaussian() + 8);
-        Measurement sleepM = new Measurement(sleepVal, "hr", sleep);
+        Measurement sleepM = new Measurement(sleepVal, sleep);
         measurements.add(sleepM);
 
         float pizzaVal = (float) r.nextInt(4);
-        Measurement pizzaM = new Measurement(pizzaVal, "slices", pizza);
+        Measurement pizzaM = new Measurement(pizzaVal, pizza);
         measurements.add(pizzaM);
 
         return measurements;

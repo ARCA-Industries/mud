@@ -5,12 +5,10 @@ import java.util.NoSuchElementException;
 
 public class Measurement {
     private float value;
-    private String unit;
     private Variable variable;
 
-    public Measurement(float value, String unit, Variable variable) {
+    public Measurement(float value, Variable variable) {
         this.value = value;
-        this.unit = unit;
         this.variable = variable;
     }
 
@@ -20,14 +18,6 @@ public class Measurement {
 
     public void setValue(float value) {
         this.value = value;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public Variable getVariable() {

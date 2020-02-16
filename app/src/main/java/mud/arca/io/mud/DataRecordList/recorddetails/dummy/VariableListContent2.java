@@ -24,10 +24,11 @@ public class VariableListContent2 {
         Day d = MyDataRecordRecyclerViewAdapter.daySelected;
         Collection<Measurement> measurements = d.getMeasurements();
         for (Variable v : User.getCurrentUser().getVarData()) {
-            String varStr = v.getName();
+            String varStr = String.format("%s (%s)", v.getName(), v.getUnit());
             String valueStr = "-";
+
             try {
-                Measurement m = Measurement.searchList(measurements, varStr);
+                Measurement m = Measurement.searchList(measurements, v.getName());
                 valueStr = String.valueOf(m.getValue());
             } catch (NoSuchElementException e) {
                 // do nothing
