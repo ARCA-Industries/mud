@@ -9,12 +9,12 @@ import java.util.List;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent {
+public class VariableListContent {
 
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static final List<VariableListItem> ITEMS = new ArrayList<VariableListItem>();
 
 
     private static final int COUNT = 25;
@@ -30,12 +30,14 @@ public class DummyContent {
         addItem(createDummyItem(VariableType.EXERCISED, makevalue(1)));
     }
 
-    private static void addItem(DummyItem item) {
+    private static void addItem(VariableListItem item) {
         ITEMS.add(item);
     }
 
     public enum VariableType {
-        SLEEP("Sleep (hr)"), MEALS("Number of Meals"), EXERCISED("Exercised");
+        SLEEP("Sleep (hr)"),
+        MEALS("Number of Meals"),
+        EXERCISED("Exercised");
 
         String title;
         VariableType(String title) {
@@ -43,8 +45,8 @@ public class DummyContent {
         }
     }
 
-    private static DummyItem createDummyItem(VariableType variableType, String value) {
-        return new DummyItem(variableType.title, value);
+    private static VariableListItem createDummyItem(VariableType variableType, String value) {
+        return new VariableListItem(variableType.title, value);
     }
 
     private static VariableType makeType(int position) {
@@ -61,11 +63,11 @@ public class DummyContent {
     /**
      * A dummy item representing a piece of type.
      */
-    public static class DummyItem {
+    public static class VariableListItem {
         public final String type;
         public final String value;
 
-        public DummyItem(String type, String value) {
+        public VariableListItem(String type, String value) {
             this.type = type;
             this.value = value;
         }

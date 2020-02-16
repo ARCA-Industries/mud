@@ -1,7 +1,6 @@
 package mud.arca.io.mud.DataRecordList.recorddetails;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import mud.arca.io.mud.DataRecordList.recorddetails.dummy.DummyContent.DummyItem;
+import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent.VariableListItem;
 import mud.arca.io.mud.R;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}
+ * {@link RecyclerView.Adapter} that can display a {@link VariableListItem}
  * TODO: Replace the implementation with code for your data type.
  */
 public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<DetailsVariableRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<VariableListItem> mValues;
 
     private Context context;
 
-    public DetailsVariableRecyclerViewAdapter(List<DummyItem> items) {
+    public DetailsVariableRecyclerViewAdapter(List<VariableListItem> items) {
         mValues = items;
     }
 
@@ -58,7 +57,7 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
         public final View mView;
         public final TextView mVariableTextView;
         public final TextView mValueTextView;
-        public DummyItem mItem;
+        public VariableListItem mItem;
 
         public ViewHolder(View view) {
             super(view);
