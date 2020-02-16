@@ -42,8 +42,10 @@ public class MockUser extends User {
 
         Variable sleep = new Variable("Sleep", "hours", VarType.FLOAT);
         Variable pizza = new Variable("Pizza", "slices", VarType.INT);
+        Variable exercised = new Variable("Exercised", "bool", VarType.BOOL);
         getVarData().add(sleep);
         getVarData().add(pizza);
+        getVarData().add(exercised);
 
         getDayData().clear();
         getDayData().addAll(getMockDays());
@@ -106,14 +108,19 @@ public class MockUser extends User {
 
         Variable sleep = getVarData().get(0);
         Variable pizza = getVarData().get(1);
+        Variable exercised = getVarData().get(2);
 
         float sleepVal = (float) (r.nextGaussian() + 8);
         Measurement sleepM = new Measurement(sleepVal, sleep);
         measurements.add(sleepM);
 
-        float pizzaVal = (float) r.nextInt(4);
+        float pizzaVal = (float) r.nextInt(5);
         Measurement pizzaM = new Measurement(pizzaVal, pizza);
         measurements.add(pizzaM);
+
+        float exercisedVal = (float) r.nextInt(2);
+        Measurement exercisedM = new Measurement(exercisedVal, exercised);
+        measurements.add(exercisedM);
 
         return measurements;
     }

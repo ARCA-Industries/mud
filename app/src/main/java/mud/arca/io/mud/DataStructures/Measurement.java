@@ -51,8 +51,9 @@ public class Measurement {
             return String.format("%.3f", value);
         } else if (vt == VarType.INT) {
             return String.format("%d", Math.round(value));
+        } else { // BOOL
+            return String.format("%d", Math.round(value));
         }
-        return "TODO";
     }
 
 }
