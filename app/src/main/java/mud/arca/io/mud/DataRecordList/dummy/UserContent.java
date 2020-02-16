@@ -14,16 +14,16 @@ public class UserContent {
 
     private User user;
 
-    private static final int COUNT = 25;
+    private static final int COUNT = 30;
 
     public UserContent(User user) {
         this.user = user;
-
-        // add the DummyItems to ITEMS
         ArrayList<Day> dayData = user.getDayData();
 
-        for (int i = dayData.size() - 1; i >= 0; i--) {
-            Day d = dayData.get(i);
+        // add the DayListItems to ITEMS
+        int bound = Math.min(COUNT - 1, dayData.size() - 1);
+        for (int j = 0; j <= bound; j++) {
+            Day d = dayData.get(dayData.size() - 1 - j);
             DayListContent.DayListItem item = new DayListContent.DayListItem(d);
             ITEMS.add(item);
         }
