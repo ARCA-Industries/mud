@@ -10,7 +10,7 @@ public class UserContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DayListContent.DummyItem> ITEMS = new ArrayList<DayListContent.DummyItem>();
+    public static final List<DayListContent.DayListItem> ITEMS = new ArrayList<DayListContent.DayListItem>();
 
     private User user;
 
@@ -24,7 +24,7 @@ public class UserContent {
 
         for (int i = dayData.size() - 1; i >= 0; i--) {
             Day d = dayData.get(i);
-            DayListContent.DummyItem item = new DayListContent.DummyItem(d);
+            DayListContent.DayListItem item = new DayListContent.DayListItem(d);
             ITEMS.add(item);
         }
     }

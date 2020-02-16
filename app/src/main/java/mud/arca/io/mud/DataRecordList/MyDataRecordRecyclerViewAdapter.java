@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
-import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DummyItem;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
@@ -18,13 +19,13 @@ import mud.arca.io.mud.R;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link DayListContent.DayListItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyDataRecordRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<DayListItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
     private Context context;
@@ -32,7 +33,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
     // This variable keeps track of which day the user has clicked on.
     public static Day daySelected;
 
-    public MyDataRecordRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyDataRecordRecyclerViewAdapter(List<DayListContent.DayListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -47,7 +48,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        // mItem has type DummyItem
+        // mItem has type DayListItem
         holder.mItem = mValues.get(position);
         holder.mDateView.setText(mValues.get(position).id);
         holder.mMoodView.setText(mValues.get(position).content);
@@ -81,7 +82,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
         public final TextView mDateView;
         public final TextView mMoodView;
         public final TextView mVariableView;
-        public DummyItem mItem;
+        public DayListContent.DayListItem mItem;
 
         public ViewHolder(View view) {
             super(view);
