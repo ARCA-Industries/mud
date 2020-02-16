@@ -2,18 +2,15 @@ package mud.arca.io.mud.DataRecordList.dummy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
-import mud.arca.io.mud.DataStructures.Util;
 
 public class UserContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyContent.DummyItem> ITEMS = new ArrayList<DummyContent.DummyItem>();
+    public static final List<DayListContent.DummyItem> ITEMS = new ArrayList<DayListContent.DummyItem>();
 
     private User user;
 
@@ -27,7 +24,7 @@ public class UserContent {
 
         for (int i = dayData.size() - 1; i >= 0; i--) {
             Day d = dayData.get(i);
-            DummyContent.DummyItem item = new DummyContent.DummyItem(d);
+            DayListContent.DummyItem item = new DayListContent.DummyItem(d);
             ITEMS.add(item);
         }
     }

@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
-import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DummyItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;

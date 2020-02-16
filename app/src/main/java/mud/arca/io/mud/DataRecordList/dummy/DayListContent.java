@@ -16,7 +16,7 @@ import mud.arca.io.mud.DataStructures.Util;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent {
+public class DayListContent {
 
     /**
      * An array of sample (dummy) items.
