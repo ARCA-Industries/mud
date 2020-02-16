@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent;
+import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.R;
 
 public class RecordDetailsFragment extends Fragment {
@@ -36,7 +37,8 @@ public class RecordDetailsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent.ITEMS));
+        //recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent.ITEMS));
+        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent2.getItems()));
         return view;
     }
 
