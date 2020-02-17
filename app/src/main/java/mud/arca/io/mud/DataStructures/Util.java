@@ -1,9 +1,6 @@
 package mud.arca.io.mud.DataStructures;
 
-import android.content.res.Resources;
 import android.util.Log;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,7 +52,7 @@ public class Util {
 
         sb.append("[");
         for (Long lo : al) {
-            sb.append(Long.toString(lo));
+            sb.append(lo);
             sb.append(" ");
         }
         sb.append("]");
@@ -63,8 +60,8 @@ public class Util {
         Util.debug(str);
     }
 
+    // Note: getColor() requires minSdkVersion 23 in app/gradle
     public static final int[] MUD_GRAPH_COLORS = {
-            // getColor() requires minSdkVersion 23 in app/gradle
             App.getContext().getColor(R.color.green),
             //App.getContext().getColor(R.color.green_dark),
     };
@@ -79,6 +76,11 @@ public class Util {
 
     public static String formatDate(Date d) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        return sdf.format(d);
+    }
+
+    public static String formatDateWithYear(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         return sdf.format(d);
     }
 

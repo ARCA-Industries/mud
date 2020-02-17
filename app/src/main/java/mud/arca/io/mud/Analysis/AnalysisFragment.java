@@ -22,13 +22,9 @@ import androidx.fragment.app.Fragment;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
-import mud.arca.io.mud.DataStructures.MockUser;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Analysis.tempanalysisviews.BlueChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.GreenChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.RedChartView;
-import mud.arca.io.mud.Analysis.tempanalysisviews.YellowChartView;
-import mud.arca.io.mud.Views.YearSummaryView;
+import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 
 public class AnalysisFragment extends Fragment {
 
@@ -90,7 +86,8 @@ public class AnalysisFragment extends Fragment {
         try {
             AnalysisChart analysisChart = chartType.view.getDeclaredConstructor(Context.class).newInstance(getContext());
 
-            analysisChart.setDays(new MockUser().getDayData());
+            //analysisChart.setDays(new MockUser().getDayData());
+            analysisChart.setDays(User.getCurrentUser().getDayData());
 
             ((FrameLayout) getView().findViewById(R.id.imageView)).removeAllViews();
             ((FrameLayout) getView().findViewById(R.id.imageView)).addView((View) analysisChart);

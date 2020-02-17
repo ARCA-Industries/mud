@@ -12,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mud.arca.io.mud.DataRecordList.dummy.DummyContent;
-import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
-import mud.arca.io.mud.DataRecordList.dummy.UserContent;
-import mud.arca.io.mud.DataStructures.MockUser;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 
 /**
@@ -71,9 +70,9 @@ public class DataRecordListFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        //recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        UserContent uc = new UserContent(new MockUser());
-        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(uc.ITEMS, mListener));
+
+        DayListContent dlc = new DayListContent(User.getCurrentUser());
+        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(dlc.ITEMS, mListener));
         return view;
     }
 
@@ -107,6 +106,6 @@ public class DataRecordListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DayListItem item);
     }
 }

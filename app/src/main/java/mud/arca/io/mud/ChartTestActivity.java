@@ -5,15 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -28,9 +24,9 @@ public class ChartTestActivity extends AppCompatActivity {
 
         // in this example, a LineChart is initialized from xml
         //LineChart chart = (LineChart) findViewById(R.id.chart);
-        BarChart barChart = (BarChart) findViewById(R.id.chart);
+        BarChart barChart = findViewById(R.id.chart);
 
-        List<BarEntry> entries = new ArrayList<BarEntry>();
+        List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, 4));
         entries.add(new BarEntry(1, 8));
         entries.add(new BarEntry(2, 7));

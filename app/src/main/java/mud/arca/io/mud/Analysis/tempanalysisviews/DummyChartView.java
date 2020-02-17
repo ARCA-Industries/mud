@@ -1,7 +1,6 @@
 package mud.arca.io.mud.Analysis.tempanalysisviews;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 
