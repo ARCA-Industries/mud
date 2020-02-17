@@ -63,8 +63,8 @@ public class Util {
         Util.debug(str);
     }
 
+    // Note: getColor() requires minSdkVersion 23 in app/gradle
     public static final int[] MUD_GRAPH_COLORS = {
-            // getColor() requires minSdkVersion 23 in app/gradle
             App.getContext().getColor(R.color.green),
             //App.getContext().getColor(R.color.green_dark),
     };

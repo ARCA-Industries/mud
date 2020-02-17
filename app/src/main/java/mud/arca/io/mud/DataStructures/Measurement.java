@@ -28,14 +28,19 @@ public class Measurement {
         this.variable = variable;
     }
 
-    // Search a list of measurements for measurement with variable name varName
+    /**
+     * Search a list of measurements for measurement with variable name varName.
+     * @param measurements
+     * @param varName
+     * @return
+     * @throws NoSuchElementException
+     */
     public static Measurement searchList(Collection<Measurement> measurements, String varName) throws NoSuchElementException {
         for (Measurement m : measurements) {
             if (m.getVariable().getName().equals(varName)) {
                 return m;
             }
         }
-        //return null;
         throw new NoSuchElementException("Measurement with that name not found");
     }
 
