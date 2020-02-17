@@ -28,7 +28,7 @@ public class ChartTestActivity extends AppCompatActivity {
 
         // in this example, a LineChart is initialized from xml
         //LineChart chart = (LineChart) findViewById(R.id.chart);
-        BarChart barChart = (BarChart) findViewById(R.id.chart);
+        BarChart barChart = findViewById(R.id.chart);
 
         List<BarEntry> entries = new ArrayList<BarEntry>();
         entries.add(new BarEntry(0, 4));

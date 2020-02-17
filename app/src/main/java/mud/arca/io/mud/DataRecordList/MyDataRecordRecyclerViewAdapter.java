@@ -88,9 +88,9 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mDateView = (TextView) view.findViewById(R.id.dateTextView);
-            mMoodView = (TextView) view.findViewById(R.id.moodTextView);
-            mVariableView = (TextView) view.findViewById(R.id.attributeTextView);
+            mDateView = view.findViewById(R.id.dateTextView);
+            mMoodView = view.findViewById(R.id.moodTextView);
+            mVariableView = view.findViewById(R.id.attributeTextView);
         }
 
         @Override

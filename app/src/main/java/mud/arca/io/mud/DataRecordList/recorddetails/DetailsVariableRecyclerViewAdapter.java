@@ -62,8 +62,8 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mVariableTextView = (TextView) view.findViewById(R.id.variableTypeTextView);
-            mValueTextView = (TextView) view.findViewById(R.id.valueTextView);
+            mVariableTextView = view.findViewById(R.id.variableTypeTextView);
+            mValueTextView = view.findViewById(R.id.valueTextView);
         }
 
         @Override

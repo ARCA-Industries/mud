@@ -55,7 +55,7 @@ public class Util {
 
         sb.append("[");
         for (Long lo : al) {
-            sb.append(Long.toString(lo));
+            sb.append(lo);
             sb.append(" ");
         }
         sb.append("]");

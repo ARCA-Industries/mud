@@ -20,7 +20,7 @@ public class DayListContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DayListItem> ITEMS = new ArrayList<DayListItem>();
+    public List<DayListItem> ITEMS = new ArrayList<DayListItem>();
 
     private static final int COUNT = 30;
 
@@ -51,8 +51,7 @@ public class DayListContent {
 
         public DayListItem(Day d) {
             this.day = d;
-            String dateStr = Util.formatDate(d.getDate());
-            this.dateStr = dateStr;
+            this.dateStr = Util.formatDate(d.getDate());
             this.moodStr = d.getMoodString();
             this.varStr = d.getVarString("Sleep");
         }

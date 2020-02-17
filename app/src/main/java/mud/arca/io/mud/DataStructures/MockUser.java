@@ -96,7 +96,7 @@ public class MockUser extends User {
                 MoodRecording recording = new MoodRecording(timestamp, linear+noise);
                 recordings.add(recording);
             } catch (NoSuchElementException e) {
-
+                // do nothing
             }
 
         }

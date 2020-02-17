@@ -71,8 +71,8 @@ public class DataRecordListFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
 
-        DayListContent cont = new DayListContent(User.getCurrentUser());
-        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(cont.ITEMS, mListener));
+        DayListContent dlc = new DayListContent(User.getCurrentUser());
+        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(dlc.ITEMS, mListener));
         return view;
     }
 
