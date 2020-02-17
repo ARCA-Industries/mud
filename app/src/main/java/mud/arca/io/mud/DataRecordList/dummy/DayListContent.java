@@ -16,11 +16,10 @@ import mud.arca.io.mud.DataStructures.Util;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DayListContent {
-
     /**
      * An array of sample (dummy) items.
      */
-    public List<DayListItem> ITEMS = new ArrayList<DayListItem>();
+    public List<DayListItem> ITEMS = new ArrayList<>();
 
     private static final int COUNT = 30;
 
@@ -47,7 +46,6 @@ public class DayListContent {
         public final String moodStr;
         public final String varStr;
         public final Day day;
-
 
         public DayListItem(Day d) {
             this.day = d;

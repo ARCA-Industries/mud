@@ -7,9 +7,12 @@ public class User {
     private ArrayList<Day> dayData;
     private ArrayList<Variable> varData;
 
-    private static User currentUser = new MockUser();
+    private static User currentUser = null;
 
     public static User getCurrentUser() {
+        if (currentUser == null) {
+            currentUser = new MockUser();
+        }
         return currentUser;
     }
 

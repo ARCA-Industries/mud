@@ -30,7 +30,7 @@ public class ChartTestActivity extends AppCompatActivity {
         //LineChart chart = (LineChart) findViewById(R.id.chart);
         BarChart barChart = findViewById(R.id.chart);
 
-        List<BarEntry> entries = new ArrayList<BarEntry>();
+        List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, 4));
         entries.add(new BarEntry(1, 8));
         entries.add(new BarEntry(2, 7));
