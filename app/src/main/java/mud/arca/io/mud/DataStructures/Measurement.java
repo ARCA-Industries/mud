@@ -5,12 +5,10 @@ import java.util.NoSuchElementException;
 
 public class Measurement {
     private float value;
-    private String unit;
     private Variable variable;
 
-    public Measurement(float value, String unit, Variable variable) {
+    public Measurement(float value, Variable variable) {
         this.value = value;
-        this.unit = unit;
         this.variable = variable;
     }
 
@@ -20,14 +18,6 @@ public class Measurement {
 
     public void setValue(float value) {
         this.value = value;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public Variable getVariable() {
@@ -49,5 +39,21 @@ public class Measurement {
         throw new NoSuchElementException("Measurement with that name not found");
     }
 
+    /**
+     * Return a string that displays the value based on VarType.
+     * e.g. If VarType=FLOAT, return "2.0"
+     *      If VarType=INT, return "2"
+     * @return
+     */
+    public String getFormattedValue() {
+        VarType vt = variable.getVartype();
+        if (vt == VarType.FLOAT) {
+            return String.format("%.3f", value);
+        } else if (vt == VarType.INT) {
+            return String.format("%d", Math.round(value));
+        } else { // BOOL
+            return String.format("%d", Math.round(value));
+        }
+    }
 
 }

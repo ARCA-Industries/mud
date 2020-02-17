@@ -16,6 +16,7 @@ public class User {
     public User(String name) {
         this.name = name;
         this.dayData = new ArrayList<>();
+        this.varData = new ArrayList<>();
     }
 
     public int getAverageMood() {

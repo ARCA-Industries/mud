@@ -7,12 +7,22 @@ enum VarType
 
 public class Variable {
     private String name;
+    private String unit;
     private VarType vartype;
     private float vardata;
 
-    public Variable(String name, VarType vartype) {
+    public Variable(String name, String unit, VarType vartype) {
         this.name = name;
+        this.unit = unit;
         this.vartype = vartype;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getName() {
