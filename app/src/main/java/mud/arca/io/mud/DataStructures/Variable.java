@@ -2,7 +2,7 @@ package mud.arca.io.mud.DataStructures;
 
 enum VarType
 {
-    INT, FLOAT, BOOL;
+    INT, FLOAT, BOOL
 }
 
 public class Variable {

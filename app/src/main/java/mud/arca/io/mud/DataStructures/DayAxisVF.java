@@ -3,7 +3,6 @@ package mud.arca.io.mud.DataStructures;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;

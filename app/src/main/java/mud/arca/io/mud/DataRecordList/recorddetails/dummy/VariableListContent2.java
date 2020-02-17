@@ -15,7 +15,7 @@ public class VariableListContent2 {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<VariableListContent.VariableListItem> ITEMS = new ArrayList<>();
+    public static List<VariableListContent.VariableListItem> ITEMS = new ArrayList<>();
 
     private static final int COUNT = 25;
 

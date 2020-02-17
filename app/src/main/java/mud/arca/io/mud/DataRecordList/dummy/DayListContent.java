@@ -1,9 +1,7 @@
 package mud.arca.io.mud.DataRecordList.dummy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
@@ -16,11 +14,10 @@ import mud.arca.io.mud.DataStructures.Util;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DayListContent {
-
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DayListItem> ITEMS = new ArrayList<DayListItem>();
+    public List<DayListItem> ITEMS = new ArrayList<>();
 
     private static final int COUNT = 30;
 
@@ -48,11 +45,9 @@ public class DayListContent {
         public final String varStr;
         public final Day day;
 
-
         public DayListItem(Day d) {
             this.day = d;
-            String dateStr = Util.formatDate(d.getDate());
-            this.dateStr = dateStr;
+            this.dateStr = Util.formatDate(d.getDate());
             this.moodStr = d.getMoodString();
             this.varStr = d.getVarString("Sleep");
         }

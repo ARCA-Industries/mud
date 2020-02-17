@@ -3,11 +3,8 @@ package mud.arca.io.mud.DataRecordList.recorddetails;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.Date;
-
 import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
