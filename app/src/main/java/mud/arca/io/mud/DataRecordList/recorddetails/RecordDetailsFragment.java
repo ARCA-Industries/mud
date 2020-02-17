@@ -52,8 +52,8 @@ public class RecordDetailsFragment extends Fragment {
     /**
      * Update the mood text to the slider value.
      */
-    public void updateMoodText() {
-        float moodVal = sliderToMood(seekbar.getProgress());
+    public void updateMoodText(int progress) {
+        float moodVal = sliderToMood(progress);
         String val = String.format("Mood (%.1f)", moodVal);
         moodTextView.setText(val);
     }
@@ -83,12 +83,12 @@ public class RecordDetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         updateSeekBar();
-        updateMoodText();
+        updateMoodText(seekbar.getProgress());
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                updateMoodText();
+                updateMoodText(progressValue);
             }
 
             @Override
