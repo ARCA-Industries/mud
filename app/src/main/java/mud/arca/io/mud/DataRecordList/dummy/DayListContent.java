@@ -1,9 +1,7 @@
 package mud.arca.io.mud.DataRecordList.dummy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;

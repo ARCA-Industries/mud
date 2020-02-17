@@ -1,9 +1,6 @@
 package mud.arca.io.mud.DataStructures;
 
-import android.content.res.Resources;
 import android.util.Log;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

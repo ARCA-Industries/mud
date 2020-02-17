@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
-import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
