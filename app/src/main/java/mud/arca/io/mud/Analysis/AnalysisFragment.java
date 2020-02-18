@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
+import com.satsuware.usefulviews.LabelledSpinner;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -52,23 +54,23 @@ public class AnalysisFragment extends Fragment {
 
 
         // Set up spinner
-        AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
+        LabelledSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
                 Arrays.stream(ChartType.values()).map(chartType -> chartType.label).collect(Collectors.toList()));
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setCustomAdapter(spinnerArrayAdapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setChartType(ChartType.values()[i]);
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
+                setChartType(ChartType.values()[position]);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // TODO: Implement
+            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
+                //
             }
         });
 
