@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class VariableManagement extends AppCompatActivity {
 
+    // Arraylist for dummy variables
     public static ArrayList<Variable> variables_test = new ArrayList<>();
 
 
@@ -27,6 +28,7 @@ public class VariableManagement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variable_management);
 
+        // Dummy Variables for Table Testing
         variables_test.add(new Variable("Pizzas Eaten", "Integer"));
         variables_test.add(new Variable("Hours Worked", "Floating Point"));
         variables_test.add(new Variable("Went To School", "Boolean"));
@@ -38,8 +40,12 @@ public class VariableManagement extends AppCompatActivity {
 
     }
 
+    /**
+     * Method populateTable()
+     * Populates our variable table layout with variables stored in an array list.
+     *
+     */
     public void populateTable() {
-
         TableLayout inflate = findViewById(R.id.variable_table);
         for (int i = 0; i < variables_test.size(); i++) {
             TableRow row = new TableRow(VariableManagement.this);
@@ -54,9 +60,11 @@ public class VariableManagement extends AppCompatActivity {
 
 
     }
+    
 
     public void refreshTable(View v) {
-
+        TableLayout table = findViewById(R.id.variable_table);
+        table.removeAllViewsInLayout();
         populateTable();
     }
 
@@ -69,8 +77,6 @@ public class VariableManagement extends AppCompatActivity {
 
         String variableName = userVarName.getText().toString();
         String variableType = userVarType.getSelectedItem().toString();
-
-        // 1a. Validate user input
 
 
 
