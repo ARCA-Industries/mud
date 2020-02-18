@@ -40,6 +40,13 @@ public class MockUser extends User {
 
         r = new Random(seed);
 
+        Variable sleep = new Variable("Sleep", "hours", VarType.FLOAT);
+        Variable pizza = new Variable("Pizza", "slices", VarType.INT);
+        Variable exercised = new Variable("Exercised", "bool", VarType.BOOL);
+        getVarData().add(sleep);
+        getVarData().add(pizza);
+        getVarData().add(exercised);
+
         getDayData().clear();
         getDayData().addAll(getMockDays());
     }
@@ -84,14 +91,12 @@ public class MockUser extends User {
             try {
                 Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
                 // Mood is calculated as a linear function of Sleep plus some random noise.
-                //int moodValue = (int) (m.getValue() - 1);
-                //int noise = r.nextInt(2) - 1;
                 float linear = m.getValue() - 1;
                 float noise = r.nextFloat()*2 - 1;
                 MoodRecording recording = new MoodRecording(timestamp, linear+noise);
                 recordings.add(recording);
             } catch (NoSuchElementException e) {
-
+                // do nothing
             }
 
         }
@@ -101,9 +106,21 @@ public class MockUser extends User {
     private ArrayList<Measurement> getMockMeasurements(Day day) {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
-        float val = (float) (r.nextGaussian() + 8);
-        Measurement measurement = new Measurement(val, "hr", new Variable("Sleep", VarType.FLOAT));
-        measurements.add(measurement);
+        Variable sleep = getVarData().get(0);
+        Variable pizza = getVarData().get(1);
+        Variable exercised = getVarData().get(2);
+
+        float sleepVal = (float) (r.nextGaussian() + 8);
+        Measurement sleepM = new Measurement(sleepVal, sleep);
+        measurements.add(sleepM);
+
+        float pizzaVal = (float) r.nextInt(5);
+        Measurement pizzaM = new Measurement(pizzaVal, pizza);
+        measurements.add(pizzaM);
+
+        float exercisedVal = (float) r.nextInt(2);
+        Measurement exercisedM = new Measurement(exercisedVal, exercised);
+        measurements.add(exercisedM);
 
         return measurements;
     }

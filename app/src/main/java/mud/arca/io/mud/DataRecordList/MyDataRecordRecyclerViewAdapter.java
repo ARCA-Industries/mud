@@ -3,31 +3,37 @@ package mud.arca.io.mud.DataRecordList;
 import android.content.Context;
 import android.content.Intent;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
-import mud.arca.io.mud.DataRecordList.dummy.DummyContent.DummyItem;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
+import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link DayListContent.DayListItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyDataRecordRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<DayListItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
     private Context context;
 
-    public MyDataRecordRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    // This variable keeps track of which day the user has clicked on.
+    public static Day daySelected;
+
+    public MyDataRecordRecyclerViewAdapter(List<DayListContent.DayListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -42,10 +48,11 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // mItem has type DayListItem
         holder.mItem = mValues.get(position);
-        holder.mDateView.setText(mValues.get(position).id);
-        holder.mMoodView.setText(mValues.get(position).content);
-        holder.mVariableView.setText(mValues.get(position).details);
+        holder.mDateView.setText(mValues.get(position).dateStr);
+        holder.mMoodView.setText(mValues.get(position).moodStr);
+        holder.mVariableView.setText(mValues.get(position).varStr);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,11 +61,13 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
-
                 }
 
                 // TODO: Start an activity with recorddetailsfragment
                 Intent intent = new Intent(context, RecordDetailsActivity.class);
+//                intent.putExtra("key1", String.valueOf(position));
+
+                daySelected = holder.mItem.day;
                 context.startActivity(intent);
             }
         });
@@ -74,14 +83,14 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
         public final TextView mDateView;
         public final TextView mMoodView;
         public final TextView mVariableView;
-        public DummyItem mItem;
+        public DayListContent.DayListItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mDateView = (TextView) view.findViewById(R.id.dateTextView);
-            mMoodView = (TextView) view.findViewById(R.id.moodTextView);
-            mVariableView = (TextView) view.findViewById(R.id.attributeTextView);
+            mDateView = view.findViewById(R.id.dateTextView);
+            mMoodView = view.findViewById(R.id.moodTextView);
+            mVariableView = view.findViewById(R.id.attributeTextView);
         }
 
         @Override

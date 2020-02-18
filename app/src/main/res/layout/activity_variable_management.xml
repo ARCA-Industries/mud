@@ -33,6 +33,8 @@
         android:id="@+id/add_variable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="login"
+
         android:onClick="createVariable"
         android:text="Add Variable" />
 
@@ -69,7 +71,6 @@
                 android:background="@color/table_background"
                 />
         </TableRow>
-
 
     </TableLayout>
 

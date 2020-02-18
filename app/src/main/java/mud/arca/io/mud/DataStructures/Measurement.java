@@ -5,12 +5,10 @@ import java.util.NoSuchElementException;
 
 public class Measurement {
     private float value;
-    private String unit;
     private Variable variable;
 
-    public Measurement(float value, String unit, Variable variable) {
+    public Measurement(float value, Variable variable) {
         this.value = value;
-        this.unit = unit;
         this.variable = variable;
     }
 
@@ -22,14 +20,6 @@ public class Measurement {
         this.value = value;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public Variable getVariable() {
         return variable;
     }
@@ -38,16 +28,37 @@ public class Measurement {
         this.variable = variable;
     }
 
-    // Search a list of measurements for measurement with variable name varName
+    /**
+     * Search a list of measurements for measurement with variable name varName.
+     * @param measurements
+     * @param varName
+     * @return
+     * @throws NoSuchElementException
+     */
     public static Measurement searchList(Collection<Measurement> measurements, String varName) throws NoSuchElementException {
         for (Measurement m : measurements) {
             if (m.getVariable().getName().equals(varName)) {
                 return m;
             }
         }
-        //return null;
         throw new NoSuchElementException("Measurement with that name not found");
     }
 
+    /**
+     * Return a string that displays the value based on VarType.
+     * e.g. If VarType=FLOAT, return "2.0"
+     *      If VarType=INT, return "2"
+     * @return
+     */
+    public String getFormattedValue() {
+        VarType vt = variable.getVartype();
+        if (vt == VarType.FLOAT) {
+            return String.format("%.3f", value);
+        } else if (vt == VarType.INT) {
+            return String.format("%d", Math.round(value));
+        } else { // BOOL
+            return String.format("%d", Math.round(value));
+        }
+    }
 
 }
