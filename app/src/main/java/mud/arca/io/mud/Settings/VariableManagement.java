@@ -19,7 +19,11 @@ import java.util.ArrayList;
 
 public class VariableManagement extends AppCompatActivity {
 
-    // Arraylist for dummy variables
+    /**
+     * Local Arraylist for variables
+     * At some point we should use the database instead
+     * - Robert
+     */
     public static ArrayList<Variable> variables_test = new ArrayList<>();
 
 
@@ -29,10 +33,12 @@ public class VariableManagement extends AppCompatActivity {
         setContentView(R.layout.activity_variable_management);
 
         // Dummy Variables for Table Testing
+/*
         variables_test.add(new Variable("Pizzas Eaten", "Integer"));
         variables_test.add(new Variable("Hours Worked", "Floating Point"));
         variables_test.add(new Variable("Went To School", "Boolean"));
         variables_test.add(new Variable("default test", " "));
+*/
 
         populateTable();
 
@@ -60,15 +66,25 @@ public class VariableManagement extends AppCompatActivity {
 
 
     }
-    
 
+
+    /**
+     * Method refreshTable
+     * Refreshes our table so that it displays all current variables stored
+     * @param v for our onClick
+     */
     public void refreshTable(View v) {
         TableLayout table = findViewById(R.id.variable_table);
-        table.removeAllViewsInLayout();
+        table.removeViews(1, table.getChildCount()-1);
         populateTable();
     }
 
 
+    /**
+     * Method createVariable
+     * Creates variables to 
+     * @param v for our onClick
+     */
     public void createVariable(View v) {
 
         EditText userVarName = (EditText)findViewById(R.id.variable_name);
@@ -87,6 +103,8 @@ public class VariableManagement extends AppCompatActivity {
         // 3. Add to management table
 
         variables_test.add(custom);
+        userVarName.getText().clear();
+        refreshTable(v);
 
     }
 }

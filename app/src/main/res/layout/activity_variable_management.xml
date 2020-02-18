@@ -36,13 +36,6 @@
         android:onClick="createVariable"
         android:text="Add Variable" />
 
-    <Button
-        android:id="@+id/refresh_table"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="refreshTable"
-        android:text="Refresh Table" />
-
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/variable_table"
         android:layout_width="fill_parent"
