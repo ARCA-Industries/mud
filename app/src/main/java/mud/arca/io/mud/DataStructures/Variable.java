@@ -19,7 +19,7 @@ public class Variable {
 
     public Variable(String name, String type) {
         this.name = name;
-        switch(type) {
+        switch (type) {
             case "Integer":
                 this.vartype = VarType.INT;
                 break;
@@ -36,6 +36,7 @@ public class Variable {
                 this.vartype = VarType.FLOAT;
 
         }
+    }
 
     public String getUnit() {
         return unit;
