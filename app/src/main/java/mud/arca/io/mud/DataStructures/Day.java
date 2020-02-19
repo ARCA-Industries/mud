@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 
 public class Day {
-
     private Date date;
     private MoodRecording moodRecording;
     private Collection<Measurement> measurements;
@@ -34,6 +33,9 @@ public class Day {
 //        }
 //        average /= moodRecordings.size();
 
+        if (moodRecording == null) {
+            throw new NoSuchElementException("No mood recordings for that day");
+        }
         return moodRecording.getValue();
     }
 
@@ -49,7 +51,7 @@ public class Day {
         return moodRecording;
     }
 
-    public void setMoodRecordings(MoodRecording moodRecording) {
+    public void setMoodRecording(MoodRecording moodRecording) {
         this.moodRecording = moodRecording;
     }
 
