@@ -1,89 +1,74 @@
 package mud.arca.io.mud.DataRecordList;
 
 import android.content.Context;
-import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
-import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
-import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
-import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
-import java.util.List;
-
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DayListContent.DayListItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * {@link RecyclerView.Adapter} that can display a {@link Day} and makes a call to the
+ * specified {@link OnDayItemClickListener} when an item is clicked.
  */
-public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyDataRecordRecyclerViewAdapter.ViewHolder> {
+public class MyDataRecordRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, MyDataRecordRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DayListItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnDayItemClickListener mListener;
 
     private Context context;
 
-    // This variable keeps track of which day the user has clicked on.
-    public static Day daySelected;
+    public MyDataRecordRecyclerViewAdapter(FirestoreRecyclerOptions<Day> options, OnDayItemClickListener listener) {
+        super(options);
 
-    public MyDataRecordRecyclerViewAdapter(List<DayListContent.DayListItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
+        // Create a new instance of the ViewHolder, in this case we are using a custom layout called R.layout.fragment_datarecord for each item
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_datarecord, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        // mItem has type DayListItem
-        holder.mItem = mValues.get(position);
-        holder.mDateView.setText(mValues.get(position).dateStr);
-        holder.mMoodView.setText(mValues.get(position).moodStr);
-        holder.mVariableView.setText(mValues.get(position).varStr);
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Day model) {
+        // Inflate the view from data inside of model
+        holder.day = model;
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+        // Set UI from model data
+        holder.mDateView.setText(Util.formatDate(model.getDate()));
+        holder.mMoodView.setText(model.getMoodString());
+        holder.mVariableView.setText(model.getVarString("Sleep"));
 
-                // TODO: Start an activity with recorddetailsfragment
-                Intent intent = new Intent(context, RecordDetailsActivity.class);
-//                intent.putExtra("key1", String.valueOf(position));
 
-                daySelected = holder.mItem.day;
-                context.startActivity(intent);
+        // Set the RecordDetailsActivity to launch on click
+        holder.mView.setOnClickListener(v -> {
+            if (null != mListener) {
+                // Notify the active callbacks interface (the activity, if the
+                // fragment is attached to one) that an item has been selected.
+                mListener.onDayItemClick(holder.day);
             }
         });
+
     }
 
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mDateView;
-        public final TextView mMoodView;
-        public final TextView mVariableView;
-        public DayListContent.DayListItem mItem;
+        final View mView;
+        final TextView mDateView;
+        final TextView mMoodView;
+        final TextView mVariableView;
+        public Day day;
 
         public ViewHolder(View view) {
             super(view);
@@ -97,5 +82,10 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
         public String toString() {
             return super.toString() + " '" + mMoodView.getText() + "'";
         }
+    }
+
+
+    public interface OnDayItemClickListener {
+        void onDayItemClick(Day day);
     }
 }
