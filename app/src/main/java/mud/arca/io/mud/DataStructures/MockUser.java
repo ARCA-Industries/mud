@@ -72,8 +72,10 @@ public class MockUser extends User {
             }
 
             if (r.nextDouble() < PROB_MOOD) {
-                day.getMoodRecordings().clear();
-                day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
+//                day.getMoodRecordings().clear();
+//                day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
+                MoodRecording mr = getMockMoodRecording(day, mockMeasurements);
+                day.setMoodRecording(mr);
             }
 
             days.add(day);
@@ -81,7 +83,12 @@ public class MockUser extends User {
         return days;
     }
 
-
+    /**
+     * Generate ArrayList of moodRecordings (old function)
+     * @param day
+     * @param mockMeasurements
+     * @return
+     */
     private ArrayList<MoodRecording> getMockMoodRecordings(Day day, ArrayList<Measurement> mockMeasurements) {
         ArrayList<MoodRecording> recordings = new ArrayList<>();
 
@@ -101,6 +108,29 @@ public class MockUser extends User {
 
         }
         return recordings;
+    }
+
+    /**
+     * Generate one mood recording for the day.
+     * @param day
+     * @param mockMeasurements
+     * @return
+     */
+    private MoodRecording getMockMoodRecording(Day day, ArrayList<Measurement> mockMeasurements) {
+        Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
+
+        //MoodRecording recording = new MoodRecording;
+        try {
+            Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
+            // Mood is calculated as a linear function of Sleep plus some random noise.
+            float linear = m.getValue() - 1;
+            float noise = r.nextFloat()*2 - 1;
+            MoodRecording recording = new MoodRecording(timestamp, linear+noise);
+            return recording;
+        } catch (NoSuchElementException e) {
+            // do nothing
+            throw e;
+        }
     }
 
     private ArrayList<Measurement> getMockMeasurements(Day day) {

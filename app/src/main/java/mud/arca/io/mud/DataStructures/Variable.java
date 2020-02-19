@@ -20,6 +20,27 @@ public class Variable {
         this.vartype = vartype;
     }
 
+    public Variable(String name, String type) {
+        this.name = name;
+        switch (type) {
+            case "Integer":
+                this.vartype = VarType.INT;
+                break;
+
+            case "Floating Point":
+                this.vartype = VarType.FLOAT;
+                break;
+
+            case "Boolean":
+                this.vartype = VarType.BOOL;
+                break;
+
+            default:
+                this.vartype = VarType.FLOAT;
+
+        }
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -38,6 +59,10 @@ public class Variable {
 
     public VarType getVartype() {
         return vartype;
+    }
+
+    public String varTypeToString() {
+        return getVartype().toString();
     }
 
     public void setVartype(VarType vartype) {

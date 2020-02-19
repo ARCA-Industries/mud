@@ -10,42 +10,31 @@ import com.google.firebase.firestore.Exclude;
 
 @IgnoreExtraProperties
 public class Day {
-
     private Date date;
-    private List<MoodRecording> moodRecordings;
+    private MoodRecording moodRecording;
     private List<Measurement> measurements;
 
     public Day() {
-        this.moodRecordings = new ArrayList<>();
         this.measurements = new ArrayList<>();
     }
 
     public Day(Date date) {
         this.date = date;
-        this.moodRecordings = new ArrayList<>();
         this.measurements = new ArrayList<>();
     }
 
-    public Day(Date date, List<MoodRecording> moodRecordings, List<Measurement> measurements) {
+    public Day(Date date, MoodRecording moodRecording, List<Measurement> measurements) {
         this.date = date;
-        this.moodRecordings = moodRecordings;
+        this.moodRecording = moodRecording;
         this.measurements = measurements;
     }
 
     @Exclude
-    public double getAverageMood() {
-        if (moodRecordings.isEmpty()) {
-            //return -1;
+    public float getAverageMood() {
+        if (moodRecording == null) {
             throw new NoSuchElementException("No mood recordings for that day");
         }
-
-        double average = 0;
-        for (MoodRecording recording : moodRecordings) {
-            average += recording.getValue();
-        }
-        average /= moodRecordings.size();
-
-        return average;
+        return moodRecording.getValue();
     }
 
     public Date getDate() {
@@ -56,12 +45,12 @@ public class Day {
         this.date = date;
     }
 
-    public Collection<MoodRecording> getMoodRecordings() {
-        return moodRecordings;
+    public MoodRecording getMoodRecording() {
+        return moodRecording;
     }
 
-    public void setMoodRecordings(List<MoodRecording> moodRecordings) {
-        this.moodRecordings = moodRecordings;
+    public void setMoodRecording(MoodRecording moodRecording) {
+        this.moodRecording = moodRecording;
     }
 
     public Collection<Measurement> getMeasurements() {
