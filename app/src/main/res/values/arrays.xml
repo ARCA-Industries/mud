@@ -18,10 +18,9 @@
     </string-array>
 
     <string-array name="variable_types">
-        <item>-Select Variable-</item>
-        <item>Integer</item>
         <item>Floating Point</item>
-        <item>Boolean (True/False) </item>
+        <item>Integer</item>
+        <item>Boolean</item>
     </string-array>
 
 </resources>

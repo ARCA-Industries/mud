@@ -51,7 +51,7 @@ public class Measurement {
      * @return
      */
     public String getFormattedValue() {
-        VarType vt = variable.getVartype();
+        VarType vt = variable.getVarType();
         if (vt == VarType.FLOAT) {
             return String.format("%.3f", value);
         } else if (vt == VarType.INT) {
