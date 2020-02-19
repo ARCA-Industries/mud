@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import mud.arca.io.mud.Analysis.AnalysisFragment;
-import mud.arca.io.mud.DataRecordList.DataRecordListFragment;
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.Settings.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mTextMessage;
 
     final private Fragment fragmentHome = new AnalysisFragment();
-    final private Fragment fragmentDashboard = new DataRecordListFragment();
+    final private Fragment fragmentDashboard = new DayListFragment();
     final private Fragment fragmentNotifications = new SettingsFragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

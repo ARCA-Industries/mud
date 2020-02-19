@@ -19,13 +19,13 @@ import mud.arca.io.mud.R;
  * {@link RecyclerView.Adapter} that can display a {@link Day} and makes a call to the
  * specified {@link OnDayItemClickListener} when an item is clicked.
  */
-public class MyDataRecordRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, MyDataRecordRecyclerViewAdapter.ViewHolder> {
+public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, DayListRecyclerViewAdapter.ViewHolder> {
 
     private final OnDayItemClickListener mListener;
 
     private Context context;
 
-    public MyDataRecordRecyclerViewAdapter(FirestoreRecyclerOptions<Day> options, OnDayItemClickListener listener) {
+    public DayListRecyclerViewAdapter(FirestoreRecyclerOptions<Day> options, OnDayItemClickListener listener) {
         super(options);
 
         mListener = listener;
