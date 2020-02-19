@@ -11,6 +11,9 @@ public class Variable {
     private VarType vartype;
     private float vardata;
 
+    public Variable() {
+    }
+
     public Variable(String name, String unit, VarType vartype) {
         this.name = name;
         this.unit = unit;

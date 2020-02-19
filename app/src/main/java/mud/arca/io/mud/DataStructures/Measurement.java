@@ -1,11 +1,16 @@
 package mud.arca.io.mud.DataStructures;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class Measurement {
     private float value;
     private Variable variable;
+
+    public Measurement() {
+    }
 
     public Measurement(float value, Variable variable) {
         this.value = value;
@@ -50,6 +55,7 @@ public class Measurement {
      *      If VarType=INT, return "2"
      * @return
      */
+    @Exclude
     public String getFormattedValue() {
         VarType vt = variable.getVartype();
         if (vt == VarType.FLOAT) {
