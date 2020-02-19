@@ -18,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.slider.Slider;
 
+import java.sql.Timestamp;
+
 import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.MoodRecording;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
@@ -50,28 +53,27 @@ public class RecordDetailsFragment extends Fragment {
     }
 
     /**
-     * Update the mood text to the slider value.
+     * Update the seekbar progress to the mood value.
      */
-    public void updateMoodText(int progress) {
-        float moodVal = sliderToMood(progress);
+    public void updateSeekBar(float moodVal) {
+        int progressVal = moodToSlider(moodVal);
+        seekbar.setProgress(progressVal);
+    }
+
+    /**
+     * Update the mood text to the mood value.
+     */
+    public void updateMoodText(float moodVal) {
         String val = String.format("Mood (%.1f)", moodVal);
         moodTextView.setText(val);
     }
 
     /**
-     * Update the seekbar progress based on the avg mood of the day selected.
-     */
-    public void updateSeekBar() {
-        Day d = MyDataRecordRecyclerViewAdapter.daySelected;
-        int progressVal = moodToSlider((float) d.getAverageMood());
-        seekbar.setProgress(progressVal);
-    }
-
-    /**
-     * Update the mood recording for the day.
+     * Update the mood recording in data structure.
      */
     public void updateUserMood(Day d, float moodVal) {
-        // d.getMoodRecordings().set()
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        d.setMoodRecording(new MoodRecording(timestamp, moodVal));
     }
 
     @Nullable
@@ -89,13 +91,16 @@ public class RecordDetailsFragment extends Fragment {
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        updateSeekBar();
-        updateMoodText(seekbar.getProgress());
+        float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood();
+        updateSeekBar(moodVal);
+        updateMoodText(moodVal);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                updateMoodText(progressValue);
+                float moodVal = sliderToMood(progressValue);
+                updateMoodText(moodVal);
+                updateUserMood(MyDataRecordRecyclerViewAdapter.daySelected, moodVal);
             }
 
             @Override
