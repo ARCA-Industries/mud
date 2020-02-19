@@ -8,34 +8,33 @@ import java.util.NoSuchElementException;
 public class Day {
 
     private Date date;
-    private Collection<MoodRecording> moodRecordings;
+    private MoodRecording moodRecording;
     private Collection<Measurement> measurements;
 
     public Day(Date date) {
         this.date = date;
-        this.moodRecordings = new ArrayList<>();
         this.measurements = new ArrayList<>();
     }
 
-    public Day(Date date, Collection<MoodRecording> moodRecordings, Collection<Measurement> measurements) {
+    public Day(Date date, MoodRecording moodRecording, Collection<Measurement> measurements) {
         this.date = date;
-        this.moodRecordings = moodRecordings;
+        this.moodRecording = moodRecording;
         this.measurements = measurements;
     }
 
-    public double getAverageMood() {
-        if (moodRecordings.isEmpty()) {
-            //return -1;
-            throw new NoSuchElementException("No mood recordings for that day");
-        }
+    public float getAverageMood() {
+//        if (moodRecordings.isEmpty()) {
+//            //return -1;
+//            throw new NoSuchElementException("No mood recordings for that day");
+//        }
+//
+//        double average = 0;
+//        for (MoodRecording recording : moodRecordings) {
+//            average += recording.getValue();
+//        }
+//        average /= moodRecordings.size();
 
-        double average = 0;
-        for (MoodRecording recording : moodRecordings) {
-            average += recording.getValue();
-        }
-        average /= moodRecordings.size();
-
-        return average;
+        return moodRecording.getValue();
     }
 
     public Date getDate() {
@@ -46,12 +45,12 @@ public class Day {
         this.date = date;
     }
 
-    public Collection<MoodRecording> getMoodRecordings() {
-        return moodRecordings;
+    public MoodRecording getMoodRecording() {
+        return moodRecording;
     }
 
-    public void setMoodRecordings(Collection<MoodRecording> moodRecordings) {
-        this.moodRecordings = moodRecordings;
+    public void setMoodRecordings(MoodRecording moodRecording) {
+        this.moodRecording = moodRecording;
     }
 
     public Collection<Measurement> getMeasurements() {

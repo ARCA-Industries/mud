@@ -67,6 +67,13 @@ public class RecordDetailsFragment extends Fragment {
         seekbar.setProgress(progressVal);
     }
 
+    /**
+     * Update the mood recording for the day.
+     */
+    public void updateUserMood(Day d, float moodVal) {
+        // d.getMoodRecordings().set()
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
