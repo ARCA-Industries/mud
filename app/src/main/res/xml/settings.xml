@@ -43,6 +43,11 @@
             app:key="last_sync"
             app:title="Sync now" />
 
+        <Preference
+            app:key="auth_logout"
+            app:title="Log Out"
+            app:summary="@string/preference_auth_logout_summary" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

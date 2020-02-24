@@ -10,29 +10,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".SplashScreenActivity"
+
+        <activity-alias
+            android:name=".launch"
             android:label="@string/app_name"
-            android:theme="@style/SplashScreen">
+            android:targetActivity=".LoginScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.CardBottomBar"/>
+            android:theme="@style/AppTheme.CardBottomBar" />
         <activity
             android:name=".LoginScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBaseTheme"/>
+            android:theme="@style/LoginScreen" />
         <activity
             android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
             android:label="Record Details" />
-        <activity android:name=".Settings.VariableManagement"
-            android:label="Variable Management"/>
+        <activity
+            android:name=".Settings.VariableManagement"
+            android:label="Variable Management" />
     </application>
 
 </manifest>

@@ -23,11 +23,12 @@
     <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
         <item name="android:background">?attr/colorSurface</item>
     </style>
-    
-    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="android:windowBackground"> @drawable/background_splashscreen </item>
-
-
+    <style name ="LoginScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">@drawable/gradient_red_green</item>
     </style>
-
+    <style name ="LoginScreenAuthUI" parent="AppTheme">
+        <!-- TODO: Get banner logo to be visible on both light and dark themes -->
+    </style>
 </resources>
