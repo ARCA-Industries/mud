@@ -38,7 +38,8 @@ public class VariableListContent2 {
                 // do nothing
             }
 
-            VariableListContent.VariableListItem item = new VariableListContent.VariableListItem(varStr, valueStr, m);
+            VariableListContent.VariableListItem item =
+                    new VariableListContent.VariableListItem(varStr, valueStr, m, v, d);
             ITEMS.add(item);
         }
     }

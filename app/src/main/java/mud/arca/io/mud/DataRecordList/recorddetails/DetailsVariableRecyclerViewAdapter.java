@@ -75,28 +75,41 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
             mValueTextView = view.findViewById(R.id.valueTextView);
 
             mValueTextView.addTextChangedListener(new TextWatcher() {
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-                public void afterTextChanged(Editable editable) {}
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    // Util.debug(String.valueOf(mValueTextView.getTag()));
-                    // Util.debug(mItem.type + " --- " + mItem.value);
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    //
+                }
 
+                public void afterTextChanged(Editable s) {
+                    // Util.debug("afterTextChanged");
+                }
+
+
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
                     // if (mValueTextView.getTag() != null) {
-                    if (true) {
-//                        Collection<Measurement> ms = MyDataRecordRecyclerViewAdapter.daySelected.getMeasurements();
-//                        String varName = mVariableTextView.getText().toString();
 
+                    String input = s.toString();
+                    Util.debug("onTextChanged: " + input);
+
+                    if (input.equals("")) {
+                        if (mItem.measurement != null) {
+                            // 1. Delete measurement
+                            mItem.day.removeMeasurement(mItem.measurement);
+                            mItem.measurement = null;
+                        }
+                    } else {
+                        float newValue = Float.parseFloat(input);
 
                         if (mItem.measurement != null) {
-                            try {
-                                float newValue = Float.parseFloat(charSequence.toString());
-                                mItem.measurement.setValue(newValue);
-                            } catch (NumberFormatException e) {
-                                // If the user edited text to empty string, this exception will be thrown.
-                            }
-
+                            // 2. Update measurement
+                            mItem.measurement.setValue(newValue);
+                        } else {
+                            // 3. Create measurement
+                            Measurement m = new Measurement(newValue, mItem.variable);
+                            mItem.day.getMeasurements().add(m);
+                            mItem.measurement = m;
                         }
                     }
+
                 }
             });
         }
