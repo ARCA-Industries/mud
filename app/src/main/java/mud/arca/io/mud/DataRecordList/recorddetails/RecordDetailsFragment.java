@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.slider.Slider;
 
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
@@ -91,9 +92,15 @@ public class RecordDetailsFragment extends Fragment {
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood();
-        updateSeekBar(moodVal);
-        updateMoodText(moodVal);
+        try {
+            float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood();
+            updateSeekBar(moodVal);
+            updateMoodText(moodVal);
+        } catch (NoSuchElementException e) {
+            // If there is no mood recording for that day.
+            updateSeekBar(5f);
+            moodTextView.setText("Mood (no value)");
+        }
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
