@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/date/mmddyy" />
 
-    <TextView
+    <EditText
         android:id="@+id/valueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@tools:sample/lorem"
+        android:inputType="numberDecimal"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
