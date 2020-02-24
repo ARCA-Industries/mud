@@ -30,12 +30,14 @@ public class VariableListContent2 {
             try {
                 Measurement m = Measurement.searchList(measurements, v.getName());
                 valueStr = m.getFormattedValue();
+
+                VariableListContent.VariableListItem item = new VariableListContent.VariableListItem(varStr, valueStr, m);
+                ITEMS.add(item);
             } catch (NoSuchElementException e) {
                 // do nothing
             }
 
-            VariableListContent.VariableListItem item = new VariableListContent.VariableListItem(varStr, valueStr);
-            ITEMS.add(item);
+
         }
     }
 

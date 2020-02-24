@@ -1,16 +1,24 @@
 package mud.arca.io.mud.DataRecordList.recorddetails;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent.VariableListItem;
+import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
 /**
@@ -65,6 +73,24 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
             mView = view;
             mVariableTextView = view.findViewById(R.id.variableTypeTextView);
             mValueTextView = view.findViewById(R.id.valueTextView);
+
+            mValueTextView.addTextChangedListener(new TextWatcher() {
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                public void afterTextChanged(Editable editable) {}
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    // Util.debug(String.valueOf(mValueTextView.getTag()));
+
+                    //Util.debug(mItem.type + " --- " + mItem.value);
+                    // if (mValueTextView.getTag() != null) {
+                    if (true) {
+//                        Collection<Measurement> ms = MyDataRecordRecyclerViewAdapter.daySelected.getMeasurements();
+//                        String varName = mVariableTextView.getText().toString();
+
+                        float newValue = Float.parseFloat(charSequence.toString());
+                        mItem.measurement.setValue(newValue);
+                    }
+                }
+            });
         }
 
         @Override
