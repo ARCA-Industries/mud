@@ -83,7 +83,7 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
                     // Util.debug("afterTextChanged");
                 }
 
-
+                // TODO: Currently, this function is called any time the user types a single character. Ideally, it should only be called once when the user leaves the details view.
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     // if (mValueTextView.getTag() != null) {
 

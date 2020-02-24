@@ -14,16 +14,12 @@ import mud.arca.io.mud.DataStructures.Variable;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class VariableListContent {
-
     /**
      * An array of sample (dummy) items.
      */
     public static final List<VariableListItem> ITEMS = new ArrayList<VariableListItem>();
 
-
     private static final int COUNT = 25;
-
-
 
     /**
      * A dummy item representing a piece of type.
