@@ -79,15 +79,23 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
                 public void afterTextChanged(Editable editable) {}
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     // Util.debug(String.valueOf(mValueTextView.getTag()));
+                    // Util.debug(mItem.type + " --- " + mItem.value);
 
-                    //Util.debug(mItem.type + " --- " + mItem.value);
                     // if (mValueTextView.getTag() != null) {
                     if (true) {
 //                        Collection<Measurement> ms = MyDataRecordRecyclerViewAdapter.daySelected.getMeasurements();
 //                        String varName = mVariableTextView.getText().toString();
 
-                        float newValue = Float.parseFloat(charSequence.toString());
-                        mItem.measurement.setValue(newValue);
+
+                        if (mItem.measurement != null) {
+                            try {
+                                float newValue = Float.parseFloat(charSequence.toString());
+                                mItem.measurement.setValue(newValue);
+                            } catch (NumberFormatException e) {
+                                // If the user edited text to empty string, this exception will be thrown.
+                            }
+
+                        }
                     }
                 }
             });

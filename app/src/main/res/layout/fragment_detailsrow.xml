@@ -33,6 +33,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/lorem"
         android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:hint="(no value)"
+        android:maxLength="50"
         />
 
     <androidx.constraintlayout.widget.Guideline

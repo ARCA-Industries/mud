@@ -25,19 +25,21 @@ public class VariableListContent2 {
         Collection<Measurement> measurements = d.getMeasurements();
         for (Variable v : User.getCurrentUser().getVarData()) {
             String varStr = String.format("%s (%s)", v.getName(), v.getUnit());
-            String valueStr = "-";
+
+            // If there is no measurement found, valueStr is empty string.
+            // The RecyclerView will show hint text.
+            String valueStr = "";
+            Measurement m = null;
 
             try {
-                Measurement m = Measurement.searchList(measurements, v.getName());
+                m = Measurement.searchList(measurements, v.getName());
                 valueStr = m.getFormattedValue();
-
-                VariableListContent.VariableListItem item = new VariableListContent.VariableListItem(varStr, valueStr, m);
-                ITEMS.add(item);
             } catch (NoSuchElementException e) {
                 // do nothing
             }
 
-
+            VariableListContent.VariableListItem item = new VariableListContent.VariableListItem(varStr, valueStr, m);
+            ITEMS.add(item);
         }
     }
 
