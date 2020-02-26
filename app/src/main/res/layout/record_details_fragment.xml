@@ -76,7 +76,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/moodTextView"
-        android:max="100"/>
+        android:max="100"
+        android:theme="@style/MudSeekBarTheme"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
