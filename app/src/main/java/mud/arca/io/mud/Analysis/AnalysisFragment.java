@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
@@ -44,7 +46,14 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
-    // TODO: This will crash on versions below N. Convert Stream to plain old loops.
+    public List<String> getChartTypeLabels() {
+        List<String> ret = new ArrayList<>();
+        for (ChartType ct : ChartType.values()) {
+            ret.add(ct.label);
+        }
+        return ret;
+    }
+
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,9 +63,12 @@ public class AnalysisFragment extends Fragment {
         // Set up spinner
         AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
 
+//        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+//                android.R.layout.simple_spinner_item,
+//                Arrays.stream(ChartType.values()).map(chartType -> chartType.label).collect(Collectors.toList()));
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
-                Arrays.stream(ChartType.values()).map(chartType -> chartType.label).collect(Collectors.toList()));
+                getChartTypeLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
