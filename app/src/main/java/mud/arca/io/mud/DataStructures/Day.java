@@ -1,5 +1,6 @@
 package mud.arca.io.mud.DataStructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -9,7 +10,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.Exclude;
 
 @IgnoreExtraProperties
-public class Day {
+public class Day implements Serializable {
     private Date date;
     private MoodRecording moodRecording;
     private List<Measurement> measurements;

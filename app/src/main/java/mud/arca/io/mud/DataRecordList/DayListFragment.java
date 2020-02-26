@@ -1,5 +1,6 @@
 package mud.arca.io.mud.DataRecordList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
@@ -36,8 +38,9 @@ import mud.arca.io.mud.R;
  */
 public class DayListFragment extends Fragment {
 
-    // This variable keeps track of which day the user has clicked on. // TODO: Don't do this.
-    public static Day daySelected;
+    private final static int RC_EDIT_DAY_DETAILS = 1001;
+
+    private final static String EXTRA_REFERENCE_ID = "reference_id";
 
     private CollectionReference mItemsCollection;
     private FirestoreRecyclerAdapter adapter;
@@ -107,15 +110,34 @@ public class DayListFragment extends Fragment {
                 ).build();
 
 
-        adapter = new DayListRecyclerViewAdapter(options, day -> {
-            Intent intent = new Intent(getContext(), RecordDetailsActivity.class);
 
-            daySelected =day; // TODO: Pass the selected day (model) to RecordDetailsActivity
-            getContext().startActivity(intent);
+        adapter = new DayListRecyclerViewAdapter(options, (day, reference) -> {
+            Intent i = RecordDetailsActivity.getLaunchIntentForDay(getContext(), day);
+            // Pass the reference so that I know which document to update in the db.
+            // This relies on the fragment passing back the same intent...
+            i.putExtra(EXTRA_REFERENCE_ID, reference.getId());
+            startActivityForResult(i, RC_EDIT_DAY_DETAILS);
+
         }) ;
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RC_EDIT_DAY_DETAILS:
+                if (resultCode == Activity.RESULT_OK) {
+                    // Save this day to the database
+                    mItemsCollection.document(data.getStringExtra(EXTRA_REFERENCE_ID)).set(
+                            data.getSerializableExtra(RecordDetailsActivity.EXTRA_DAY)
+                    );
+                }
+                break;
+        }
+
+    }
 
     // TODO: Use this instead: https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md#automatic-listening
     @Override

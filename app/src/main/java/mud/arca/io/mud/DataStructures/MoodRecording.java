@@ -1,9 +1,10 @@
 package mud.arca.io.mud.DataStructures;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class MoodRecording {
+public class MoodRecording implements Serializable {
     private Timestamp timestamp;
     private float value;
 

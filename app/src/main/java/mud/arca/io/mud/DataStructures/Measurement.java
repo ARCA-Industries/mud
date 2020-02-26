@@ -2,10 +2,11 @@ package mud.arca.io.mud.DataStructures;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public class Measurement {
+public class Measurement implements Serializable {
     private float value;
     private Variable variable;
 

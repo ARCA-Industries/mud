@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentReference;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +57,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
             if (null != mListener) {
                 // Notify the active callbacks interface (the activity, if the
                 // fragment is attached to one) that an item has been selected.
-                mListener.onDayItemClick(holder.day);
+                mListener.onDayItemClick(holder.day, getSnapshots().getSnapshot(position).getReference());
             }
         });
 
@@ -86,6 +87,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
 
 
     public interface OnDayItemClickListener {
-        void onDayItemClick(Day day);
+
+        void onDayItemClick(Day day, DocumentReference reference);
     }
 }
