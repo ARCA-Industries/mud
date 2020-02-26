@@ -21,16 +21,17 @@ import com.google.android.material.slider.Slider;
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 
-import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.MoodRecording;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
 public class RecordDetailsFragment extends Fragment {
 
-    private RecordDetailsFragmentViewModel mViewModel;
+    private Day daySelected = DayListFragment.daySelected;
     private TextView moodTextView;
     private SeekBar seekbar;
 
@@ -93,7 +94,7 @@ public class RecordDetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         try {
-            float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood();
+            float moodVal = daySelected.getAverageMood();
             updateSeekBar(moodVal);
             updateMoodText(moodVal);
         } catch (NoSuchElementException e) {
@@ -107,7 +108,7 @@ public class RecordDetailsFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 float moodVal = sliderToMood(progressValue);
                 updateMoodText(moodVal);
-                updateUserMood(MyDataRecordRecyclerViewAdapter.daySelected, moodVal);
+//                updateUserMood(MyDataRecordRecyclerViewAdapter.daySelected, moodVal); // TODO:
             }
 
             @Override
@@ -129,7 +130,7 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(RecordDetailsFragmentViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(RecordDetailsFragmentViewModel.class);
         // TODO: Use the ViewModel
     }
 

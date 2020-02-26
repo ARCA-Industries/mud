@@ -1,10 +1,14 @@
 package mud.arca.io.mud.DataStructures;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class MoodRecording {
     private Timestamp timestamp;
     private float value;
+
+    public MoodRecording() {
+    }
 
     public MoodRecording(Timestamp timestamp, float value) {
         this.timestamp = timestamp;
@@ -15,8 +19,8 @@ public class MoodRecording {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp t) {
-        timestamp = t;
+    public void setTimestamp(Date t) {
+        timestamp = new Timestamp(t.getTime());
     }
 
     public float getValue() {

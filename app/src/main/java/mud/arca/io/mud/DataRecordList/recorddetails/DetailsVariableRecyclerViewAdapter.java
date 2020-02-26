@@ -9,13 +9,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent.VariableListItem;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.Util;
