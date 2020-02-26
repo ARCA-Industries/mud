@@ -29,7 +29,7 @@ import mud.arca.io.mud.R;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class DataRecordListFragment extends Fragment {
+public class DayListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -41,13 +41,13 @@ public class DataRecordListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public DataRecordListFragment() {
+    public DayListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static DataRecordListFragment newInstance(int columnCount) {
-        DataRecordListFragment fragment = new DataRecordListFragment();
+    public static DayListFragment newInstance(int columnCount) {
+        DayListFragment fragment = new DayListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

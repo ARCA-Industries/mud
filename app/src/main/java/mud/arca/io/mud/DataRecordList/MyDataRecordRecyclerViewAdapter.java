@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
+import mud.arca.io.mud.DataRecordList.DayListFragment.OnListFragmentInteractionListener;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
