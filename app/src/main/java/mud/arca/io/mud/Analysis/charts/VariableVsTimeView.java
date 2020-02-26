@@ -98,7 +98,7 @@ public class VariableVsTimeView extends BarChart implements AnalysisChart {
                 ys.add(m.getValue());
                 Date d = day.getDate();
                 xs.add(d);
-                Util.debug("" + d);
+                //Util.debug("" + d);
             } catch (NoSuchElementException e) {
                 // do nothing
             }

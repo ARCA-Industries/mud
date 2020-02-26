@@ -1,15 +1,19 @@
 package mud.arca.io.mud.DataRecordList.recorddetails;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
-
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent.VariableListItem;
+import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
 /**
@@ -56,7 +60,7 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mVariableTextView;
-        public final TextView mValueTextView;
+        public final EditText mValueTextView;
         public VariableListItem mItem;
 
         public ViewHolder(View view) {
@@ -64,6 +68,45 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
             mView = view;
             mVariableTextView = view.findViewById(R.id.variableTypeTextView);
             mValueTextView = view.findViewById(R.id.valueTextView);
+
+            mValueTextView.addTextChangedListener(new TextWatcher() {
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    //
+                }
+
+                public void afterTextChanged(Editable s) {
+                    // Util.debug("afterTextChanged");
+                }
+
+                // TODO: Currently, this function is called any time the user types a single character. Ideally, it should only be called once when the user leaves the details view.
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // if (mValueTextView.getTag() != null) {
+
+                    String input = s.toString();
+                    Util.debug("onTextChanged: " + input);
+
+                    if (input.equals("")) {
+                        if (mItem.measurement != null) {
+                            // 1. Delete measurement
+                            mItem.day.removeMeasurement(mItem.measurement);
+                            mItem.measurement = null;
+                        }
+                    } else {
+                        float newValue = Float.parseFloat(input);
+
+                        if (mItem.measurement != null) {
+                            // 2. Update measurement
+                            mItem.measurement.setValue(newValue);
+                        } else {
+                            // 3. Create measurement
+                            Measurement m = new Measurement(newValue, mItem.variable);
+                            mItem.day.getMeasurements().add(m);
+                            mItem.measurement = m;
+                        }
+                    }
+
+                }
+            });
         }
 
         @Override

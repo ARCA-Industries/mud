@@ -13,7 +13,6 @@ import java.util.Random;
  * If you'd like, specify a seed with new MockUser(seed)
  */
 public class MockUser extends User {
-
     private final static int NUM_DAYS = 30;
     private final static int NUM_MOODRECORDINGS = 1;
 
@@ -21,10 +20,10 @@ public class MockUser extends User {
     private final static double PROB_DAY = .9;
 
     // Probability that there are mood recordings in a day.
-    private final static double PROB_MOOD = 0.9;
+    private final static double PROB_MOOD = 0.7;
 
     // Probability that there are measurement recordings in a day.
-    private final static double PROB_MEASUREMENTS = 0.9;
+    private final static double PROB_MEASUREMENTS = 0.7;
 
     // number of milliseconds in 1 day
     private final static int MS_PER_DAY = 1000*60*60*24;
@@ -58,22 +57,17 @@ public class MockUser extends User {
     private ArrayList<Day> getMockDays() {
         ArrayList<Day> days = new ArrayList<>();
         for (int i = 0; i < NUM_DAYS; i++) {
-
-//            if (r.nextDouble() > PROB_DAY) {
-//                continue;
-//            }
-
             Day day = new Day(Util.intToDate(getBaseDate(), i));
             ArrayList<Measurement> mockMeasurements = getMockMeasurements(day);
 
-            if (r.nextDouble() < PROB_MEASUREMENTS) {
-                day.getMeasurements().clear();
-                day.getMeasurements().addAll(mockMeasurements);
+            day.getMeasurements().clear();
+            for (Measurement m : mockMeasurements) {
+                if (r.nextDouble() < PROB_MEASUREMENTS) {
+                    day.getMeasurements().add(m);
+                }
             }
 
             if (r.nextDouble() < PROB_MOOD) {
-//                day.getMoodRecordings().clear();
-//                day.getMoodRecordings().addAll(getMockMoodRecordings(day, mockMeasurements));
                 MoodRecording mr = getMockMoodRecording(day, mockMeasurements);
                 day.setMoodRecording(mr);
             }
@@ -137,17 +131,16 @@ public class MockUser extends User {
         ArrayList<Measurement> measurements = new ArrayList<>();
 
         Variable sleep = getVarData().get(0);
-        Variable pizza = getVarData().get(1);
-        Variable exercised = getVarData().get(2);
-
         float sleepVal = (float) (r.nextGaussian() + 8);
         Measurement sleepM = new Measurement(sleepVal, sleep);
         measurements.add(sleepM);
 
+        Variable pizza = getVarData().get(1);
         float pizzaVal = (float) r.nextInt(5);
         Measurement pizzaM = new Measurement(pizzaVal, pizza);
         measurements.add(pizzaM);
 
+        Variable exercised = getVarData().get(2);
         float exercisedVal = (float) r.nextInt(2);
         Measurement exercisedM = new Measurement(exercisedVal, exercised);
         measurements.add(exercisedM);

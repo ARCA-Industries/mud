@@ -19,16 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.slider.Slider;
 
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
 
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.MoodRecording;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
 public class RecordDetailsFragment extends Fragment {
 
-    private RecordDetailsFragmentViewModel mViewModel;
+    private Day daySelected = DayListFragment.daySelected;
     private TextView moodTextView;
     private SeekBar seekbar;
 
@@ -90,9 +93,15 @@ public class RecordDetailsFragment extends Fragment {
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-//        float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood(); // TODO
-//        updateSeekBar(moodVal);
-//        updateMoodText(moodVal);
+        try {
+            float moodVal = daySelected.getAverageMood();
+            updateSeekBar(moodVal);
+            updateMoodText(moodVal);
+        } catch (NoSuchElementException e) {
+            // If there is no mood recording for that day.
+            updateSeekBar(5f);
+            moodTextView.setText("Mood (no value)");
+        }
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -121,7 +130,7 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(RecordDetailsFragmentViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(RecordDetailsFragmentViewModel.class);
         // TODO: Use the ViewModel
     }
 

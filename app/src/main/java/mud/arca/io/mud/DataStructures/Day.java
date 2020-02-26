@@ -93,4 +93,8 @@ public class Day {
         }
         return varStr;
     }
+
+    public void removeMeasurement(Measurement m) {
+        measurements.remove(m);
+    }
 }

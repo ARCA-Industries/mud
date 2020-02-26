@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -14,16 +15,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
 /**
@@ -73,7 +78,24 @@ public class DayListFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> debugRemoveAllDays())
                 .setNegativeButton(android.R.string.no, null).show());
 
+        // Set up the dropdown
+        AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_spinner_item,
+                getVariableLabels());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
         return view;
+    }
+
+
+    private List<String> getVariableLabels() {
+        List<String> ret = new ArrayList<>();
+        for (Variable v : User.getCurrentUser().getVarData()) {
+            ret.add(v.getName());
+        }
+        return ret;
     }
 
 

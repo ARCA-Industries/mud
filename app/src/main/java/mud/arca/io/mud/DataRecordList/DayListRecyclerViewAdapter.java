@@ -75,7 +75,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
             mView = view;
             mDateView = view.findViewById(R.id.dateTextView);
             mMoodView = view.findViewById(R.id.moodTextView);
-            mVariableView = view.findViewById(R.id.attributeTextView);
+            mVariableView = view.findViewById(R.id.variableTextView);
         }
 
         @Override
