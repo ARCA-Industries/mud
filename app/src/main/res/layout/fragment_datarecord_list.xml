@@ -56,9 +56,6 @@
         android:editable="false"
         app:layout_constraintBaseline_toBaselineOf="@id/dateTextView"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        android:hint="Select Variable Type"
-        android:entries="@array/variable_types"
-        android:text="Sleep"
         />
 
     <androidx.constraintlayout.widget.Guideline
