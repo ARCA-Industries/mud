@@ -149,7 +149,7 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
     }
 
     @Override
-    public void setDays(Collection<Day> days) {
+    public void setDaysAndVariable(Collection<Day> days, String varName) {
         setData(days);
     }
 

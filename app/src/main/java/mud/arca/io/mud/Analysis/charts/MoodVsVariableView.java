@@ -89,7 +89,7 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
     }
 
     @Override
-    public void setDays(Collection<Day> days) {
-        plotListOfDays(days, "Sleep");
+    public void setDaysAndVariable(Collection<Day> days, String varName) {
+        plotListOfDays(days, varName);
     }
 }

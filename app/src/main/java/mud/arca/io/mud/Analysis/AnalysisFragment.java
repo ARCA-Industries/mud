@@ -12,9 +12,7 @@ import android.widget.FrameLayout;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +24,7 @@ import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 
@@ -55,6 +54,19 @@ public class AnalysisFragment extends Fragment {
         return ret;
     }
 
+    private int plotTypeSelected = 0;
+    private int varSelected = 0;
+
+    /**
+     * Looks at the plotTypeSelected and varSelected to update the plot.
+     */
+    private void updatePlot() {
+        setChartType(
+                ChartType.values()[plotTypeSelected],
+                User.getCurrentUser().getVarData().get(varSelected).getName()
+        );
+    }
+
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,12 +82,14 @@ public class AnalysisFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setChartType(ChartType.values()[i]);
+                //setChartType(ChartType.values()[i], "Sleep");
+                plotTypeSelected = i;
+                updatePlot();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                // TODO: Implement
+                // Not implemented
             }
         });
 
@@ -86,6 +100,18 @@ public class AnalysisFragment extends Fragment {
                 DayListFragment.getVariableLabels());
         varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         varSpinner.setAdapter(varSpinnerArrayAdapter);
+        varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                varSelected = i;
+                updatePlot();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Not implemented
+            }
+        });
 
         return view;
     }
@@ -96,13 +122,12 @@ public class AnalysisFragment extends Fragment {
     }
 
 
-    private void setChartType(ChartType chartType) {
+    private void setChartType(ChartType chartType, String varName) {
         // There's definitely a nicer and safer way to do this.
         try {
             AnalysisChart analysisChart = chartType.view.getDeclaredConstructor(Context.class).newInstance(getContext());
 
-            //analysisChart.setDays(new MockUser().getDayData());
-            analysisChart.setDays(User.getCurrentUser().getDayData());
+            analysisChart.setDaysAndVariable(User.getCurrentUser().getDayData(), varName);
 
             ((FrameLayout) getView().findViewById(R.id.imageView)).removeAllViews();
             ((FrameLayout) getView().findViewById(R.id.imageView)).addView((View) analysisChart);

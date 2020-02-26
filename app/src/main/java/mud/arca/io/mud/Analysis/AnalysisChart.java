@@ -6,6 +6,6 @@ import mud.arca.io.mud.DataStructures.Day;
 
 public interface AnalysisChart {
 
-    void setDays(Collection<Day> days);
+    void setDaysAndVariable(Collection<Day> days, String varName);
 
 }
