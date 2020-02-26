@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mud.arca.io.mud.DataRecordList.DataRecordListFragment.OnListFragmentInteractionListener;
+import mud.arca.io.mud.DataRecordList.DayListFragment.OnListFragmentInteractionListener;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
@@ -90,7 +90,7 @@ public class MyDataRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyData
             mView = view;
             mDateView = view.findViewById(R.id.dateTextView);
             mMoodView = view.findViewById(R.id.moodTextView);
-            mVariableView = view.findViewById(R.id.attributeTextView);
+            mVariableView = view.findViewById(R.id.dayListVarDropdown);
         }
 
         @Override

@@ -3,6 +3,7 @@ package mud.arca.io.mud.DataRecordList;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,10 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
 /**
@@ -23,7 +29,7 @@ import mud.arca.io.mud.R;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class DataRecordListFragment extends Fragment {
+public class DayListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -35,13 +41,13 @@ public class DataRecordListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public DataRecordListFragment() {
+    public DayListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static DataRecordListFragment newInstance(int columnCount) {
-        DataRecordListFragment fragment = new DataRecordListFragment();
+    public static DayListFragment newInstance(int columnCount) {
+        DayListFragment fragment = new DayListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -71,11 +77,28 @@ public class DataRecordListFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
 
+        // Add the list items
         DayListContent dlc = new DayListContent(User.getCurrentUser());
         recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(dlc.ITEMS, mListener));
+
+        // Set up the dropdown
+        AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_spinner_item,
+                getVariableLabels());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
         return view;
     }
 
+    public List<String> getVariableLabels() {
+        List<String> ret = new ArrayList<>();
+        for (Variable v : User.getCurrentUser().getVarData()) {
+            ret.add(v.getName());
+        }
+        return ret;
+    }
 
     @Override
     public void onAttach(Context context) {
