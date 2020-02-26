@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
@@ -59,19 +60,13 @@ public class AnalysisFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.analysis_fragment, container, false);
 
-
-        // Set up spinner
+        // Set up plot type spinner
         AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
-
-//        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
-//                android.R.layout.simple_spinner_item,
-//                Arrays.stream(ChartType.values()).map(chartType -> chartType.label).collect(Collectors.toList()));
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
                 getChartTypeLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,6 +78,14 @@ public class AnalysisFragment extends Fragment {
                 // TODO: Implement
             }
         });
+
+        // Set up variable spinner
+        AppCompatSpinner varSpinner = view.findViewById(R.id.inputVariableDropdown);
+        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_spinner_item,
+                DayListFragment.getVariableLabels());
+        varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        varSpinner.setAdapter(varSpinnerArrayAdapter);
 
         return view;
     }

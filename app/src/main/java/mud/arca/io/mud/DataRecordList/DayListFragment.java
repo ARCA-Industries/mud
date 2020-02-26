@@ -92,7 +92,7 @@ public class DayListFragment extends Fragment {
         return view;
     }
 
-    public List<String> getVariableLabels() {
+    public static List<String> getVariableLabels() {
         List<String> ret = new ArrayList<>();
         for (Variable v : User.getCurrentUser().getVarData()) {
             ret.add(v.getName());
