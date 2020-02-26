@@ -3,6 +3,7 @@ package mud.arca.io.mud.DataRecordList.recorddetails;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.google.android.material.slider.Slider;
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 
+import mud.arca.io.mud.App;
 import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.DataStructures.Day;
@@ -77,6 +79,13 @@ public class RecordDetailsFragment extends Fragment {
         d.setMoodRecording(new MoodRecording(timestamp, moodVal));
     }
 
+    public void setSeekbarColor(int color) {
+        seekbar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        seekbar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    }
+
+    private boolean moodRecExists = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -100,6 +109,7 @@ public class RecordDetailsFragment extends Fragment {
             // If there is no mood recording for that day.
             updateSeekBar(5f);
             moodTextView.setText("Mood (no value)");
+            setSeekbarColor(App.getContext().getColor(R.color.gray));
         }
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -108,6 +118,11 @@ public class RecordDetailsFragment extends Fragment {
                 float moodVal = sliderToMood(progressValue);
                 updateMoodText(moodVal);
                 updateUserMood(MyDataRecordRecyclerViewAdapter.daySelected, moodVal);
+
+                if (!moodRecExists) {
+                    setSeekbarColor(App.getContext().getColor(R.color.green));
+                }
+                moodRecExists = true;
             }
 
             @Override
