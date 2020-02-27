@@ -1,17 +1,24 @@
 package mud.arca.io.mud.Analysis;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -67,6 +74,16 @@ public class AnalysisFragment extends Fragment {
         );
     }
 
+    /**
+     * Hides a spinner.
+     * @param spinner
+     */
+    private void hideSpinner(AppCompatSpinner spinner) {
+        ViewGroup.LayoutParams params = spinner.getLayoutParams();
+        params.height = 0;
+        spinner.setLayoutParams(params);
+    }
+
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,8 +130,57 @@ public class AnalysisFragment extends Fragment {
             }
         });
 
+        //hideSpinner(varSpinner);
+
+        EditText startET = (EditText) view.findViewById(R.id.inputStartEditText);
+        DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                // Set text
+                Date date = new GregorianCalendar(year, month, day).getTime();
+                startET.setText(Util.formatDateWithYear(date));
+                // Save to field
+                startDate = date;
+            }
+        };
+        setupDatePicker(view, startET, startListener);
+
+        EditText endET = (EditText) view.findViewById(R.id.inputEndEditText);
+        DatePickerDialog.OnDateSetListener endListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                // Set text
+                Date date = new GregorianCalendar(year, month, day).getTime();
+                endET.setText(Util.formatDateWithYear(date));
+                // Save to field
+                endDate = date;
+            }
+        };
+        setupDatePicker(view, endET, endListener);
+
         return view;
     }
+
+    void setupDatePicker(View view, EditText et, DatePickerDialog.OnDateSetListener listener) {
+        // Stop the keyboard from popping up
+        et.setShowSoftInputOnFocus(false);
+        et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int curDay = cldr.get(Calendar.DAY_OF_MONTH);
+                int curMonth = cldr.get(Calendar.MONTH);
+                int curYear = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
+                        curYear, curMonth, curDay);
+                picker.show();
+            }
+        });
+    }
+
+    private Date endDate;
+    private Date startDate;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
