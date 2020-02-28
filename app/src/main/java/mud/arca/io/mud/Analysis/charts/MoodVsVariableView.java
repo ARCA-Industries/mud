@@ -13,15 +13,19 @@ import com.github.mikephil.charting.data.ScatterDataSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
+import mud.arca.io.mud.Analysis.ChartWithDates;
+import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.Util;
 
-public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
+public class MoodVsVariableView extends ScatterChart
+        implements AnalysisChart, ChartWithVariable, ChartWithDates {
     public MoodVsVariableView(Context context) {
         super(context);
         init(null, 0);
@@ -39,6 +43,23 @@ public class MoodVsVariableView extends ScatterChart implements AnalysisChart {
 
     private void init(AttributeSet attrs, int defStyle) {
 
+    }
+
+    private String varName;
+
+    public void setVarName(String varName) {
+        this.varName = varName;
+    }
+
+    private Date startDate;
+    private Date endDate;
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     // Input: a list of days, variable name

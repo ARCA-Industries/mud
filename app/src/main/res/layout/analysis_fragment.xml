@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
@@ -35,16 +36,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputStartLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-
         android:layout_marginEnd="8dp"
         android:hint="Start"
         app:layout_constraintEnd_toStartOf="@+id/inputEndLayout"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/inputVariableDropdown">
+        app:layout_constraintTop_toBottomOf="@+id/inputVariableDropdown"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputStartEditText"
@@ -62,11 +62,11 @@
         android:layout_marginStart="8dp"
         android:baselineAligned="false"
         android:hint="End"
-
         app:layout_constraintBaseline_toBaselineOf="@id/inputStartLayout"
         app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/inputStartLayout">
+        app:layout_constraintStart_toEndOf="@+id/inputStartLayout"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputEndEditText"
@@ -86,7 +86,6 @@
         app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/inputStartLayout" />
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"

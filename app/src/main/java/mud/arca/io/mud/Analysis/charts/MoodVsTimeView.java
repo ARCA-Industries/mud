@@ -11,9 +11,10 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
+import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.DataStructures.Day;
 
-public class MoodVsTimeView extends BarChart implements AnalysisChart {
+public class MoodVsTimeView extends BarChart implements AnalysisChart, ChartWithDates {
     public MoodVsTimeView(Context context) {
         super(context);
         init(null, 0);
@@ -31,6 +32,17 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
 
     private void init(AttributeSet attrs, int defStyle) {
 
+    }
+
+    private Date startDate;
+    private Date endDate;
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     // Input: a list of days
