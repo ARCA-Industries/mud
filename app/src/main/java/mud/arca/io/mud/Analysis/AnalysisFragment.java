@@ -53,6 +53,11 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+    public static DateSelector endDS;
+    public static DateSelector startDS;
+    private int plotTypeSelected = 0;
+    private int varSelected = 0;
+
     public List<String> getChartTypeLabels() {
         List<String> ret = new ArrayList<>();
         for (ChartType ct : ChartType.values()) {
@@ -60,9 +65,6 @@ public class AnalysisFragment extends Fragment {
         }
         return ret;
     }
-
-    private int plotTypeSelected = 0;
-    private int varSelected = 0;
 
     /**
      * Looks at the plotTypeSelected and varSelected to update the plot.
@@ -133,54 +135,54 @@ public class AnalysisFragment extends Fragment {
         //hideSpinner(varSpinner);
 
         EditText startET = (EditText) view.findViewById(R.id.inputStartEditText);
-        DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                // Set text
-                Date date = new GregorianCalendar(year, month, day).getTime();
-                startET.setText(Util.formatDateWithYear(date));
-                // Save to field
-                startDate = date;
-            }
-        };
-        setupDatePicker(view, startET, startListener);
+        startDS = new DateSelector(view, startET);
 
         EditText endET = (EditText) view.findViewById(R.id.inputEndEditText);
-        DatePickerDialog.OnDateSetListener endListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                // Set text
-                Date date = new GregorianCalendar(year, month, day).getTime();
-                endET.setText(Util.formatDateWithYear(date));
-                // Save to field
-                endDate = date;
-            }
-        };
-        setupDatePicker(view, endET, endListener);
+        endDS = new DateSelector(view, endET);
 
         return view;
     }
 
-    void setupDatePicker(View view, EditText et, DatePickerDialog.OnDateSetListener listener) {
-        // Stop the keyboard from popping up
-        et.setShowSoftInputOnFocus(false);
-        et.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int curDay = cldr.get(Calendar.DAY_OF_MONTH);
-                int curMonth = cldr.get(Calendar.MONTH);
-                int curYear = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
-                        curYear, curMonth, curDay);
-                picker.show();
-            }
-        });
-    }
+    /**
+     * DateSelector is used to make an EditText that pops up a date picker dialog when clicked.
+     * The dateSelected field keeps track of the date the user selected in the dialog.
+     */
+    public class DateSelector {
+        public Date dateSelected;
 
-    private Date endDate;
-    private Date startDate;
+        public DateSelector(View view, EditText et) {
+            // Stop the keyboard from popping up when the EditText is clicked.
+            et.setShowSoftInputOnFocus(false);
+            // Disable blinking cursor
+            et.setCursorVisible(false);
+
+            et.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Calendar cldr = Calendar.getInstance();
+                    int curDay = cldr.get(Calendar.DAY_OF_MONTH);
+                    int curMonth = cldr.get(Calendar.MONTH);
+                    int curYear = cldr.get(Calendar.YEAR);
+
+                    DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int day) {
+                            // Set text of EditText
+                            Date date = new GregorianCalendar(year, month, day).getTime();
+                            et.setText(Util.formatDateWithYear(date));
+                            // Save to field
+                            dateSelected = date;
+                        }
+                    };
+
+                    // Initialize the DatePickerDialog with the current day selected.
+                    DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
+                            curYear, curMonth, curDay);
+                    picker.show();
+                }
+            });
+        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -17,9 +17,11 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import mud.arca.io.mud.Analysis.AnalysisFragment;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
