@@ -89,4 +89,14 @@ public class Util {
         double d = (double) f;
         return Math.round(d * 2) / 2f;
     }
+
+    /**
+     * Return true iff d1 is less than or equal to d2.
+     * @param d1
+     * @param d2
+     * @return
+     */
+    public static boolean dateLTE(Date d1, Date d2) {
+        return !d1.after(d2);
+    }
 }
