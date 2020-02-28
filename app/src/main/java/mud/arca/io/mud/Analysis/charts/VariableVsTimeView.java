@@ -22,6 +22,7 @@ import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.DayAxisVF;
 import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 
 public class VariableVsTimeView extends BarChart
@@ -124,6 +125,14 @@ public class VariableVsTimeView extends BarChart
         }
 
         plotDates(xs, ys, this);
+    }
+
+    /**
+     * Update the plot based on startDate, endDate, varName.
+     */
+    public void updateChart() {
+        ArrayList<Day> dayData = User.getCurrentUser().fetchDays(startDate, endDate);
+        plotListOfDays(dayData, varName);
     }
 
     @Override

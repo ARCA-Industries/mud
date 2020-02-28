@@ -22,6 +22,7 @@ import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 
 public class MoodVsVariableView extends ScatterChart
@@ -62,6 +63,29 @@ public class MoodVsVariableView extends ScatterChart
         this.endDate = endDate;
     }
 
+    static void plotFloatsScatter(ArrayList<Float> xs, ArrayList<Float> ys, ScatterChart scatterChart) {
+        List<Entry> scatterEntries = new ArrayList<>();
+        for (int i = 0; i < xs.size(); i++) {
+            scatterEntries.add(new BarEntry(xs.get(i), ys.get(i)));
+        }
+
+        ScatterDataSet scatterDataSet = new ScatterDataSet(scatterEntries, "");
+        ScatterData scatterData = new ScatterData(scatterDataSet);
+        scatterChart.setData(scatterData);
+        scatterDataSet.setColors(Util.MUD_GRAPH_COLORS);
+
+        scatterDataSet.setScatterShapeSize(30f);
+        scatterDataSet.setScatterShape(ScatterShape.CIRCLE);
+
+        // Disable legend, disable description
+        Legend legend = scatterChart.getLegend();
+        legend.setEnabled(false);
+        Description description = scatterChart.getDescription();
+        description.setEnabled(false);
+        // Disable the text labeling data points
+        scatterChart.setMaxVisibleValueCount(0);
+    }
+
     // Input: a list of days, variable name
     // Makes a plot with variable on X-axis, mood on Y-axis.
     void plotListOfDays(Collection<Day> dayData, String varName) {
@@ -86,27 +110,12 @@ public class MoodVsVariableView extends ScatterChart
         plotFloatsScatter(xs, ys, this);
     }
 
-    static void plotFloatsScatter(ArrayList<Float> xs, ArrayList<Float> ys, ScatterChart scatterChart) {
-        List<Entry> scatterEntries = new ArrayList<>();
-        for (int i = 0; i < xs.size(); i++) {
-            scatterEntries.add(new BarEntry(xs.get(i), ys.get(i)));
-        }
-
-        ScatterDataSet scatterDataSet = new ScatterDataSet(scatterEntries, "");
-        ScatterData scatterData = new ScatterData(scatterDataSet);
-        scatterChart.setData(scatterData);
-        scatterDataSet.setColors(Util.MUD_GRAPH_COLORS);
-
-        scatterDataSet.setScatterShapeSize(30f);
-        scatterDataSet.setScatterShape(ScatterShape.CIRCLE);
-
-        // Disable legend, disable description
-        Legend legend = scatterChart.getLegend();
-        legend.setEnabled(false);
-        Description description = scatterChart.getDescription();
-        description.setEnabled(false);
-        // Disable the text labeling data points
-        scatterChart.setMaxVisibleValueCount(0);
+    /**
+     * Update the plot based on startDate, endDate, varName.
+     */
+    public void updateChart() {
+        ArrayList<Day> dayData = User.getCurrentUser().fetchDays(startDate, endDate);
+        plotListOfDays(dayData, varName);
     }
 
     @Override

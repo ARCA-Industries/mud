@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
 
 public class MoodVsTimeView extends BarChart implements AnalysisChart, ChartWithDates {
     public MoodVsTimeView(Context context) {
@@ -47,7 +48,7 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart, ChartWith
 
     // Input: a list of days
     // Plots the mood over those days.
-    void plotListOfDays(Collection<Day> dayData, String varName) {
+    void plotListOfDays(Collection<Day> dayData) {
         ArrayList<Date> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();
 
@@ -65,8 +66,16 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart, ChartWith
         VariableVsTimeView.plotDates(xs, ys, this);
     }
 
+    /**
+     * Update the plot based on startDate, endDate
+     */
+    public void updateChart() {
+        ArrayList<Day> dayData = User.getCurrentUser().fetchDays(startDate, endDate);
+        plotListOfDays(dayData);
+    }
+
     @Override
     public void setDaysAndVariable(Collection<Day> days, String varName) {
-        plotListOfDays(days, varName);
+        plotListOfDays(days);
     }
 }

@@ -38,7 +38,7 @@ import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
-        YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
+        //YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
         MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),

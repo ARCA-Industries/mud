@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 
 /**
@@ -153,6 +154,9 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
         setData(days);
     }
 
+    public void updateChart() {
+        // TODO: implement
+    }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
