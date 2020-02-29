@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +29,10 @@ import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataRecordList.DayListFragment;
+import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 
 public class AnalysisFragment extends Fragment {
 
@@ -135,22 +134,32 @@ public class AnalysisFragment extends Fragment {
         //hideSpinner(varSpinner);
 
         EditText startET = (EditText) view.findViewById(R.id.inputStartEditText);
-        startDS = new DateSelector(view, startET);
+        startDS = new DateSelector(view, startET, true);
 
         EditText endET = (EditText) view.findViewById(R.id.inputEndEditText);
-        endDS = new DateSelector(view, endET);
+        endDS = new DateSelector(view, endET, false);
 
         return view;
     }
 
     /**
      * DateSelector is used to make an EditText that pops up a date picker dialog when clicked.
-     * The dateSelected field keeps track of the date the user selected in the dialog.
+     * The date field keeps track of the date the user selected in the dialog.
      */
     public class DateSelector {
-        public Date dateSelected;
+        public Date date;
+        public EditText et;
 
-        public DateSelector(View view, EditText et) {
+        public void setDate(Date dateSelected) {
+            // Set text of EditText
+            et.setText(Util.formatDateWithYear(dateSelected));
+            // Save to field
+            date = dateSelected;
+        }
+
+        public DateSelector(View view, EditText et, boolean isStartDS) {
+            this.et = et;
+
             // Stop the keyboard from popping up when the EditText is clicked.
             et.setShowSoftInputOnFocus(false);
             // Disable blinking cursor
@@ -167,11 +176,10 @@ public class AnalysisFragment extends Fragment {
                     DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int day) {
-                            // Set text of EditText
-                            Date date = new GregorianCalendar(year, month, day).getTime();
-                            et.setText(Util.formatDateWithYear(date));
-                            // Save to field
-                            dateSelected = date;
+                            Date dateSelected = new GregorianCalendar(year, month, day).getTime();
+
+                            setDate(dateSelected);
+                            updatePlot();
                         }
                     };
 
@@ -181,6 +189,16 @@ public class AnalysisFragment extends Fragment {
                     picker.show();
                 }
             });
+
+            // Initialize the date field
+            ArrayList<Day> dayData = User.getCurrentUser().getDayData();
+            Date mostRecentDate = dayData.get(dayData.size() - 1).getDate();
+            //Util.debug(Util.formatDateWithYear(mostRecentDate));
+            if (isStartDS) {
+                setDate(Util.intToDate(mostRecentDate , -30));
+            } else {
+                setDate(mostRecentDate);
+            }
         }
     }
 
@@ -195,7 +213,19 @@ public class AnalysisFragment extends Fragment {
         try {
             AnalysisChart analysisChart = chartType.view.getDeclaredConstructor(Context.class).newInstance(getContext());
 
-            analysisChart.setDaysAndVariable(User.getCurrentUser().getDayData(), varName);
+            if (ChartWithDates.class.isAssignableFrom(chartType.view)) {
+                ChartWithDates cwd = (ChartWithDates) analysisChart;
+                cwd.setStartDate(startDS.date);
+                cwd.setEndDate(endDS.date);
+            }
+
+            if (ChartWithVariable.class.isAssignableFrom(chartType.view)) {
+                ChartWithVariable cwv = (ChartWithVariable) analysisChart;
+                cwv.setVarName(varName);
+            }
+
+            //analysisChart.setDaysAndVariable(User.getCurrentUser().getDayData(), varName);
+            analysisChart.updateChart();
 
             ((FrameLayout) getView().findViewById(R.id.imageView)).removeAllViews();
             ((FrameLayout) getView().findViewById(R.id.imageView)).addView((View) analysisChart);

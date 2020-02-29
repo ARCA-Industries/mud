@@ -132,6 +132,7 @@ public class VariableVsTimeView extends BarChart
      */
     public void updateChart() {
         ArrayList<Day> dayData = User.getCurrentUser().fetchDays(startDate, endDate);
+        //Util.debug(String.valueOf(dayData.size()));
         plotListOfDays(dayData, varName);
     }
 
