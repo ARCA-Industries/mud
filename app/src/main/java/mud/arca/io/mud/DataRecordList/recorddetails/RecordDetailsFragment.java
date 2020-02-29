@@ -151,7 +151,6 @@ public class RecordDetailsFragment extends Fragment {
             }
         });
 
-        //recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent.ITEMS));
         recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent2.getItems(day)));
 
         // Exit activity with result when user saves
