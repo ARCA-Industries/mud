@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import mud.arca.io.mud.App;
@@ -101,5 +102,13 @@ public class Util {
      */
     public static boolean dateLTE(Date d1, Date d2) {
         return !d1.after(d2);
+    }
+
+    public static List<String> getVariableLabels() {
+        List<String> ret = new ArrayList<>();
+        for (Variable v : User.getCurrentUser().getVarData()) {
+            ret.add(v.getName());
+        }
+        return ret;
     }
 }

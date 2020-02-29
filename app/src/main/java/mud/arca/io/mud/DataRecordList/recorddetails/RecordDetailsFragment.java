@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.App;
-import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
 import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MoodRecording;

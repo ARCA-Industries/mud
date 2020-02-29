@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import mud.arca.io.mud.Analysis.AnalysisFragment;
-import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
-import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -89,22 +86,12 @@ public class DayListFragment extends Fragment {
         AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
-                getVariableLabels());
+                Util.getVariableLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
         return view;
     }
-
-
-    private List<String> getVariableLabels() {
-        List<String> ret = new ArrayList<>();
-        for (Variable v : User.getCurrentUser().getVarData()) {
-            ret.add(v.getName());
-        }
-        return ret;
-    }
-
 
     private void setUpAdapter() {
         FirestoreRecyclerOptions<Day> options = new FirestoreRecyclerOptions.Builder<Day>()

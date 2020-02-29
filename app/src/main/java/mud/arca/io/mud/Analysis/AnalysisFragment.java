@@ -104,7 +104,7 @@ public class AnalysisFragment extends Fragment {
         AppCompatSpinner varSpinner = view.findViewById(R.id.inputVariableDropdown);
         ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
-                DayListFragment.getVariableLabels());
+                Util.getVariableLabels());
         varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         varSpinner.setAdapter(varSpinnerArrayAdapter);
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
