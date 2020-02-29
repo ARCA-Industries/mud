@@ -52,8 +52,8 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
-    public static DateSelector endDS;
-    public static DateSelector startDS;
+    public DateSelector endDS;
+    public DateSelector startDS;
     private int varSelected = 0;
     private ChartType chartTypeSelected = ChartType.VARIABLE_VS_TIME_CHART;
 
@@ -122,18 +122,18 @@ public class AnalysisFragment extends Fragment {
 
         //hideSpinner(varSpinner);
 
-        EditText startET = (EditText) view.findViewById(R.id.inputStartEditText);
+        // Initialize DateSelectors
+        EditText startET = view.findViewById(R.id.inputStartEditText);
         startDS = new DateSelector(view, startET, true);
-
-        EditText endET = (EditText) view.findViewById(R.id.inputEndEditText);
+        EditText endET = view.findViewById(R.id.inputEndEditText);
         endDS = new DateSelector(view, endET, false);
 
         return view;
     }
 
     /**
-     * DateSelector is used to make an EditText that pops up a date picker dialog when clicked.
-     * The date field keeps track of the date the user selects in the dialog.
+     * DateSelector is used to initialize an EditText, so that it pops up a date picker dialog
+     * when clicked. The date field keeps track of the date the user selects in the dialog.
      */
     public class DateSelector {
         public Date date;
@@ -184,7 +184,6 @@ public class AnalysisFragment extends Fragment {
             // Initialize start date to 30 days before end date.
             ArrayList<Day> dayData = User.getCurrentUser().getDayData();
             Date mostRecentDate = dayData.get(dayData.size() - 1).getDate();
-            //Util.debug(Util.formatDateWithYear(mostRecentDate));
             if (isStartDS) {
                 setDate(Util.intToDate(mostRecentDate , -30));
             } else {

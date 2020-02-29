@@ -17,8 +17,6 @@ public class VariableListContent2 {
      */
     public static List<VariableListContent.VariableListItem> ITEMS = new ArrayList<>();
 
-    private static final int COUNT = 25;
-
     public static void loadItems(Day d) {
         ITEMS.clear();
         Collection<Measurement> measurements = d.getMeasurements();
