@@ -13,7 +13,7 @@ import java.util.Random;
  * If you'd like, specify a seed with new MockUser(seed)
  */
 public class MockUser extends User {
-    private final static int NUM_DAYS = 30;
+    private final static int NUM_DAYS = 300;
     private final static int NUM_MOODRECORDINGS = 1;
 
     // Probability that any given day exists

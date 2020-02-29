@@ -15,9 +15,7 @@ public class VariableListContent2 {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<VariableListContent.VariableListItem> ITEMS = new ArrayList<>();
-
-    private static final int COUNT = 25;
+    public static List<VariableListItem> ITEMS = new ArrayList<>();
 
     public static void loadItems(Day d) {
         ITEMS.clear();
@@ -37,14 +35,39 @@ public class VariableListContent2 {
                 // do nothing
             }
 
-            VariableListContent.VariableListItem item =
-                    new VariableListContent.VariableListItem(varStr, valueStr, m, v, d);
+            VariableListItem item =
+                    new VariableListItem(varStr, valueStr, m, v, d);
             ITEMS.add(item);
         }
     }
 
-    public static List<VariableListContent.VariableListItem> getItems(Day d) {
+    public static List<VariableListItem> getItems(Day d) {
         loadItems(d);
         return ITEMS;
+    }
+
+    /**
+     * A dummy item representing a piece of type.
+     */
+    public static class VariableListItem {
+        public final String type;
+        public final String value;
+        public Measurement measurement;
+        public Variable variable;
+        public Day day;
+
+        public VariableListItem(String type, String value, Measurement measurement,
+                                Variable variable, Day day) {
+            this.type = type;
+            this.value = value;
+            this.measurement = measurement;
+            this.variable = variable;
+            this.day = day;
+        }
+
+        @Override
+        public String toString() {
+            return type;
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import mud.arca.io.mud.App;
@@ -91,5 +92,23 @@ public class Util {
     public static float roundToHalf(float f) {
         double d = (double) f;
         return Math.round(d * 2) / 2f;
+    }
+
+    /**
+     * Return true iff d1 is less than or equal to d2.
+     * @param d1
+     * @param d2
+     * @return
+     */
+    public static boolean dateLTE(Date d1, Date d2) {
+        return !d1.after(d2);
+    }
+
+    public static List<String> getVariableLabels() {
+        List<String> ret = new ArrayList<>();
+        for (Variable v : User.getCurrentUser().getVarData()) {
+            ret.add(v.getName());
+        }
+        return ret;
     }
 }

@@ -30,6 +30,7 @@ import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
@@ -85,22 +86,12 @@ public class DayListFragment extends Fragment {
         AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
-                getVariableLabels());
+                Util.getVariableLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
         return view;
     }
-
-
-    private List<String> getVariableLabels() {
-        List<String> ret = new ArrayList<>();
-        for (Variable v : User.getCurrentUser().getVarData()) {
-            ret.add(v.getName());
-        }
-        return ret;
-    }
-
 
     private void setUpAdapter() {
         FirestoreRecyclerOptions<Day> options = new FirestoreRecyclerOptions.Builder<Day>()

@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
-import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent.VariableListItem;
+
+
+import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2.VariableListItem;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;

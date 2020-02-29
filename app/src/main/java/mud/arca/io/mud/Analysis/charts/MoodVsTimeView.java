@@ -11,9 +11,11 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 
 import mud.arca.io.mud.Analysis.AnalysisChart;
+import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
 
-public class MoodVsTimeView extends BarChart implements AnalysisChart {
+public class MoodVsTimeView extends BarChart implements AnalysisChart, ChartWithDates {
     public MoodVsTimeView(Context context) {
         super(context);
         init(null, 0);
@@ -33,9 +35,20 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
 
     }
 
+    private Date startDate;
+    private Date endDate;
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     // Input: a list of days
     // Plots the mood over those days.
-    void plotListOfDays(Collection<Day> dayData, String varName) {
+    void plotListOfDays(Collection<Day> dayData) {
         ArrayList<Date> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();
 
@@ -53,8 +66,16 @@ public class MoodVsTimeView extends BarChart implements AnalysisChart {
         VariableVsTimeView.plotDates(xs, ys, this);
     }
 
+    /**
+     * Update the plot based on startDate, endDate
+     */
+    public void updateChart() {
+        ArrayList<Day> dayData = User.getCurrentUser().fetchDays(startDate, endDate);
+        plotListOfDays(dayData);
+    }
+
     @Override
-    public void setDays(Collection<Day> days) {
-        plotListOfDays(days, "Sleep");
+    public void setDaysAndVariable(Collection<Day> days, String varName) {
+        plotListOfDays(days);
     }
 }

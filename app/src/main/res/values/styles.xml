@@ -31,4 +31,8 @@
     <style name ="LoginScreenAuthUI" parent="AppTheme">
         <!-- TODO: Get banner logo to be visible on both light and dark themes -->
     </style>
+
+    <style name="MudSeekBarTheme" parent="Widget.AppCompat.SeekBar" >
+        <item name="colorAccent">@color/green</item>
+    </style>
 </resources>
