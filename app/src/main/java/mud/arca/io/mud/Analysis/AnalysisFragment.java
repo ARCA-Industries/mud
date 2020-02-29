@@ -151,7 +151,7 @@ public class AnalysisFragment extends Fragment {
             date = dateSelected;
         }
 
-        public DateSelector(View view, EditText et, boolean isStartDS) {
+        public DateSelector(View view, EditText et, boolean isStartDate) {
             this.et = et;
 
             // Stop the keyboard from popping up when the EditText is clicked.
@@ -189,7 +189,7 @@ public class AnalysisFragment extends Fragment {
             // Initialize start date to 30 days before end date.
             ArrayList<Day> dayData = User.getCurrentUser().getDayData();
             Date mostRecentDate = dayData.get(dayData.size() - 1).getDate();
-            if (isStartDS) {
+            if (isStartDate) {
                 setDate(Util.intToDate(mostRecentDate , -30));
             } else {
                 setDate(mostRecentDate);
