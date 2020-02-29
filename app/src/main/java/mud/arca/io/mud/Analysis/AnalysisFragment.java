@@ -202,6 +202,7 @@ public class AnalysisFragment extends Fragment {
      * Looks at the chartTypeSelected and varSelected to update the plot.
      */
     private void updatePlot() {
+        Util.debug("updatePlot called");
         String varName = User.getCurrentUser().getVarData().get(varSelected).getName();
 
         // There's definitely a nicer and safer way to do this.
