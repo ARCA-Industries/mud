@@ -168,11 +168,6 @@ public class AnalysisFragment extends Fragment {
             et.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Calendar cldr = Calendar.getInstance();
-                    int curDay = cldr.get(Calendar.DAY_OF_MONTH);
-                    int curMonth = cldr.get(Calendar.MONTH);
-                    int curYear = cldr.get(Calendar.YEAR);
-
                     DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -183,9 +178,15 @@ public class AnalysisFragment extends Fragment {
                         }
                     };
 
-                    // Initialize the DatePickerDialog with the current day selected.
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    int oldDay = cal.get(Calendar.DAY_OF_MONTH);
+                    int oldMonth = cal.get(Calendar.MONTH);
+                    int oldYear = cal.get(Calendar.YEAR);
+
+                    // Initialize the DatePickerDialog with the old day selected.
                     DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
-                            curYear, curMonth, curDay);
+                            oldYear, oldMonth, oldDay);
                     picker.show();
                 }
             });
