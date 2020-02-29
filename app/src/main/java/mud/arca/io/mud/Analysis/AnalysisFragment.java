@@ -54,8 +54,8 @@ public class AnalysisFragment extends Fragment {
 
     public static DateSelector endDS;
     public static DateSelector startDS;
-    private int plotTypeSelected = 0;
     private int varSelected = 0;
+    private ChartType chartTypeSelected = ChartType.VARIABLE_VS_TIME_CHART;
 
     public List<String> getChartTypeLabels() {
         List<String> ret = new ArrayList<>();
@@ -63,16 +63,6 @@ public class AnalysisFragment extends Fragment {
             ret.add(ct.label);
         }
         return ret;
-    }
-
-    /**
-     * Looks at the plotTypeSelected and varSelected to update the plot.
-     */
-    private void updatePlot() {
-        setChartType(
-                ChartType.values()[plotTypeSelected],
-                User.getCurrentUser().getVarData().get(varSelected).getName()
-        );
     }
 
     /**
@@ -100,8 +90,7 @@ public class AnalysisFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //setChartType(ChartType.values()[i], "Sleep");
-                plotTypeSelected = i;
+                chartTypeSelected = ChartType.values()[i];
                 updatePlot();
             }
 
@@ -209,18 +198,23 @@ public class AnalysisFragment extends Fragment {
     }
 
 
-    private void setChartType(ChartType chartType, String varName) {
+    /**
+     * Looks at the chartTypeSelected and varSelected to update the plot.
+     */
+    private void updatePlot() {
+        String varName = User.getCurrentUser().getVarData().get(varSelected).getName();
+
         // There's definitely a nicer and safer way to do this.
         try {
-            AnalysisChart analysisChart = chartType.view.getDeclaredConstructor(Context.class).newInstance(getContext());
+            AnalysisChart analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
 
-            if (ChartWithDates.class.isAssignableFrom(chartType.view)) {
+            if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
                 ChartWithDates cwd = (ChartWithDates) analysisChart;
                 cwd.setStartDate(startDS.date);
                 cwd.setEndDate(endDS.date);
             }
 
-            if (ChartWithVariable.class.isAssignableFrom(chartType.view)) {
+            if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
                 ChartWithVariable cwv = (ChartWithVariable) analysisChart;
                 cwv.setVarName(varName);
             }
@@ -234,5 +228,4 @@ public class AnalysisFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
 }
