@@ -133,7 +133,7 @@ public class AnalysisFragment extends Fragment {
 
     /**
      * DateSelector is used to make an EditText that pops up a date picker dialog when clicked.
-     * The date field keeps track of the date the user selected in the dialog.
+     * The date field keeps track of the date the user selects in the dialog.
      */
     public class DateSelector {
         public Date date;
@@ -180,7 +180,8 @@ public class AnalysisFragment extends Fragment {
                 }
             });
 
-            // Initialize the date field
+            // Initialize end date to most recent Date in current user.
+            // Initialize start date to 30 days before end date.
             ArrayList<Day> dayData = User.getCurrentUser().getDayData();
             Date mostRecentDate = dayData.get(dayData.size() - 1).getDate();
             //Util.debug(Util.formatDateWithYear(mostRecentDate));
@@ -196,7 +197,6 @@ public class AnalysisFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
 
     /**
      * Looks at the chartTypeSelected and varSelected to update the plot.
@@ -222,8 +222,9 @@ public class AnalysisFragment extends Fragment {
             //analysisChart.setDaysAndVariable(User.getCurrentUser().getDayData(), varName);
             analysisChart.updateChart();
 
-            ((FrameLayout) getView().findViewById(R.id.imageView)).removeAllViews();
-            ((FrameLayout) getView().findViewById(R.id.imageView)).addView((View) analysisChart);
+            FrameLayout imageView = getView().findViewById(R.id.imageView);
+            imageView.removeAllViews();
+            imageView.addView((View) analysisChart);
         } catch (IllegalAccessException | java.lang.InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
