@@ -34,7 +34,7 @@
         tools:text="@tools:sample/lorem" />
 
     <TextView
-        android:id="@+id/dayListVarDropdown"
+        android:id="@+id/variableTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"

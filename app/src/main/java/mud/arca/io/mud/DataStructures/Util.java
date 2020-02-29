@@ -75,6 +75,9 @@ public class Util {
     }
 
     public static String formatDate(Date d) {
+        if (d == null) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
         return sdf.format(d);
     }

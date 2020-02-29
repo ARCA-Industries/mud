@@ -1,13 +1,15 @@
 package mud.arca.io.mud.DataRecordList.recorddetails;
 
-import androidx.lifecycle.ViewModelProviders;
-
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.slider.Slider;
 
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
@@ -32,18 +32,23 @@ import mud.arca.io.mud.R;
 
 public class RecordDetailsFragment extends Fragment {
 
-    private RecordDetailsFragmentViewModel mViewModel;
     private TextView moodTextView;
     private SeekBar seekbar;
 
-    public static RecordDetailsFragment newInstance() {
-        return new RecordDetailsFragment();
+    public static RecordDetailsFragment newInstance(Day day) {
+        RecordDetailsFragment fragment = new RecordDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(RecordDetailsActivity.EXTRA_DAY, day);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     /**
      * Convert slider value to mood value.
      * Slider value: int in range [0, 100]
      * Mood value: float in range [0, 10.0]
+     *
      * @param val
      * @return
      */
@@ -90,6 +95,17 @@ public class RecordDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        // Load Day from arguments
+        Day day;
+        try {
+            day = (Day) getArguments().getSerializable(RecordDetailsActivity.EXTRA_DAY);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Must start this fragment with a Day! Use newInstance.");
+        }
+
+        String title = Util.formatDateWithYear(day.getDate());
+        getActivity().setTitle(title);
+
         View view = inflater.inflate(R.layout.record_details_fragment, container, false);
 
         // Initialize fields
@@ -102,7 +118,7 @@ public class RecordDetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         try {
-            float moodVal = MyDataRecordRecyclerViewAdapter.daySelected.getAverageMood();
+            float moodVal = day.getAverageMood();
             updateSeekBar(moodVal);
             updateMoodText(moodVal);
         } catch (NoSuchElementException e) {
@@ -117,7 +133,7 @@ public class RecordDetailsFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 float moodVal = sliderToMood(progressValue);
                 updateMoodText(moodVal);
-                updateUserMood(MyDataRecordRecyclerViewAdapter.daySelected, moodVal);
+                updateUserMood(day, moodVal);
 
                 if (!moodRecExists) {
                     setSeekbarColor(App.getContext().getColor(R.color.green));
@@ -137,15 +153,17 @@ public class RecordDetailsFragment extends Fragment {
         });
 
         //recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent.ITEMS));
-        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent2.getItems()));
-        return view;
-    }
+        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent2.getItems(day)));
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(RecordDetailsFragmentViewModel.class);
-        // TODO: Use the ViewModel
+        // Exit activity with result when user saves
+        view.findViewById(R.id.recordDetailsSaveButton).setOnClickListener(button -> {
+            Intent data = getActivity().getIntent();
+            data.putExtra(RecordDetailsActivity.EXTRA_DAY, day);
+            getActivity().setResult(Activity.RESULT_OK, data);
+            getActivity().finish();
+        });
+
+        return view;
     }
 
 }

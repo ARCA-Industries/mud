@@ -1,11 +1,17 @@
 package mud.arca.io.mud.DataStructures;
 
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public class Measurement {
+public class Measurement implements Serializable {
     private float value;
     private Variable variable;
+
+    public Measurement() {
+    }
 
     public Measurement(float value, Variable variable) {
         this.value = value;
@@ -50,8 +56,9 @@ public class Measurement {
      *      If VarType=INT, return "2"
      * @return
      */
+    @Exclude
     public String getFormattedValue() {
-        VarType vt = variable.getVarType();
+        VarType vt = variable.getVartype();
         if (vt == VarType.FLOAT) {
             return String.format("%.3f", value);
         } else if (vt == VarType.INT) {

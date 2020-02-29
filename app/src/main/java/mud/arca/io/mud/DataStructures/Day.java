@@ -1,38 +1,37 @@
 package mud.arca.io.mud.DataStructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.Exclude;
 
-public class Day {
+@IgnoreExtraProperties
+public class Day implements Serializable {
     private Date date;
     private MoodRecording moodRecording;
-    private Collection<Measurement> measurements;
+    private List<Measurement> measurements;
+
+    public Day() {
+        this.measurements = new ArrayList<>();
+    }
 
     public Day(Date date) {
         this.date = date;
         this.measurements = new ArrayList<>();
     }
 
-    public Day(Date date, MoodRecording moodRecording, Collection<Measurement> measurements) {
+    public Day(Date date, MoodRecording moodRecording, List<Measurement> measurements) {
         this.date = date;
         this.moodRecording = moodRecording;
         this.measurements = measurements;
     }
 
+    @Exclude
     public float getAverageMood() {
-//        if (moodRecordings.isEmpty()) {
-//            //return -1;
-//            throw new NoSuchElementException("No mood recordings for that day");
-//        }
-//
-//        double average = 0;
-//        for (MoodRecording recording : moodRecordings) {
-//            average += recording.getValue();
-//        }
-//        average /= moodRecordings.size();
-
         if (moodRecording == null) {
             throw new NoSuchElementException("No mood recordings for that day");
         }
@@ -59,7 +58,7 @@ public class Day {
         return measurements;
     }
 
-    public void setMeasurements(Collection<Measurement> measurements) {
+    public void setMeasurements(List<Measurement> measurements) {
         this.measurements = measurements;
     }
 
@@ -67,6 +66,7 @@ public class Day {
      * Return the average mood formatted as a String, or "-" if there are no mood recordings.
      * @return
      */
+    @Exclude
     public String getMoodString() {
         String moodStr = "-";
         try {
@@ -83,6 +83,7 @@ public class Day {
      * are no measurements.
      * @return
      */
+    @Exclude
     public String getVarString(String varName) {
         String varStr = "-";
         try {

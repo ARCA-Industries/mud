@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import mud.arca.io.mud.DataRecordList.MyDataRecordRecyclerViewAdapter;
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
@@ -19,9 +19,8 @@ public class VariableListContent2 {
 
     private static final int COUNT = 25;
 
-    public static void loadItems() {
+    public static void loadItems(Day d) {
         ITEMS.clear();
-        Day d = MyDataRecordRecyclerViewAdapter.daySelected;
         Collection<Measurement> measurements = d.getMeasurements();
         for (Variable v : User.getCurrentUser().getVarData()) {
             String varStr = String.format("%s (%s)", v.getName(), v.getUnit());
@@ -44,8 +43,8 @@ public class VariableListContent2 {
         }
     }
 
-    public static List<VariableListContent.VariableListItem> getItems() {
-        loadItems();
+    public static List<VariableListContent.VariableListItem> getItems(Day d) {
+        loadItems(d);
         return ITEMS;
     }
 }

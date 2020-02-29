@@ -1,43 +1,53 @@
 package mud.arca.io.mud.DataRecordList;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import mud.arca.io.mud.Analysis.AnalysisFragment;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent;
 import mud.arca.io.mud.DataRecordList.dummy.DayListContent.DayListItem;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * A fragment containing the Day list (Dashboard).
  */
 public class DayListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private final static int RC_EDIT_DAY_DETAILS = 1001;
+
+    private final static String EXTRA_REFERENCE_ID = "reference_id";
+
+    private CollectionReference mItemsCollection;
+    private FirestoreRecyclerAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,23 +56,9 @@ public class DayListFragment extends Fragment {
     public DayListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static DayListFragment newInstance(int columnCount) {
-        DayListFragment fragment = new DayListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -70,18 +66,24 @@ public class DayListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_datarecord_list, container, false);
 
-        // Set the adapter
-        RecyclerView recyclerView = view.findViewById(R.id.list);
-        Context context = view.getContext();
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/days");
+        setUpAdapter();
 
-        // Add the list items
-        DayListContent dlc = new DayListContent(User.getCurrentUser());
-        recyclerView.setAdapter(new MyDataRecordRecyclerViewAdapter(dlc.ITEMS, mListener));
+        // Make the RecyclerView use the adapter
+        RecyclerView recyclerView = view.findViewById(R.id.list);
+        recyclerView.setAdapter(adapter);
+
+        // TODO: Temporarily add/delete days for debug
+        User user = new MockUser();
+        view.findViewById(R.id.dateTextView).setOnClickListener(v -> debugAddDay(
+                user.getDayData().get(new Random().nextInt(user.getDayData().size()))
+        ));
+        view.findViewById(R.id.moodTextView).setOnClickListener(v -> new AlertDialog.Builder(view.getContext())
+                .setTitle("Delete all?")
+                .setMessage("Do you really want to delete all day records?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> debugRemoveAllDays())
+                .setNegativeButton(android.R.string.no, null).show());
 
         // Set up the dropdown
         AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
@@ -94,7 +96,8 @@ public class DayListFragment extends Fragment {
         return view;
     }
 
-    public static List<String> getVariableLabels() {
+
+    private List<String> getVariableLabels() {
         List<String> ret = new ArrayList<>();
         for (Variable v : User.getCurrentUser().getVarData()) {
             ret.add(v.getName());
@@ -102,35 +105,70 @@ public class DayListFragment extends Fragment {
         return ret;
     }
 
+
+    private void setUpAdapter() {
+        FirestoreRecyclerOptions<Day> options = new FirestoreRecyclerOptions.Builder<Day>()
+                .setQuery(
+                        mItemsCollection.orderBy("date", Query.Direction.DESCENDING),
+                        Day.class
+                ).build();
+
+
+
+        adapter = new DayListRecyclerViewAdapter(options, (day, reference) -> {
+            Intent i = RecordDetailsActivity.getLaunchIntentForDay(getContext(), day);
+            // Pass the reference so that I know which document to update in the db.
+            // This relies on the fragment passing back the same intent...
+            i.putExtra(EXTRA_REFERENCE_ID, reference.getId());
+            startActivityForResult(i, RC_EDIT_DAY_DETAILS);
+
+        }) ;
+
+    }
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RC_EDIT_DAY_DETAILS:
+                if (resultCode == Activity.RESULT_OK) {
+                    // Save this day to the database
+                    mItemsCollection.document(data.getStringExtra(EXTRA_REFERENCE_ID)).set(
+                            data.getSerializableExtra(RecordDetailsActivity.EXTRA_DAY)
+                    );
+                }
+                break;
         }
+
+    }
+
+    // TODO: Use this instead: https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md#automatic-listening
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DayListItem item);
+
+    // TODO: Remove debug method
+    private void debugAddDay(@NonNull Day chat) {
+        mItemsCollection.add(chat);
     }
+
+    // TODO: Remove debug method
+    private void debugRemoveAllDays() {
+        mItemsCollection.get().addOnCompleteListener(task -> {
+            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                document.getReference().delete();
+            }
+        });
+    }
+
 }

@@ -1,15 +1,20 @@
 package mud.arca.io.mud.DataStructures;
 
+import java.io.Serializable;
+
 enum VarType
 {
     INT, FLOAT, BOOL
 }
 
-public class Variable {
+public class Variable implements Serializable {
     private String name;
     private String unit;
     private VarType vartype;
     private float vardata;
+
+    public Variable() {
+    }
 
     public Variable(String name, String unit, VarType vartype) {
         this.name = name;
@@ -54,12 +59,12 @@ public class Variable {
         this.name = name;
     }
 
-    public VarType getVarType() {
+    public VarType getVartype() {
         return vartype;
     }
 
     public String varTypeToString() {
-        return getVarType().toString();
+        return getVartype().toString();
     }
 
     public void setVartype(VarType vartype) {
