@@ -3,6 +3,8 @@ package mud.arca.io.mud.DataStructures;
 import java.util.ArrayList;
 import java.util.Date;
 
+import mud.arca.io.mud.database.DatabaseHelper;
+
 public class User {
     private String name;
     private ArrayList<Day> dayData;
@@ -12,7 +14,7 @@ public class User {
 
     public static User getCurrentUser() {
         if (currentUser == null) {
-            currentUser = new MockUser();
+            currentUser = new User(null);
         }
         return currentUser;
     }
@@ -70,4 +72,19 @@ public class User {
     public void setVarData(ArrayList<Variable> varData) {
         this.varData = varData;
     }
+
+
+    public interface UserUpdateListener {
+        void onUserUpdate(User user);
+    }
+
+    public void updateUserData(UserUpdateListener listener) {
+        DatabaseHelper.loadDayData(days -> {
+            dayData = new ArrayList<>(days);
+            varData = new MockUser().getVarData(); // TODO: Wait for both day and variable data
+            listener.onUserUpdate(this);
+        });
+    }
+
+
 }

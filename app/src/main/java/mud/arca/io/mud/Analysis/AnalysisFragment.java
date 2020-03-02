@@ -28,7 +28,6 @@ import androidx.fragment.app.Fragment;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
-import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
@@ -80,9 +79,17 @@ public class AnalysisFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.analysis_fragment, container, false);
 
+        User.getCurrentUser().updateUserData(user -> {
+            refreshView();
+        });
+
+        return view;
+    }
+
+    private void refreshView() {
         // Set up plot type spinner
-        AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+        AppCompatSpinner spinner = getView().findViewById(R.id.inputPlotTypeDropdown);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_item,
                 getChartTypeLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,8 +108,8 @@ public class AnalysisFragment extends Fragment {
         });
 
         // Set up variable spinner
-        AppCompatSpinner varSpinner = view.findViewById(R.id.inputVariableDropdown);
-        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+        AppCompatSpinner varSpinner = getView().findViewById(R.id.inputVariableDropdown);
+        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_item,
                 Util.getVariableLabels());
         varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,12 +130,10 @@ public class AnalysisFragment extends Fragment {
         //hideSpinner(varSpinner);
 
         // Initialize DateSelectors
-        EditText startET = view.findViewById(R.id.inputStartEditText);
-        startDS = new DateSelector(view, startET, true);
-        EditText endET = view.findViewById(R.id.inputEndEditText);
-        endDS = new DateSelector(view, endET, false);
-
-        return view;
+        EditText startET = getView().findViewById(R.id.inputStartEditText);
+        startDS = new DateSelector(getView(), startET, true);
+        EditText endET = getView().findViewById(R.id.inputEndEditText);
+        endDS = new DateSelector(getView(), endET, false);
     }
 
     /**
@@ -202,6 +207,12 @@ public class AnalysisFragment extends Fragment {
      */
     private void updatePlot() {
         Util.debug("updatePlot called");
+
+        if (User.getCurrentUser().getVarData().isEmpty()) {
+            Util.debug("User var data is empty, skipping updatePlot");
+            return;
+        }
+
         String varName = User.getCurrentUser().getVarData().get(varSelected).getName();
 
         // There's definitely a nicer and safer way to do this.
