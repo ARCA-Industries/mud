@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -25,10 +27,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
+import mud.arca.io.mud.Analysis.charts.YearSummaryView;
+import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
@@ -36,10 +43,10 @@ import mud.arca.io.mud.R;
 public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
-        //YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
         MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
+        YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         ;
 
         Class<? extends AnalysisChart> view;
@@ -76,6 +83,10 @@ public class AnalysisFragment extends Fragment {
      */
     Date endDate;
 
+    AppCompatSpinner varSpinner;
+    TextInputLayout inputStartLayout;
+    TextInputLayout inputEndLayout;
+
     public List<String> getChartTypeLabels() {
         List<String> ret = new ArrayList<>();
         for (ChartType ct : ChartType.values()) {
@@ -107,29 +118,9 @@ public class AnalysisFragment extends Fragment {
     }
 
     private void refreshView() {
-        // Set up plot type spinner
-        AppCompatSpinner spinner = getView().findViewById(R.id.inputPlotTypeDropdown);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
-                android.R.layout.simple_spinner_item,
-                getChartTypeLabels());
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                chartTypeSelected = ChartType.values()[i];
-                updatePlot();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // Not implemented
-            }
-        });
-
         // Set up variable spinner
-        AppCompatSpinner varSpinner = getView().findViewById(R.id.inputVariableDropdown);
-        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
+        varSpinner = view.findViewById(R.id.inputVariableDropdown);
+        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
                 Util.getVariableLabels());
         varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,6 +137,41 @@ public class AnalysisFragment extends Fragment {
                 // Not implemented
             }
         });
+
+        MyAnimationHandler varSpinnerAH = new MyAnimationHandler(varSpinner);
+        inputStartLayout = view.findViewById(R.id.inputStartLayout);
+        inputEndLayout = view.findViewById(R.id.inputEndLayout);
+
+
+        // Set up plot type spinner
+        AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_spinner_item,
+                getChartTypeLabels());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                chartTypeSelected = ChartType.values()[i];
+
+                if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
+                    varSpinnerAH.expand();
+                } else {
+                    varSpinnerAH.collapse();
+                }
+
+                updatePlot();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Not implemented
+            }
+        });
+
+
 
         //hideSpinner(varSpinner);
 
@@ -286,4 +312,8 @@ public class AnalysisFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+
+
+
 }
