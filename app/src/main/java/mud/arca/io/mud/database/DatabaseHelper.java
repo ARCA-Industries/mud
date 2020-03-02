@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.DataStructures.Variable;
 
 public class DatabaseHelper {
 
@@ -32,6 +33,21 @@ public class DatabaseHelper {
             List<Day> dayData = (task.getResult().getDocuments().stream().map(documentSnapshot -> documentSnapshot.toObject(Day.class)).collect(Collectors.toCollection(ArrayList::new)));
             Util.debug("User.loadDayDataFromFirestore completed");
             listener.onLoaded(dayData);
+        });
+    }
+
+
+    @SuppressLint("NewApi")
+    // TODO: This will need to be desugared later. Android Studio 4.0 should be able to handle this automatically for us.
+    public static void loadVariableData(LoadSuccessListener<List<Variable>> listener) {
+        CollectionReference mItemsCollection;
+
+        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/variables");
+
+        mItemsCollection.orderBy("name", Query.Direction.ASCENDING).get().addOnCompleteListener(task -> {
+            List<Variable> varData = (task.getResult().getDocuments().stream().map(documentSnapshot -> documentSnapshot.toObject(Variable.class)).collect(Collectors.toCollection(ArrayList::new)));
+            Util.debug("User.loadVariableData completed");
+            listener.onLoaded(varData);
         });
     }
 

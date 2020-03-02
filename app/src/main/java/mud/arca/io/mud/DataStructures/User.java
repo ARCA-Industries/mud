@@ -2,6 +2,7 @@ package mud.arca.io.mud.DataStructures;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import mud.arca.io.mud.database.DatabaseHelper;
 
@@ -73,10 +74,29 @@ public class User {
     }
 
     public void updateUserData(UserUpdateListener listener) {
+        // Keep track of number of callbacks that have finished.
+        // Then, only notify the listener when all have finished.
+        AtomicInteger callbacksFinished = new AtomicInteger();
+
         DatabaseHelper.loadDayData(days -> {
-            dayData = new ArrayList<>(days);
-            varData = new MockUser().getVarData(); // TODO: Wait for both day and variable data
-            listener.onUserUpdate(this);
+            this.dayData = new ArrayList<>(days);
+
+            if (callbacksFinished.get() == 0) {
+                callbacksFinished.addAndGet(1);
+            } else {
+                listener.onUserUpdate(this);
+            }
+        });
+
+        DatabaseHelper.loadVariableData(variables -> {
+            System.out.println("variables = " + variables);
+            this.varData = new ArrayList<>(variables);
+
+            if (callbacksFinished.get() == 0) {
+                callbacksFinished.addAndGet(1);
+            } else {
+                listener.onUserUpdate(this);
+            }
         });
     }
 
