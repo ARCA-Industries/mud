@@ -96,6 +96,9 @@ public class VariableManagement extends AppCompatActivity {
         userVarName.getText().clear();
         refreshTable(v);
 
+        // TODO: Remove this. Temporarily populates the database with mock variable data
+        android.widget.Toast.makeText(getApplicationContext(), "Populating database with mock data...", android.widget.Toast.LENGTH_LONG).show();
+        mud.arca.io.mud.database.DatabaseHelper.temp_saveMockVariables();
     }
 
     /**

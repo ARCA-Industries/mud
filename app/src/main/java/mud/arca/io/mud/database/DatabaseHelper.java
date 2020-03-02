@@ -51,4 +51,17 @@ public class DatabaseHelper {
         });
     }
 
+
+    public static void temp_saveMockVariables() {
+        ArrayList<Variable> varData = new mud.arca.io.mud.DataStructures.MockUser().getVarData();
+        CollectionReference mItemsCollection;
+
+        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/variables");
+
+        for (Variable varDatum : varData) {
+            mItemsCollection.add(varDatum);
+        }
+
+    }
+
 }
