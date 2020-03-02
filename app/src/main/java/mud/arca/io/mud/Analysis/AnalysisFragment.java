@@ -141,6 +141,8 @@ public class AnalysisFragment extends Fragment {
         MyAnimationHandler varSpinnerAH = new MyAnimationHandler(varSpinner);
         inputStartLayout = view.findViewById(R.id.inputStartLayout);
         inputEndLayout = view.findViewById(R.id.inputEndLayout);
+        MyAnimationHandler startAH = new MyAnimationHandler(inputStartLayout);
+        MyAnimationHandler endAH = new MyAnimationHandler(inputEndLayout);
 
 
         // Set up plot type spinner
@@ -160,6 +162,14 @@ public class AnalysisFragment extends Fragment {
                     varSpinnerAH.expand();
                 } else {
                     varSpinnerAH.collapse();
+                }
+
+                if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
+                    startAH.expand();
+                    endAH.expand();
+                } else {
+                    startAH.collapse();
+                    endAH.collapse();
                 }
 
                 updatePlot();
