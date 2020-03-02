@@ -180,9 +180,9 @@ public class AnalysisFragment extends Fragment {
             date = dateSelected;
             // Save to field in AnalysisFragment
             if (isStartDate) {
-                setDate(startDate);
+                startDate = dateSelected;
             } else {
-                setDate(latestDate);
+                endDate = dateSelected;
             }
         }
 
