@@ -6,7 +6,6 @@ import java.util.Date;
 import mud.arca.io.mud.database.DatabaseHelper;
 
 public class User {
-    private String name;
     private ArrayList<Day> dayData;
     private ArrayList<Variable> varData;
 
@@ -14,13 +13,12 @@ public class User {
 
     public static User getCurrentUser() {
         if (currentUser == null) {
-            currentUser = new User(null);
+            currentUser = new User();
         }
         return currentUser;
     }
 
-    public User(String name) {
-        this.name = name;
+    public User() {
         this.dayData = new ArrayList<>();
         this.varData = new ArrayList<>();
     }
@@ -51,10 +49,6 @@ public class User {
             }
         }
         return ret;
-    }
-
-    public void setName(String n){
-        name = n;
     }
 
     public ArrayList<Day> getDayData() {

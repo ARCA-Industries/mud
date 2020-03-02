@@ -35,7 +35,7 @@ public class MockUser extends User {
     }
 
     public MockUser(int seed) {
-        super(Integer.toHexString(new Random(seed).nextInt()));
+        super();
 
         r = new Random(seed);
 
