@@ -68,6 +68,14 @@ public class User {
         this.varData = varData;
     }
 
+    public Date getLatestDate() {
+        return dayData.get(dayData.size() - 1).getDate();
+    }
+
+    public Date getEarliestDate() {
+        return dayData.get(0).getDate();
+    }
+
 
     public interface UserUpdateListener {
         void onUserUpdate(User user);

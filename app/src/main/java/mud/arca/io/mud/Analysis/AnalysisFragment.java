@@ -56,6 +56,26 @@ public class AnalysisFragment extends Fragment {
     private int varSelected = 0;
     private ChartType chartTypeSelected = ChartType.VARIABLE_VS_TIME_CHART;
 
+    /**
+     * Earliest Date in the current User.
+     */
+    Date earliestDate;
+
+    /**
+     * Latest Date in the current User.
+     */
+    Date latestDate;
+
+    /**
+     * Start Date for the graph.
+     */
+    Date startDate;
+
+    /**
+     * End Date for the graph.
+     */
+    Date endDate;
+
     public List<String> getChartTypeLabels() {
         List<String> ret = new ArrayList<>();
         for (ChartType ct : ChartType.values()) {
@@ -129,6 +149,14 @@ public class AnalysisFragment extends Fragment {
 
         //hideSpinner(varSpinner);
 
+        // Initialize dates
+        earliestDate = User.getCurrentUser().getEarliestDate();
+        latestDate = User.getCurrentUser().getLatestDate();
+        // Initialize end date to latest date in current user.
+        // Initialize start date to 30 days before end date.
+        endDate = latestDate;
+        startDate = Util.intToDate(latestDate, -30);
+
         // Initialize DateSelectors
         EditText startET = getView().findViewById(R.id.inputStartEditText);
         startDS = new DateSelector(getView(), startET, true);
@@ -143,16 +171,24 @@ public class AnalysisFragment extends Fragment {
     public class DateSelector {
         public Date date;
         public EditText et;
+        public boolean isStartDate;
 
         public void setDate(Date dateSelected) {
             // Set text of EditText
             et.setText(Util.formatDateWithYear(dateSelected));
             // Save to field
             date = dateSelected;
+            // Save to field in AnalysisFragment
+            if (isStartDate) {
+                setDate(startDate);
+            } else {
+                setDate(latestDate);
+            }
         }
 
         public DateSelector(View view, EditText et, boolean isStartDate) {
             this.et = et;
+            this.isStartDate = isStartDate;
 
             // Stop the keyboard from popping up when the EditText is clicked.
             et.setShowSoftInputOnFocus(false);
@@ -181,18 +217,28 @@ public class AnalysisFragment extends Fragment {
                     // Initialize the DatePickerDialog with the old day selected.
                     DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
                             oldYear, oldMonth, oldDay);
+
+                    // Restrict the dates in DatePickerDialog.
+                    Date minDate;
+                    Date maxDate;
+                    if (isStartDate) {
+                        minDate = earliestDate;
+                        maxDate = endDate;
+                    } else {
+                        minDate = startDate;
+                        maxDate = latestDate;
+                    }
+                    picker.getDatePicker().setMinDate(minDate.getTime());
+                    picker.getDatePicker().setMaxDate(maxDate.getTime());
+
                     picker.show();
                 }
             });
 
-            // Initialize end date to most recent Date in current user.
-            // Initialize start date to 30 days before end date.
-            ArrayList<Day> dayData = User.getCurrentUser().getDayData();
-            Date mostRecentDate = dayData.get(dayData.size() - 1).getDate();
             if (isStartDate) {
-                setDate(Util.intToDate(mostRecentDate , -30));
+                setDate(startDate);
             } else {
-                setDate(mostRecentDate);
+                setDate(latestDate);
             }
         }
     }
