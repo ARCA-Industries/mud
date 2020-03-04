@@ -33,7 +33,7 @@
             android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
             android:label="Record Details" />
         <activity
-            android:name=".Settings.VariableManagement"
+            android:name=".Settings.VariableManagementActivity"
             android:label="Variable Management" />
     </application>
 

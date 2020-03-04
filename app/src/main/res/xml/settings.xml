@@ -7,7 +7,7 @@
             app:summary="Create, delete, or modify variables"
             app:title="Variable management">
             <intent
-                android:targetClass="mud.arca.io.mud.Settings.VariableManagement"
+                android:targetClass="mud.arca.io.mud.Settings.VariableManagementActivity"
                 android:targetPackage="io.arca.mud" />
 
         </Preference>

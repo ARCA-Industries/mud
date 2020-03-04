@@ -14,12 +14,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.errorprone.annotations.Var;
-
 import java.util.ArrayList;
 
 
-public class VariableManagement extends AppCompatActivity {
+public class VariableManagementActivity extends AppCompatActivity {
 
     /**
      * Local Arraylist to access user variables
@@ -47,9 +45,9 @@ public class VariableManagement extends AppCompatActivity {
     public void populateTable() {
         TableLayout inflate = findViewById(R.id.variable_table);
         for (int i = 0; i < user_variables.size(); i++) {
-            TableRow row = new TableRow(VariableManagement.this);
-            TextView txtcol1 = new TextView(VariableManagement.this);
-            TextView txtcol2 = new TextView(VariableManagement.this);
+            TableRow row = new TableRow(VariableManagementActivity.this);
+            TextView txtcol1 = new TextView(VariableManagementActivity.this);
+            TextView txtcol2 = new TextView(VariableManagementActivity.this);
             txtcol1.setText(user_variables.get(i).getName());
             txtcol2.setText(user_variables.get(i).varTypeToString());
             row.addView(txtcol1);
