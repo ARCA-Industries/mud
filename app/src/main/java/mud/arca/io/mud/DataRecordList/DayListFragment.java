@@ -33,6 +33,7 @@ import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.database.DatabaseHelper;
 
 /**
  * A fragment containing the Day list (Dashboard).
@@ -63,7 +64,7 @@ public class DayListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_datarecord_list, container, false);
 
-        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/days");
+        mItemsCollection = DatabaseHelper.getDaysCollection();
         setUpAdapter();
 
         // Make the RecyclerView use the adapter

@@ -27,7 +27,7 @@ public class DatabaseHelper {
     public static void loadDayData(LoadSuccessListener<List<Day>> listener) {
         CollectionReference mItemsCollection;
 
-        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/days");
+        mItemsCollection = getDaysCollection();
 
         mItemsCollection.orderBy("date", Query.Direction.ASCENDING).get().addOnCompleteListener(task -> {
             List<Day> dayData = (task.getResult().getDocuments().stream().map(documentSnapshot -> documentSnapshot.toObject(Day.class)).collect(Collectors.toCollection(ArrayList::new)));
@@ -53,6 +53,10 @@ public class DatabaseHelper {
 
     public static CollectionReference getVariableCollection() {
         return FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/variables");
+    }
+
+    public static CollectionReference getDaysCollection() {
+        return FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/days");
     }
 
 }
