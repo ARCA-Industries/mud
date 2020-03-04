@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataRecordList.recorddetails;
+package mud.arca.io.mud.DayDetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,15 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.Util;
 import mud.arca.io.mud.R;
 
-public class RecordDetailsActivity extends AppCompatActivity {
+public class DayDetailsActivity extends AppCompatActivity {
 
     public static final String EXTRA_DAY = "day";
 
     public static Intent getLaunchIntentForDay(Context context, Day day) {
-        Intent intent = new Intent(context, RecordDetailsActivity.class);
+        Intent intent = new Intent(context, DayDetailsActivity.class);
         intent.putExtra(EXTRA_DAY, day);
         return intent;
     }
@@ -33,7 +32,7 @@ public class RecordDetailsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, RecordDetailsFragment.newInstance(day))
+                    .replace(R.id.container, DayDetailsFragment.newInstance(day))
                     .commitNow();
         }
     }

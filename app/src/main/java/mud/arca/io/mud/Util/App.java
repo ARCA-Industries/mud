@@ -1,4 +1,4 @@
-package mud.arca.io.mud;
+package mud.arca.io.mud.Util;
 
 import android.app.Application;
 import android.content.Context;

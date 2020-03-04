@@ -1,17 +1,16 @@
-package mud.arca.io.mud.DataRecordList.recorddetails.dummy;
+package mud.arca.io.mud.DayDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Variable;
 
-public class VariableListContent2 {
+public class DayDetailsContent {
     /**
      * An array of sample (dummy) items.
      */

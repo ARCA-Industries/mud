@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataRecordList.recorddetails;
+package mud.arca.io.mud.DayDetails;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,24 +23,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 
-import mud.arca.io.mud.App;
-import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2;
+import mud.arca.io.mud.Util.App;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MoodRecording;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
-public class RecordDetailsFragment extends Fragment {
+public class DayDetailsFragment extends Fragment {
 
     private TextView moodTextView;
     private SeekBar seekbar;
     private ImageView moodDeleteButton;
     private boolean moodRecExists = false;
 
-    public static RecordDetailsFragment newInstance(Day day) {
-        RecordDetailsFragment fragment = new RecordDetailsFragment();
+    public static DayDetailsFragment newInstance(Day day) {
+        DayDetailsFragment fragment = new DayDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(RecordDetailsActivity.EXTRA_DAY, day);
+        bundle.putSerializable(DayDetailsActivity.EXTRA_DAY, day);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -111,7 +110,7 @@ public class RecordDetailsFragment extends Fragment {
         // Load Day from arguments
         Day day;
         try {
-            day = (Day) getArguments().getSerializable(RecordDetailsActivity.EXTRA_DAY);
+            day = (Day) getArguments().getSerializable(DayDetailsActivity.EXTRA_DAY);
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("Must start this fragment with a Day! Use newInstance.");
         }
@@ -173,12 +172,12 @@ public class RecordDetailsFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(new DetailsVariableRecyclerViewAdapter(VariableListContent2.getItems(day)));
+        recyclerView.setAdapter(new DayDetailsRecyclerAdapter(DayDetailsContent.getItems(day)));
 
         // Exit activity with result when user saves
         view.findViewById(R.id.recordDetailsSaveButton).setOnClickListener(button -> {
             Intent data = getActivity().getIntent();
-            data.putExtra(RecordDetailsActivity.EXTRA_DAY, day);
+            data.putExtra(DayDetailsActivity.EXTRA_DAY, day);
             getActivity().setResult(Activity.RESULT_OK, data);
             getActivity().finish();
         });

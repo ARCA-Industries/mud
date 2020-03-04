@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataStructures;
+package mud.arca.io.mud.Util;
 
 import android.util.Log;
 
@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import mud.arca.io.mud.App;
+import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
 
 /**

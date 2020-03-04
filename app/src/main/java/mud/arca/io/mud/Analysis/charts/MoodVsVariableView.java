@@ -23,7 +23,7 @@ import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 
 public class MoodVsVariableView extends ScatterChart
         implements AnalysisChart, ChartWithVariable, ChartWithDates {

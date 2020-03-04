@@ -16,11 +16,11 @@ import android.widget.FrameLayout;
 import java.util.Calendar;
 
 import mud.arca.io.mud.Analysis.AnalysisFragment;
-import mud.arca.io.mud.DataRecordList.DayListFragment;
-import mud.arca.io.mud.DataStructures.AlarmReceiver;
-import mud.arca.io.mud.DataStructures.NotificationPublisher;
+import mud.arca.io.mud.DayList.DayListFragment;
+import mud.arca.io.mud.Notifications.AlarmReceiver;
+import mud.arca.io.mud.Notifications.NotificationPublisher;
 import mud.arca.io.mud.Settings.SettingsFragment;
-import mud.arca.io.mud.database.DatabaseHelper;
+import mud.arca.io.mud.Database.DatabaseHelper;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 

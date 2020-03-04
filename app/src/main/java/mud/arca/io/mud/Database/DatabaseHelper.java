@@ -1,4 +1,4 @@
-package mud.arca.io.mud.database;
+package mud.arca.io.mud.Database;
 
 import android.annotation.SuppressLint;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.DataStructures.Variable;
 
 public class DatabaseHelper {

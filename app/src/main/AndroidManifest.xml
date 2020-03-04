@@ -3,7 +3,7 @@
     package="mud.arca.io.mud">
 
     <application
-        android:name=".App"
+        android:name=".Util.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,13 +30,13 @@
             android:label="@string/app_name"
             android:theme="@style/LoginScreen" />
         <activity
-            android:name=".DataRecordList.recorddetails.RecordDetailsActivity"
+            android:name=".DayDetails.DayDetailsActivity"
             android:label="Record Details" />
         <activity
             android:name=".Settings.VariableManagementActivity"
             android:label="Variable Management" />
 
-        <receiver android:name=".DataStructures.AlarmReceiver"/>
+        <receiver android:name=".Notifications.AlarmReceiver"/>
     </application>
 
 

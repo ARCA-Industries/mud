@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataStructures;
+package mud.arca.io.mud.Notifications;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +10,7 @@ import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.MainActivity;
 import mud.arca.io.mud.R;
 

@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DataRecordList.recorddetails.RecordDetailsFragment">
+    tools:context=".DayDetails.DayDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

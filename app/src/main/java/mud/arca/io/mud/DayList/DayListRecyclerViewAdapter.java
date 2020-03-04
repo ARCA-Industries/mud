@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataRecordList;
+package mud.arca.io.mud.DayList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.google.firebase.firestore.DocumentReference;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
 /**
@@ -52,7 +52,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
         holder.mVariableView.setText(model.getVarString("Sleep"));
 
 
-        // Set the RecordDetailsActivity to launch on click
+        // Set the DayDetailsActivity to launch on click
         holder.mView.setOnClickListener(v -> {
             if (null != mListener) {
                 // Notify the active callbacks interface (the activity, if the

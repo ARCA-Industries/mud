@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataStructures;
+package mud.arca.io.mud.Notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;

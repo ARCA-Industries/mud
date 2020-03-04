@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -33,11 +31,9 @@ import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
-import mud.arca.io.mud.DataRecordList.DayListFragment;
-import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.MyAnimationHandler;
+import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
 public class AnalysisFragment extends Fragment {
@@ -119,8 +115,8 @@ public class AnalysisFragment extends Fragment {
 
     private void refreshView() {
         // Set up variable spinner
-        varSpinner = view.findViewById(R.id.inputVariableDropdown);
-        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+        varSpinner = getView().findViewById(R.id.inputVariableDropdown);
+        ArrayAdapter<String> varSpinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_item,
                 Util.getVariableLabels());
         varSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -139,15 +135,15 @@ public class AnalysisFragment extends Fragment {
         });
 
         MyAnimationHandler varSpinnerAH = new MyAnimationHandler(varSpinner);
-        inputStartLayout = view.findViewById(R.id.inputStartLayout);
-        inputEndLayout = view.findViewById(R.id.inputEndLayout);
+        inputStartLayout = getView().findViewById(R.id.inputStartLayout);
+        inputEndLayout = getView().findViewById(R.id.inputEndLayout);
         MyAnimationHandler startAH = new MyAnimationHandler(inputStartLayout);
         MyAnimationHandler endAH = new MyAnimationHandler(inputEndLayout);
 
 
         // Set up plot type spinner
-        AppCompatSpinner spinner = view.findViewById(R.id.inputPlotTypeDropdown);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+        AppCompatSpinner spinner = getView().findViewById(R.id.inputPlotTypeDropdown);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_item,
                 getChartTypeLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

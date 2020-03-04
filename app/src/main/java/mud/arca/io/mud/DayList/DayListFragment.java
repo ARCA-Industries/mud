@@ -1,9 +1,6 @@
-package mud.arca.io.mud.DataRecordList;
+package mud.arca.io.mud.DayList;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,15 +10,10 @@ import android.widget.ArrayAdapter;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -30,15 +22,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import mud.arca.io.mud.DataRecordList.recorddetails.RecordDetailsActivity;
+import mud.arca.io.mud.DayDetails.DayDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
-import mud.arca.io.mud.DataStructures.Util;
-import mud.arca.io.mud.DataStructures.Variable;
-import mud.arca.io.mud.MainActivity;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.database.DatabaseHelper;
+import mud.arca.io.mud.Database.DatabaseHelper;
 
 /**
  * A fragment containing the Day list (Dashboard).
@@ -110,7 +100,7 @@ public class DayListFragment extends Fragment {
 
 
         adapter = new DayListRecyclerViewAdapter(options, (day, reference) -> {
-            Intent i = RecordDetailsActivity.getLaunchIntentForDay(getContext(), day);
+            Intent i = DayDetailsActivity.getLaunchIntentForDay(getContext(), day);
             // Pass the reference so that I know which document to update in the db.
             // This relies on the fragment passing back the same intent...
             i.putExtra(EXTRA_REFERENCE_ID, reference.getId());
@@ -129,7 +119,7 @@ public class DayListFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     // Save this day to the database
                     mItemsCollection.document(data.getStringExtra(EXTRA_REFERENCE_ID)).set(
-                            data.getSerializableExtra(RecordDetailsActivity.EXTRA_DAY)
+                            data.getSerializableExtra(DayDetailsActivity.EXTRA_DAY)
                     );
                 }
                 break;

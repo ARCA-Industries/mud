@@ -1,4 +1,4 @@
-package mud.arca.io.mud.DataRecordList.recorddetails;
+package mud.arca.io.mud.DayDetails;
 
 import android.content.Context;
 import android.text.Editable;
@@ -14,22 +14,22 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import mud.arca.io.mud.DataRecordList.recorddetails.dummy.VariableListContent2.VariableListItem;
+import mud.arca.io.mud.DayDetails.DayDetailsContent.VariableListItem;
 import mud.arca.io.mud.DataStructures.Measurement;
-import mud.arca.io.mud.DataStructures.Util;
+import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link VariableListItem}
  * TODO: Replace the implementation with code for your data type.
  */
-public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<DetailsVariableRecyclerViewAdapter.ViewHolder> {
+public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter<DayDetailsRecyclerAdapter.ViewHolder> {
 
     private final List<VariableListItem> mValues;
 
     private Context context;
 
-    public DetailsVariableRecyclerViewAdapter(List<VariableListItem> items) {
+    public DayDetailsRecyclerAdapter(List<VariableListItem> items) {
         mValues = items;
     }
 

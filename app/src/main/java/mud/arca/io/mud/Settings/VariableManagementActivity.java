@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.database.DatabaseHelper;
+import mud.arca.io.mud.Database.DatabaseHelper;
 
 import android.os.Bundle;
 import android.view.View;

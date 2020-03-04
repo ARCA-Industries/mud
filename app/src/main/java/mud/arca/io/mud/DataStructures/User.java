@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import mud.arca.io.mud.database.DatabaseHelper;
+import mud.arca.io.mud.Database.DatabaseHelper;
+import mud.arca.io.mud.Util.Util;
 
 public class User {
     private ArrayList<Day> dayData;

@@ -44,7 +44,7 @@ public class VariableManagementAdapter extends FirestoreRecyclerAdapter<Variable
         holder.mVariableHeader.setText(model.getName());
         holder.mTypeHeader.setText(model.varTypeToString());
 
-        // Set the RecordDetailsActivity to launch on click
+        // Set the DayDetailsActivity to launch on click
         holder.mView.setOnClickListener(v -> {
             if (null != mListener) {
                 // Notify the active callbacks interface (the activity, if the
