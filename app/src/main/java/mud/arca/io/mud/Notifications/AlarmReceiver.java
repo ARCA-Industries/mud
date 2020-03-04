@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context, MOOD_REMINDER_CHANNEL_ID)
                 //.setSmallIcon(R.drawable.applogo)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Alarm Fired")
                 .setContentText("Events to be Performed").setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
