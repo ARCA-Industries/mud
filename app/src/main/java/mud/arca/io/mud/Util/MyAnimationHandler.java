@@ -14,7 +14,7 @@ public class MyAnimationHandler {
     public final int initialHeight;
 
     // Duration of the animation, relative to collapse speed of 1dp/ms.
-    public int duration = 45;
+    public int duration = 10;
 
     public MyAnimationHandler(View view) {
         this.view = view;
