@@ -24,7 +24,18 @@
         android:text="Mood"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/moodDeleteButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_delete"
+        android:tint="#EC8F6A"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        />
 
     <TextView
         android:id="@+id/variableTextView"

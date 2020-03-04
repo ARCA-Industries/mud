@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ public class RecordDetailsFragment extends Fragment {
 
     private TextView moodTextView;
     private SeekBar seekbar;
+    private ImageView moodDeleteButton;
+    private boolean moodRecExists = false;
 
     public static RecordDetailsFragment newInstance(Day day) {
         RecordDetailsFragment fragment = new RecordDetailsFragment();
@@ -83,12 +86,23 @@ public class RecordDetailsFragment extends Fragment {
         d.setMoodRecording(new MoodRecording(timestamp, moodVal));
     }
 
+    public void deleteUserMood(Day d) {
+        d.setMoodRecording(null);
+    }
+
     public void setSeekbarColor(int color) {
         seekbar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         seekbar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
-    private boolean moodRecExists = false;
+    /**
+     * Gray out the mood seekbar, set the text to no value.
+     */
+    public void displayNullMood() {
+        updateSeekBar(5f);
+        moodTextView.setText("Mood (no value)");
+        setSeekbarColor(App.getContext().getColor(R.color.gray));
+    }
 
     @Nullable
     @Override
@@ -110,22 +124,30 @@ public class RecordDetailsFragment extends Fragment {
         // Initialize fields
         moodTextView = view.findViewById(R.id.moodTextView);
         seekbar = view.findViewById(R.id.seekBar);
+        moodDeleteButton = view.findViewById(R.id.moodDeleteButton);
 
         // Set the adapter
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
+        // Initialize mood seekbar and text
         try {
             float moodVal = day.getAverageMood();
             updateSeekBar(moodVal);
             updateMoodText(moodVal);
         } catch (NoSuchElementException e) {
             // If there is no mood recording for that day.
-            updateSeekBar(5f);
-            moodTextView.setText("Mood (no value)");
-            setSeekbarColor(App.getContext().getColor(R.color.gray));
+            displayNullMood();
         }
+
+        moodDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayNullMood();
+                deleteUserMood(day);
+            }
+        });
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
