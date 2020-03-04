@@ -2,10 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:isScrollContainer="true"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp">
-    tools:context=".Settings.VariableManagement"
+    android:padding="16dp"
+    tools:context=".Settings.VariableManagementActivity" >
 
     <TextView
         android:id="@+id/textView"
@@ -43,38 +43,14 @@
         android:onClick="deleteVariable"
         android:text="Delete Variable" />
 
-    <TableLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variable_table"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        tools:context=".Settings.VariableManagementActivity"
+        tools:listitem="@layout/variable_management_list_item"
+        tools:itemCount="5" />
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:id="@+id/variable_header"
-                android:layout_width="182dp"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginRight="6dp"
-                android:background="@color/table_background"
-                android:padding="@dimen/variable_management_padding"
-                android:text="Variable"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:id="@+id/type_header"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:background="@color/table_background"
-                android:padding="@dimen/variable_management_padding"
-                android:text="Type"
-                android:textColor="@color/text_color" />
-        </TableRow>
-
-    </TableLayout>
 
 </LinearLayout>
