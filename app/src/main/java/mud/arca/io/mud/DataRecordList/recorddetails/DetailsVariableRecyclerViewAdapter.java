@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
         public final View mView;
         public final TextView mVariableTextView;
         public final EditText mValueTextView;
+        public final ImageView mDeleteButton;
         public VariableListItem mItem;
 
         public ViewHolder(View view) {
@@ -70,6 +72,14 @@ public class DetailsVariableRecyclerViewAdapter extends RecyclerView.Adapter<Det
             mView = view;
             mVariableTextView = view.findViewById(R.id.variableTypeTextView);
             mValueTextView = view.findViewById(R.id.valueTextView);
+            mDeleteButton = view.findViewById(R.id.variableListDeleteButton);
+
+            mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mValueTextView.setText("");
+                }
+            });
 
             mValueTextView.addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

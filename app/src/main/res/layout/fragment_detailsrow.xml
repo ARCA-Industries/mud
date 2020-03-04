@@ -29,14 +29,25 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
         tools:text="@tools:sample/lorem"
         android:inputType="numberDecimal"
         android:maxLines="1"
         android:singleLine="true"
         android:hint="(no value)"
         android:maxLength="50"
+        />
+
+    <ImageView android:id="@+id/variableListDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:tint="#EC8F6A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/valueTextView"
+
         />
 
     <androidx.constraintlayout.widget.Guideline
