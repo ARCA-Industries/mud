@@ -13,9 +13,14 @@ import java.util.concurrent.TimeUnit;
 import mud.arca.io.mud.App;
 import mud.arca.io.mud.R;
 
-// Collection of utility functions
+/**
+ * A collection of utility functions
+ */
 public class Util {
-    // Create a Date object using a string in format "12-December-2012".
+    /**
+     * @param s a String in the format "12-December-2012"
+     * @return a Date from parsing the string
+     */
     public static Date parseDate(String s) {
         Date d = new Date();
         try {
@@ -27,8 +32,12 @@ public class Util {
         return d;
     }
 
-    // input: i = number of days since baseDate
-    // output: date
+    /**
+     * Returns the date that is i days after baseDate.
+     * @param baseDate
+     * @param i
+     * @return
+     */
     public static Date intToDate(Date baseDate, int i) {
         Calendar c = Calendar.getInstance();
         c.setTime(baseDate);
@@ -40,8 +49,12 @@ public class Util {
         return intToDate(baseDate, (int) f);
     }
 
-    // Convert a date to float.
-    // Returns the number of days passed since base date.
+    /**
+     * Returns the number of days passed since base date.
+     * @param d
+     * @param baseDate
+     * @return
+     */
     public static float dateToFloat(Date d, Date baseDate) {
         long diff = d.getTime() - baseDate.getTime();
         return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
@@ -104,6 +117,10 @@ public class Util {
         return !d1.after(d2);
     }
 
+    /**
+     * Return a list of variable names for the current user.
+     * @return
+     */
     public static List<String> getVariableLabels() {
         List<String> ret = new ArrayList<>();
         for (Variable v : User.getCurrentUser().getVarData()) {

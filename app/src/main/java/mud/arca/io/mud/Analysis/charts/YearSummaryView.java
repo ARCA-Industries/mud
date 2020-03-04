@@ -155,7 +155,7 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
     }
 
     public void updateChart() {
-        // TODO: implement
+        setData(User.getCurrentUser().getDayData());
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
