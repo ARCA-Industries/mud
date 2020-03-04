@@ -35,6 +35,10 @@
         <activity
             android:name=".Settings.VariableManagementActivity"
             android:label="Variable Management" />
+
+        <receiver android:name=".DataStructures.AlarmReceiver"/>
     </application>
+
+
 
 </manifest>
