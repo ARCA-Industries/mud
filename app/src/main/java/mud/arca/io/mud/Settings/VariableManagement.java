@@ -45,7 +45,6 @@ public class VariableManagement extends AppCompatActivity {
      *
      */
     public void populateTable() {
-
         TableLayout inflate = findViewById(R.id.variable_table);
         for (int i = 0; i < user_variables.size(); i++) {
             TableRow row = new TableRow(VariableManagement.this);
@@ -57,10 +56,7 @@ public class VariableManagement extends AppCompatActivity {
             row.addView(txtcol2);
             inflate.addView(row);
         }
-
-
     }
-
 
     /**
      * Method refreshTable
@@ -81,8 +77,8 @@ public class VariableManagement extends AppCompatActivity {
      */
     public void createVariable(View v) {
 
-        EditText userVarName = (EditText)findViewById(R.id.variable_name);
-        Spinner userVarType = (Spinner)findViewById(R.id.variable_type);
+        EditText userVarName = findViewById(R.id.variable_name);
+        Spinner userVarType = findViewById(R.id.variable_type);
 
         // 1. Get user input
 
@@ -100,5 +96,27 @@ public class VariableManagement extends AppCompatActivity {
         userVarName.getText().clear();
         refreshTable(v);
 
+    }
+
+    /**
+     * Method deleteVariable
+     * Deletes variables
+     * Probably should make it more user friendly
+     * @param v for our onClick
+     */
+    public void deleteVariable(View v) {
+
+        EditText userVarName = findViewById(R.id.variable_name);
+        String variableName = userVarName.getText().toString();
+
+        for (int i = 0; i < user_variables.size(); i++) {
+            if(user_variables.get(i).getName().equals(variableName)) {
+                user_variables.remove(user_variables.get(i));
+            }
+        }
+
+        User.getCurrentUser().setVarData(user_variables);
+        userVarName.getText().clear();
+        refreshTable(v);
     }
 }
