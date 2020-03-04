@@ -2,16 +2,17 @@ package mud.arca.io.mud.DataStructures;
 
 import java.io.Serializable;
 
-enum VarType
-{
-    INT, FLOAT, BOOL
-}
 
 public class Variable implements Serializable {
     private String name;
     private String unit;
     private VarType vartype;
     private float vardata;
+
+    public enum VarType
+    {
+        INT, FLOAT, BOOL
+    }
 
     public Variable() {
     }

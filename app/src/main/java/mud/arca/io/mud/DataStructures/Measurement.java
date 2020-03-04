@@ -58,10 +58,10 @@ public class Measurement implements Serializable {
      */
     @Exclude
     public String getFormattedValue() {
-        VarType vt = variable.getVartype();
-        if (vt == VarType.FLOAT) {
+        Variable.VarType vt = variable.getVartype();
+        if (vt == Variable.VarType.FLOAT) {
             return String.format("%.3f", value);
-        } else if (vt == VarType.INT) {
+        } else if (vt == Variable.VarType.INT) {
             return String.format("%d", Math.round(value));
         } else { // BOOL
             return String.format("%d", Math.round(value));

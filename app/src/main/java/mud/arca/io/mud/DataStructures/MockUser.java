@@ -39,9 +39,9 @@ public class MockUser extends User {
 
         r = new Random(seed);
 
-        Variable sleep = new Variable("Sleep", "hours", VarType.FLOAT);
-        Variable pizza = new Variable("Pizza", "slices", VarType.INT);
-        Variable exercised = new Variable("Exercised", "bool", VarType.BOOL);
+        Variable sleep = new Variable("Sleep", "hours", Variable.VarType.FLOAT);
+        Variable pizza = new Variable("Pizza", "slices", Variable.VarType.INT);
+        Variable exercised = new Variable("Exercised", "bool", Variable.VarType.BOOL);
         getVarData().add(sleep);
         getVarData().add(pizza);
         getVarData().add(exercised);
