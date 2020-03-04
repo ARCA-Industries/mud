@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,26 @@ public class DatabaseHelper {
 
     public static CollectionReference getDaysCollection() {
         return FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/days");
+    }
+
+
+    /**
+     * If there are zero variables in the database,
+     * create some default ones and add them to the database
+     */
+    public static void ensureDefaultVariables() {
+        getVariableCollection().get().addOnCompleteListener(runnable -> {
+           if (runnable.getResult().isEmpty()) {
+               List<Object> defaults = Arrays.asList(
+                    new Variable("Sleep", "hr", Variable.VarType.FLOAT),
+                    new Variable("Exercised", "bool", Variable.VarType.BOOL),
+                    new Variable("Calories Eaten", "kcal", Variable.VarType.INT)
+               );
+               for (Object aDefault : defaults) {
+                   getVariableCollection().add(aDefault);
+               }
+           }
+        });
     }
 
 }

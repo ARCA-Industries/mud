@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import mud.arca.io.mud.Analysis.AnalysisFragment;
 import mud.arca.io.mud.DataRecordList.DayListFragment;
 import mud.arca.io.mud.Settings.SettingsFragment;
+import mud.arca.io.mud.database.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         navigation.setSelectedItemId(R.id.navigation_dashboard);
+
+        DatabaseHelper.ensureDefaultVariables();
     }
 
 }
