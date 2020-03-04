@@ -42,7 +42,7 @@ public class DatabaseHelper {
     public static void loadVariableData(LoadSuccessListener<List<Variable>> listener) {
         CollectionReference mItemsCollection;
 
-        mItemsCollection = FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/variables");
+        mItemsCollection = getVariableCollection();
 
         mItemsCollection.orderBy("name", Query.Direction.ASCENDING).get().addOnCompleteListener(task -> {
             List<Variable> varData = (task.getResult().getDocuments().stream().map(documentSnapshot -> documentSnapshot.toObject(Variable.class)).collect(Collectors.toCollection(ArrayList::new)));
