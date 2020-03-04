@@ -51,7 +51,7 @@ public class DatabaseHelper {
         });
     }
 
-    public static CollectionReference getVaraibleCollection() {
+    public static CollectionReference getVariableCollection() {
         return FirebaseFirestore.getInstance().collection("users/" + FirebaseAuth.getInstance().getUid() + "/variables");
     }
 

@@ -34,7 +34,7 @@ public class VariableManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variable_management);
 
-        user_variables = DatabaseHelper.getVaraibleCollection();
+        user_variables = DatabaseHelper.getVariableCollection();
         setUpAdapter();
 
         // Make the RecyclerView use the adapter
