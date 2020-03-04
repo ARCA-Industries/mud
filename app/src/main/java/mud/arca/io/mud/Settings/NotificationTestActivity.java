@@ -3,6 +3,9 @@ package mud.arca.io.mud.Settings;
 
 
 import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -38,12 +41,28 @@ public class NotificationTestActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String message = editTextMessage.getText().toString();
 
+        Intent activityIntent = new Intent(this, NotificationTestActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
+
+        Intent broadcastIntent = new Intent(this, NotificationReciever.class);
+        broadcastIntent.putExtra("toastMessage", message);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this,
+                0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         Notification notification = new NotificationCompat.Builder(this, AppNotifications.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_one)
-                .setContentTitle("Test")
-                .setContentText("This is a test")
+                .setContentTitle(title)
+                .setContentText(message)
+                //.setContentTitle("Test")
+                //.setContentText("This is a test")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(Color.BLUE)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
                 .build();
 
         notificationManager.notify(1, notification);
