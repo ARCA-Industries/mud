@@ -37,7 +37,6 @@
 
     <PreferenceCategory app:title="Backup &amp; Sync">
 
-
         <Preference
             app:defaultValue="Last sync: October 21, 2019"
             app:key="last_sync"
@@ -47,6 +46,11 @@
             app:key="auth_logout"
             app:title="Log Out"
             app:summary="@string/preference_auth_logout_summary" />
+
+        <Preference
+            app:title="Add sample data"
+            app:key="add_sample_data"
+            />
 
     </PreferenceCategory>
 

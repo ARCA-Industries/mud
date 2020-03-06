@@ -6,10 +6,16 @@ import android.os.Bundle;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import mud.arca.io.mud.DataStructures.MockUser;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
 import mud.arca.io.mud.MainActivity;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.Util;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
@@ -17,8 +23,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.settings, rootKey);
 
         initPreferences();
-    }
 
+        Preference addSampleData = findPreference("add_sample_data");
+        addSampleData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                MockUser.addSampleData(User.getCurrentUser());
+
+                Util.debug("Added sample data");
+
+                return true;
+            }
+        });
+    }
 
     private void initPreferences() {
         // Init auth logout preference
@@ -37,7 +53,5 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
             return true;
         });
-
-
     }
 }

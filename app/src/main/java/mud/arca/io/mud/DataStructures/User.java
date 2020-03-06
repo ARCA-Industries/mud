@@ -70,10 +70,16 @@ public class User {
     }
 
     public Date getLatestDate() {
+        if (dayData.size() == 0) {
+            return MockUser.getBaseDate();
+        }
         return dayData.get(dayData.size() - 1).getDate();
     }
 
     public Date getEarliestDate() {
+        if (dayData.size() == 0) {
+            return MockUser.getBaseDate();
+        }
         return dayData.get(0).getDate();
     }
 
