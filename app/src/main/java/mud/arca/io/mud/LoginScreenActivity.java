@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,8 +34,8 @@ public class LoginScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_activity);
-        
-        findViewById(R.id.sign_in_button).setOnClickListener(v -> login());
+
+        //findViewById(R.id.sign_in_button).setOnClickListener(v -> login());
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             // If the user's already logged in, just continue to MainActivity
@@ -42,7 +43,8 @@ public class LoginScreenActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         } else {
-            // Otherwise, show the login button
+            // Otherwise, send to login screen
+            login();
 
         }
 
@@ -53,6 +55,16 @@ public class LoginScreenActivity extends AppCompatActivity {
      * currently redirects to main screen
      */
     public void login() {
+
+        // Custom layout
+        AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
+                .Builder(R.layout.auth_layout)
+                .setGoogleButtonId(R.id.goog_auth)
+                .setEmailButtonId(R.id.email_auth)
+                .setPhoneButtonId(R.id.phone_auth)
+                .build();
+
+
         // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
@@ -62,7 +74,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                                 new AuthUI.IdpConfig.EmailBuilder().build(),
                                 new AuthUI.IdpConfig.PhoneBuilder().build()
                         ))
-                        .setLogo(R.mipmap.ic_white_foreground)
+                        .setAuthMethodPickerLayout(customLayout)
                         .setTheme(R.style.LoginScreenAuthUI)
                         .build(),
                 RC_SIGN_IN);
@@ -86,6 +98,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                     // Sign in failed. If response is null the user canceled the
                     // sign-in flow using the back button. Otherwise check
                     // response.getError().getErrorCode() and handle the error.
+                    login();
 
                     // Cheesy error handling
                     if (response != null) {
