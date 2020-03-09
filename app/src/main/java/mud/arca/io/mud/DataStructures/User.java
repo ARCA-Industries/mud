@@ -20,6 +20,10 @@ public class User {
         return currentUser;
     }
 
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
     public User() {
         this.dayData = new ArrayList<>();
         this.varData = new ArrayList<>();

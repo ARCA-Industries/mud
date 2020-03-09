@@ -41,6 +41,7 @@ public class DayListFragment extends Fragment {
 
     private CollectionReference mItemsCollection;
     private FirestoreRecyclerAdapter adapter;
+    private ArrayAdapter<String> spinnerArrayAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -81,13 +82,24 @@ public class DayListFragment extends Fragment {
 
         // Set up the dropdown
         AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+        spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item,
                 Util.getVariableLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
+        User.getCurrentUser().updateUserData(u -> {
+            User.setCurrentUser(u);
+            refreshDropdown();
+        });
+
         return view;
+    }
+
+    private void refreshDropdown() {
+        spinnerArrayAdapter.clear();
+        spinnerArrayAdapter.addAll(Util.getVariableLabels());
+
     }
 
     private void setUpAdapter() {
