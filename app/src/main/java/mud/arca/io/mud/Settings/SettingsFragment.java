@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import mud.arca.io.mud.DataStructures.MockUser;
@@ -53,5 +54,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
             return true;
         });
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        DialogFragment dialogFragment = null;
+        if (preference instanceof TimePreference) {
+            dialogFragment = TimePreferenceDialogFragmentCompat.newInstance(preference.getKey());
+        }
+
+
+        if (dialogFragment != null) {
+            dialogFragment.setTargetFragment(this, 0);
+            dialogFragment.show(this.getFragmentManager(), "androidx.preference" +
+                    ".PreferenceFragment.DIALOG");
+        } else {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 }

@@ -19,6 +19,14 @@
 <!--            app:useSimpleSummaryProvider="true">-->
 <!--        </EditTextPreference>-->
 
+
+        <SwitchPreference
+            app:title="Enable notifications"
+            app:key="notifications_enabled"
+            android:summaryOff="Disabled"
+            android:summaryOn="Enabled"
+            />
+
         <mud.arca.io.mud.Settings.TimePreference
             app:key="notification_time"
             app:title="Notification time"
