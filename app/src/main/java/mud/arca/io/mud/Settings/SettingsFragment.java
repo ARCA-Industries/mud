@@ -1,6 +1,7 @@
 package mud.arca.io.mud.Settings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.firebase.ui.auth.AuthUI;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
@@ -35,6 +37,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+//        Util.debug("##### All prefs: " + prefs.getAll());
     }
 
     private void initPreferences() {
@@ -56,13 +61,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
     }
 
+    // We need to override onDisplayPreferenceDialog to implement TimePreference.
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         DialogFragment dialogFragment = null;
         if (preference instanceof TimePreference) {
             dialogFragment = TimePreferenceDialogFragmentCompat.newInstance(preference.getKey());
         }
-
 
         if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0);

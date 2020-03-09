@@ -82,12 +82,12 @@ public class Util {
         if (d == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
         return sdf.format(d);
     }
 
     public static String formatDateWithYear(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         return sdf.format(d);
     }
 

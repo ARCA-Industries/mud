@@ -8,15 +8,14 @@ import android.widget.TimePicker;
 import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.Util;
 
 public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 
     private TimePicker mTimePicker;
 
-
     public static TimePreferenceDialogFragmentCompat newInstance(String key) {
-        final TimePreferenceDialogFragmentCompat
-                fragment = new TimePreferenceDialogFragmentCompat();
+        final TimePreferenceDialogFragmentCompat fragment = new TimePreferenceDialogFragmentCompat();
         final Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
         fragment.setArguments(b);
@@ -34,17 +33,17 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
             throw new IllegalStateException("Dialog view must contain a TimePicker with id 'time_picker'");
         }
 
-        String time = null;
         DialogPreference preference = getPreference();
         if (preference instanceof TimePreference) {
-            time = ((TimePreference) preference).getTime();
-        }
+            TimePreference timePref = (TimePreference) preference;
+            String time = timePref.getTime();
 
-        // Set the time to the TimePicker
-        if (time != null) {
-            mTimePicker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
-            mTimePicker.setCurrentHour(TimePreference.getHour(time));
-            mTimePicker.setCurrentMinute(TimePreference.getMinute(time));
+            // Set the time to the TimePicker
+            if (time != null) {
+                mTimePicker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
+                mTimePicker.setHour(TimePreference.getHour(time));
+                mTimePicker.setMinute(TimePreference.getMinute(time));
+            }
         }
     }
 
@@ -52,8 +51,8 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
     public void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             // Get the current values from the TimePicker
-            int hour = mTimePicker.getCurrentHour();
-            int minute = mTimePicker.getCurrentMinute();
+            int hour = mTimePicker.getHour();
+            int minute = mTimePicker.getMinute();
 
             // Generate value to save
             String time = hour + ":" + minute;
