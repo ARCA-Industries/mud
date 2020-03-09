@@ -94,12 +94,20 @@ public class TimePreference extends DialogPreference {
     }
 
     public static int getHour(String time) {
-        String[] pieces = time.split(":");
-        return Integer.parseInt(pieces[0]);
+        try {
+            String[] pieces = time.split(":");
+            return Integer.parseInt(pieces[0]);
+        } catch (NumberFormatException e) {
+            return 12;
+        }
     }
 
     public static int getMinute(String time) {
-        String[] pieces = time.split(":");
-        return Integer.parseInt(pieces[1]);
+        try {
+            String[] pieces = time.split(":");
+            return Integer.parseInt(pieces[1]);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }

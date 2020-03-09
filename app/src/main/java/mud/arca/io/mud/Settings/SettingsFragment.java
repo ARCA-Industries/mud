@@ -38,8 +38,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-//        Util.debug("##### All prefs: " + prefs.getAll());
+        if (Util.DEBUG_ENABLED) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.remove("notification_time");
+//            editor.apply();
+
+            Util.debug("##### All prefs: " + prefs.getAll());
+        }
+
+
     }
 
     private void initPreferences() {
