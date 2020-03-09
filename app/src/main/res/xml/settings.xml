@@ -12,12 +12,17 @@
 
         </Preference>
 
-        <EditTextPreference
-            app:defaultValue="2:00 PM"
+<!--        <EditTextPreference-->
+<!--            app:defaultValue="2:00 PM"-->
+<!--            app:key="notification_time"-->
+<!--            app:title="Notification time"-->
+<!--            app:useSimpleSummaryProvider="true">-->
+<!--        </EditTextPreference>-->
+
+        <mud.arca.io.mud.Settings.TimePreference
             app:key="notification_time"
             app:title="Notification time"
-            app:useSimpleSummaryProvider="true">
-        </EditTextPreference>
+            />
 
         <ListPreference
             app:defaultValue="auto"
