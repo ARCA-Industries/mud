@@ -12,26 +12,6 @@
 
         </Preference>
 
-<!--        <EditTextPreference-->
-<!--            app:defaultValue="2:00 PM"-->
-<!--            app:key="notification_time"-->
-<!--            app:title="Notification time"-->
-<!--            app:useSimpleSummaryProvider="true">-->
-<!--        </EditTextPreference>-->
-
-
-        <SwitchPreference
-            app:title="Enable notifications"
-            app:key="notifications_enabled"
-            android:summaryOff="Disabled"
-            android:summaryOn="Enabled"
-            />
-
-        <mud.arca.io.mud.Settings.TimePreference
-            app:key="notification_time"
-            app:title="Notification time"
-            />
-
         <ListPreference
             app:defaultValue="auto"
             app:entries="@array/theme_entries"
@@ -46,6 +26,20 @@
             app:title="Select weather location"
             app:useSimpleSummaryProvider="true" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Notifications">
+        <SwitchPreference
+            app:title="Enable notifications"
+            app:key="notifications_enabled"
+            android:summaryOff="Disabled"
+            android:summaryOn="Enabled"
+            />
+
+        <mud.arca.io.mud.Settings.TimePreference
+            app:key="notification_time"
+            app:title="Notification time"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Backup &amp; Sync">
