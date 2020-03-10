@@ -1,5 +1,6 @@
 package mud.arca.io.mud.Notifications;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+
+import java.util.Calendar;
 
 import androidx.core.app.NotificationCompat;
 
@@ -21,6 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static int id = 0;
     public static String MOOD_REMINDER_CHANNEL_ID = "mood_reminder";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Util.debug("onReceive() called ******************");
@@ -31,28 +35,26 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //Intent notificationIntent = new Intent(context, EventsPerform.class);
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context, MOOD_REMINDER_CHANNEL_ID)
-                //.setSmallIcon(R.drawable.applogo)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Alarm Fired")
-                .setContentText("Events to be Performed").setSound(alarmSound)
-                .setAutoCancel(true).setWhen(when)
+                .setContentTitle("How are you today?")
+                .setContentText("Click this notification to record your mood")
+                .setSound(alarmSound)
+                .setAutoCancel(true)
+                .setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         notificationManager.notify(id, mNotifyBuilder.build());
         id++;
-
     }
 
     private void createNotificationChannel(Context context) {
@@ -70,5 +72,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
 
 }

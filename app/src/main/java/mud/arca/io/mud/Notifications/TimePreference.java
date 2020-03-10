@@ -74,7 +74,8 @@ public class TimePreference extends DialogPreference {
         persistString(time);
 
         updateSummaryText();
-        Util.debug("Set time to: " + time);
+//        Util.debug("Set time to: " + time);
+//        AlarmReceiver.setRepeatingNotification(getContext(), getHour(), getMinute());
     }
 
     @Override
@@ -91,6 +92,14 @@ public class TimePreference extends DialogPreference {
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         setTime(restorePersistedValue ?
                 getPersistedString(time) : (String) defaultValue);
+    }
+
+    public int getHour() {
+        return getHour(time);
+    }
+
+    public int getMinute() {
+        return getMinute(time);
     }
 
     public static int getHour(String time) {

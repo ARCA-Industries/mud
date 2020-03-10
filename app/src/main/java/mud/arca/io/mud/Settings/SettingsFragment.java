@@ -2,6 +2,7 @@ package mud.arca.io.mud.Settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
 import com.firebase.ui.auth.AuthUI;
@@ -14,12 +15,16 @@ import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
+import mud.arca.io.mud.Notifications.MyAlarmManager;
 import mud.arca.io.mud.Notifications.TimePreference;
 import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Util.Util;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+    SharedPreferences sharedPrefs;
+    MyAlarmManager myAlarmManager;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
@@ -37,16 +42,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
+        Preference notifTime = findPreference("notification_time");
+        notifTime.setDependency("notifications_enabled");
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPrefs.registerOnSharedPreferenceChangeListener(spChanged);
+
+        myAlarmManager = new MyAlarmManager(getContext());
+
         if (Util.DEBUG_ENABLED) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 //            SharedPreferences.Editor editor = prefs.edit();
 //            editor.remove("notification_time");
 //            editor.apply();
-            Util.debug("##### All prefs: " + prefs.getAll());
+            Util.debug("##### All prefs: " + sharedPrefs.getAll());
         }
-
-        Preference notifTime = findPreference("notification_time");
-        notifTime.setDependency("notifications_enabled");
     }
 
     private void initPreferences() {
@@ -84,4 +93,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             super.onDisplayPreferenceDialog(preference);
         }
     }
+
+    OnSharedPreferenceChangeListener spChanged = new OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            Util.debug("Preference changed, key="+key);
+            if (key.equals("notifications_enabled")) {
+                boolean val = sharedPrefs.getBoolean("notifications_enabled", true);
+                Util.debug("val="+val);
+                if (val) {
+                    String timeString = sharedPrefs.getString("notification_time", "12:0");
+                    myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
+                } else {
+                    myAlarmManager.cancelRepeatingNotification();
+                }
+            } else if (key.equals("notification_time")) {
+                String timeString = sharedPrefs.getString("notification_time", "12:0");
+                Util.debug("val="+timeString);
+                myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
+            }
+        }
+    };
 }
