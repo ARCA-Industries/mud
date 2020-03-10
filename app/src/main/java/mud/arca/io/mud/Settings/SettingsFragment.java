@@ -39,15 +39,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         if (Util.DEBUG_ENABLED) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-
 //            SharedPreferences.Editor editor = prefs.edit();
 //            editor.remove("notification_time");
 //            editor.apply();
-
             Util.debug("##### All prefs: " + prefs.getAll());
         }
 
-
+        Preference notifTime = findPreference("notification_time");
+        notifTime.setDependency("notifications_enabled");
     }
 
     private void initPreferences() {
