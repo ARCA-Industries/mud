@@ -99,9 +99,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Util.debug("Preference changed, key="+key);
             if (key.equals("notifications_enabled")) {
-                boolean val = sharedPrefs.getBoolean("notifications_enabled", true);
-                Util.debug("val="+val);
-                if (val) {
+                boolean enabled = sharedPrefs.getBoolean("notifications_enabled", true);
+                Util.debug("enabled="+enabled);
+                if (enabled) {
                     String timeString = sharedPrefs.getString("notification_time", "12:0");
                     myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
                 } else {
@@ -109,7 +109,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             } else if (key.equals("notification_time")) {
                 String timeString = sharedPrefs.getString("notification_time", "12:0");
-                Util.debug("val="+timeString);
+                Util.debug("timeString="+timeString);
                 myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
             }
         }
