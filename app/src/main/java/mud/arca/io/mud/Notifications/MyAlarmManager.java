@@ -7,6 +7,8 @@ import android.content.Intent;
 
 import java.util.Calendar;
 
+import mud.arca.io.mud.Util.Util;
+
 public class MyAlarmManager {
     AlarmManager alarmMgr;
     PendingIntent alarmIntent;
@@ -18,7 +20,7 @@ public class MyAlarmManager {
     }
 
     /**
-     * If a repeating notification already exists, it will update the time.
+     * If a repeating notification is already set, its time will be updated.
      * @param hour
      * @param minute
      */
@@ -29,9 +31,11 @@ public class MyAlarmManager {
         calendar.set(Calendar.SECOND, 0);
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        Util.debug("Set repeating notification at " + Util.formatTime(hour, minute));
     }
 
     public void cancelRepeatingNotification() {
         alarmMgr.cancel(alarmIntent);
+        Util.debug("Cancelled repeating notification");
     }
 }

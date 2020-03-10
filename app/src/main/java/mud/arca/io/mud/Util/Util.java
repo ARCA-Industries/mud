@@ -136,4 +136,21 @@ public class Util {
             }
         });
     }
+
+    /**
+     * Format a time.
+     * formatTime(16, 7) => "4:07 PM"
+     * @param hour
+     * @param minute
+     * @return
+     */
+    public static String formatTime(int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        Date date = cal.getTime();
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
+        return sdf.format(date);
+    }
 }

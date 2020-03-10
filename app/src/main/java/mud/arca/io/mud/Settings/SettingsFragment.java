@@ -50,12 +50,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         myAlarmManager = new MyAlarmManager(getContext());
 
-        if (Util.DEBUG_ENABLED) {
-//            SharedPreferences.Editor editor = prefs.edit();
-//            editor.remove("notification_time");
-//            editor.apply();
-            Util.debug("##### All prefs: " + sharedPrefs.getAll());
-        }
+        //removeNotifTime();
+        Util.debug("##### All prefs: " + sharedPrefs.getAll());
+    }
+
+    public void removeNotifTime() {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.remove("notification_time");
+        editor.apply();
     }
 
     private void initPreferences() {
@@ -87,30 +89,31 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0);
-            dialogFragment.show(this.getFragmentManager(), "androidx.preference" +
-                    ".PreferenceFragment.DIALOG");
+            dialogFragment.show(this.getParentFragmentManager(),
+                    "androidx.preference.PreferenceFragment.DIALOG");
         } else {
             super.onDisplayPreferenceDialog(preference);
         }
     }
 
+    public void updateNotificationTime() {
+        String timeString = sharedPrefs.getString("notification_time", TimePreference.DEFAULT_TIME_STRING);
+        myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
+    }
+
     OnSharedPreferenceChangeListener spChanged = new OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            Util.debug("Preference changed, key="+key);
+            //Util.debug("Preference changed, key="+key);
             if (key.equals("notifications_enabled")) {
                 boolean enabled = sharedPrefs.getBoolean("notifications_enabled", true);
-                Util.debug("enabled="+enabled);
                 if (enabled) {
-                    String timeString = sharedPrefs.getString("notification_time", "12:0");
-                    myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
+                    updateNotificationTime();
                 } else {
                     myAlarmManager.cancelRepeatingNotification();
                 }
             } else if (key.equals("notification_time")) {
-                String timeString = sharedPrefs.getString("notification_time", "12:0");
-                Util.debug("timeString="+timeString);
-                myAlarmManager.setRepeatingNotification(TimePreference.getHour(timeString), TimePreference.getMinute(timeString));
+                updateNotificationTime();
             }
         }
     };

@@ -16,12 +16,16 @@ import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Util.Util;
 
+import static mud.arca.io.mud.Util.Util.formatTime;
+
 public class TimePreference extends DialogPreference {
+    public static String DEFAULT_TIME_STRING = "12:0";
+
     /**
      * The time is stored in H:M format, where 0 <= H <= 23.
      * There are no leading zeros, so 4:07 PM is represented as "16:7".
      */
-    private String time = "12:0";
+    private String time = DEFAULT_TIME_STRING;
 
     public TimePreference(Context context) {
         // Delegate to other constructor
@@ -39,7 +43,7 @@ public class TimePreference extends DialogPreference {
 
     public TimePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        setPositiveButtonText("Set value");
+        setPositiveButtonText("Set time");
         setNegativeButtonText("Cancel");
         updateSummaryText();
     }
@@ -49,13 +53,8 @@ public class TimePreference extends DialogPreference {
     }
 
     public void updateSummaryText() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, getHour(getTime()));
-        cal.set(Calendar.MINUTE, getMinute(getTime()));
-        Date date = cal.getTime();
-
-        final SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
-        setSummary(sdf.format(date));
+        String timeStr = Util.formatTime(getHour(), getMinute());
+        setSummary(timeStr);
     }
 
 //    public int hour;
