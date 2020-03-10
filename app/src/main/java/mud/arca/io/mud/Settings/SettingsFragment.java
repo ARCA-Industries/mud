@@ -7,8 +7,6 @@ import android.os.Bundle;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -16,7 +14,8 @@ import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
-import mud.arca.io.mud.MainActivity;
+import mud.arca.io.mud.Notifications.TimePreference;
+import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Util.Util;
 

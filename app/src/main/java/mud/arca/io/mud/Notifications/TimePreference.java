@@ -1,4 +1,4 @@
-package mud.arca.io.mud.Settings;
+package mud.arca.io.mud.Notifications;
 
 
 import android.content.Context;

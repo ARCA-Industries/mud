@@ -1,4 +1,4 @@
-package mud.arca.io.mud.Settings;
+package mud.arca.io.mud.Notifications;
 
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -8,7 +8,6 @@ import android.widget.TimePicker;
 import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Util.Util;
 
 public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 

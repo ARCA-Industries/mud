@@ -36,7 +36,7 @@
             android:summaryOn="Enabled"
             />
 
-        <mud.arca.io.mud.Settings.TimePreference
+        <mud.arca.io.mud.Notifications.TimePreference
             app:key="notification_time"
             app:title="Notification time"
             />
