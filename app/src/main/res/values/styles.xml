@@ -29,6 +29,9 @@
         <item name="android:windowBackground">@drawable/gradient_red_green</item>
     </style>
     <style name ="LoginScreenAuthUI" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowBackground">@color/green_dark</item>
         <item name="android:colorPrimary">@color/green_dark</item>
         <item name="android:colorAccent">@color/green</item>
