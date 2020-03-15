@@ -9,6 +9,7 @@ import mud.arca.io.mud.Database.DatabaseHelper;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -42,6 +43,17 @@ public class VariableManagementActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.variable_table);
         recyclerView.setAdapter(adapter);
 
+        // Set up keyboard done listener
+        ((EditText) findViewById(R.id.variable_name)).setOnEditorActionListener((textView, i, keyEvent) -> {
+            switch (i) {
+                case EditorInfo.IME_ACTION_GO:
+                    createVariable();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
     }
 
 
@@ -64,7 +76,13 @@ public class VariableManagementActivity extends AppCompatActivity {
      * @param v for our onClick
      */
     public void createVariable(View v) {
+        createVariable();
+    }
 
+    /**
+     * Creates variables to save to user.
+     */
+    public void createVariable() {
         EditText userVarName = findViewById(R.id.variable_name);
         Spinner userVarType = findViewById(R.id.variable_type);
 

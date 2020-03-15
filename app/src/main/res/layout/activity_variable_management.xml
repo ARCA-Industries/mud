@@ -1,57 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Settings.VariableManagementActivity" >
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Variable Management" />
+    tools:context=".Settings.VariableManagementActivity">
 
     <EditText
         android:id="@+id/variable_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Variable Name"
-        android:inputType="textPersonName" />
-
+        android:hint="Variable Name"
+        android:imeOptions="actionGo"
+        android:inputType="textCapWords"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/variable_type"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/variable_types"
         android:hint="Select Variable Type"
-        android:entries="@array/variable_types"/>
+        app:layout_constraintBottom_toBottomOf="@+id/variable_name"
+        app:layout_constraintEnd_toStartOf="@+id/add_variable"
+        app:layout_constraintStart_toEndOf="@+id/variable_name"
+        app:layout_constraintTop_toTopOf="@+id/variable_name" />
 
-    <Button
+
+    <ImageButton
         android:id="@+id/add_variable"
-        android:layout_width="380dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:contentDescription="Add Variable"
         android:onClick="createVariable"
-        android:text="Add Variable" />
-
-    <Button
-        android:id="@+id/delete_variable"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:onClick="deleteVariable"
-        android:text="Delete Variable" />
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/variable_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/variable_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variable_table"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/variable_name"
         tools:context=".Settings.VariableManagementActivity"
-        tools:listitem="@layout/variable_management_list_item"
-        tools:itemCount="5" />
+        tools:itemCount="5"
+        tools:listitem="@layout/variable_management_list_item" />
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
