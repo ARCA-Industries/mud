@@ -16,13 +16,13 @@ import mud.arca.io.mud.R;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Variable} and makes a call to the
- * specified {@link OnItemClickListener} when an item is clicked.
+ * specified {@link OnDeleteClickListener} when an item is clicked.
  */
 public class VariableManagementAdapter extends FirestoreRecyclerAdapter<Variable, VariableManagementAdapter.ViewHolder> {
 
-    private final OnItemClickListener mListener;
+    private final OnDeleteClickListener mListener;
 
-    public VariableManagementAdapter(FirestoreRecyclerOptions<Variable> options, OnItemClickListener listener) {
+    public VariableManagementAdapter(FirestoreRecyclerOptions<Variable> options, OnDeleteClickListener listener) {
         super(options);
         mListener = listener;
     }
@@ -44,12 +44,12 @@ public class VariableManagementAdapter extends FirestoreRecyclerAdapter<Variable
         holder.mVariableHeader.setText(model.getName());
         holder.mTypeHeader.setText(model.varTypeToString());
 
-        // Set the DayDetailsActivity to launch on click
-        holder.mView.setOnClickListener(v -> {
+        // Notify any listeners of delete button click
+        holder.mDeleteButton.setOnClickListener(v -> {
             if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onItemClick(holder.variable, getSnapshots().getSnapshot(position).getReference());
+                // Note: Position is assigned when view is bound. Need to get position at time of delete clicked if I want to delete by reference:
+                // mListener.onDeleteClick(holder.variable, getSnapshots().getSnapshot(position).getReference());
+                mListener.onDeleteClick(holder.variable);
             }
         });
 
@@ -59,6 +59,7 @@ public class VariableManagementAdapter extends FirestoreRecyclerAdapter<Variable
         final View mView;
         final TextView mVariableHeader;
         final TextView mTypeHeader;
+        final View mDeleteButton;
         public Variable variable;
 
         public ViewHolder(View view) {
@@ -66,10 +67,11 @@ public class VariableManagementAdapter extends FirestoreRecyclerAdapter<Variable
             mView = view;
             mVariableHeader = view.findViewById(R.id.variable_header);
             mTypeHeader = view.findViewById(R.id.type_header);
+            mDeleteButton = view.findViewById(R.id.delete_button);
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(Variable variable, DocumentReference reference);
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Variable variable);
     }
 }

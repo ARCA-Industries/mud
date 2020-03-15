@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
@@ -51,10 +52,7 @@ public class VariableManagementActivity extends AppCompatActivity {
                         Variable.class
                 ).setLifecycleOwner(this).build();
 
-        adapter = new VariableManagementAdapter(options, (variable, reference) -> {
-            // TODO: Change to on delete clicked
-            //       and delete item
-        });
+        adapter = new VariableManagementAdapter(options, (variable) -> deleteVariable(variable));
 
     }
 
@@ -107,5 +105,25 @@ public class VariableManagementActivity extends AppCompatActivity {
             userVarName.getText().clear();
         });
 
+    }
+
+    public void deleteVariable(DocumentReference reference) {
+        ((EditText)findViewById(R.id.variable_name)).getText().clear();
+        reference.delete();
+    }
+
+    // This is much slower than deleting by reference
+    public void deleteVariable(Variable variable) {
+        EditText userVarName = findViewById(R.id.variable_name);
+
+        user_variables.get().addOnCompleteListener(runnable -> {
+            for (DocumentSnapshot document : runnable.getResult().getDocuments()) {
+                if (document.toObject(Variable.class).getName().equals(variable.getName())) {
+                    document.getReference().delete();
+                }
+            }
+
+            userVarName.getText().clear();
+        });
     }
 }
