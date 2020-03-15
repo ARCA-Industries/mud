@@ -94,12 +94,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
             return true;
         });
-    }
 
         findPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
             ThemeUtil.setTheme(newValue.toString());
             return true;
         });
+    }
+
+
     // We need to override onDisplayPreferenceDialog to implement TimePreference.
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
