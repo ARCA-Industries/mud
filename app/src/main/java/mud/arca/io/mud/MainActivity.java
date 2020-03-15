@@ -20,6 +20,7 @@ import mud.arca.io.mud.DayList.DayListFragment;
 import mud.arca.io.mud.Notifications.AlarmReceiver;
 import mud.arca.io.mud.Settings.SettingsFragment;
 import mud.arca.io.mud.Database.DatabaseHelper;
+import mud.arca.io.mud.Util.ThemeUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHelper.ensureDefaultVariables();
 
         testScheduleNotification(getApplicationContext());
+
+        ThemeUtil.loadAndSetThemeFromPreferences(getApplicationContext());
     }
 
     public void testScheduleNotification(Context context) {

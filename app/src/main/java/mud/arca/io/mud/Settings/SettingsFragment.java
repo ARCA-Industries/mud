@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import mud.arca.io.mud.LoginScreenActivity;
 import mud.arca.io.mud.MainActivity;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.ThemeUtil;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
@@ -35,6 +36,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 startActivity(new Intent(getContext(), LoginScreenActivity.class));
                 getActivity().finish();
             });
+            return true;
+        });
+
+        findPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
+            ThemeUtil.setTheme(newValue.toString());
             return true;
         });
 
