@@ -9,12 +9,14 @@ import mud.arca.io.mud.Database.DatabaseHelper;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
@@ -41,6 +43,17 @@ public class VariableManagementActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.variable_table);
         recyclerView.setAdapter(adapter);
 
+        // Set up keyboard done listener
+        ((EditText) findViewById(R.id.variable_name)).setOnEditorActionListener((textView, i, keyEvent) -> {
+            switch (i) {
+                case EditorInfo.IME_ACTION_GO:
+                    createVariable();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
     }
 
 
@@ -51,10 +64,7 @@ public class VariableManagementActivity extends AppCompatActivity {
                         Variable.class
                 ).setLifecycleOwner(this).build();
 
-        adapter = new VariableManagementAdapter(options, (variable, reference) -> {
-            // TODO: Change to on delete clicked
-            //       and delete item
-        });
+        adapter = new VariableManagementAdapter(options, (variable) -> deleteVariable(variable));
 
     }
 
@@ -66,7 +76,13 @@ public class VariableManagementActivity extends AppCompatActivity {
      * @param v for our onClick
      */
     public void createVariable(View v) {
+        createVariable();
+    }
 
+    /**
+     * Creates variables to save to user.
+     */
+    public void createVariable() {
         EditText userVarName = findViewById(R.id.variable_name);
         Spinner userVarType = findViewById(R.id.variable_type);
 
@@ -107,5 +123,25 @@ public class VariableManagementActivity extends AppCompatActivity {
             userVarName.getText().clear();
         });
 
+    }
+
+    public void deleteVariable(DocumentReference reference) {
+        ((EditText)findViewById(R.id.variable_name)).getText().clear();
+        reference.delete();
+    }
+
+    // This is much slower than deleting by reference
+    public void deleteVariable(Variable variable) {
+        EditText userVarName = findViewById(R.id.variable_name);
+
+        user_variables.get().addOnCompleteListener(runnable -> {
+            for (DocumentSnapshot document : runnable.getResult().getDocuments()) {
+                if (document.toObject(Variable.class).getName().equals(variable.getName())) {
+                    document.getReference().delete();
+                }
+            }
+
+            userVarName.getText().clear();
+        });
     }
 }

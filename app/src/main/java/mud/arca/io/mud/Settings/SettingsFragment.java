@@ -19,6 +19,7 @@ import mud.arca.io.mud.Notifications.MyAlarmManager;
 import mud.arca.io.mud.Notifications.TimePreference;
 import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.ThemeUtil;
 import mud.arca.io.mud.Util.Util;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -95,6 +96,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
     }
 
+        findPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
+            ThemeUtil.setTheme(newValue.toString());
+            return true;
+        });
     // We need to override onDisplayPreferenceDialog to implement TimePreference.
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
