@@ -9,9 +9,12 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
@@ -25,6 +28,9 @@ import mud.arca.io.mud.Util.Util;
 public class SettingsFragment extends PreferenceFragmentCompat {
     SharedPreferences sharedPrefs;
     MyAlarmManager myAlarmManager;
+
+    // Set to true to show the Debug PreferenceCategory.
+    public boolean showDebugPrefs = true;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -40,8 +46,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         myAlarmManager = new MyAlarmManager(getContext());
 
-        // Set up the debug preference onclicks
-        Preference addSampleData = findPreference("add_sample_data");
+        if (showDebugPrefs) {
+            createDebugPrefs();
+        }
+    }
+
+    public void createDebugPrefs() {
+        PreferenceScreen screen = this.getPreferenceScreen();
+        PreferenceCategory debugPrefsCategory = new PreferenceCategory(getContext());
+        debugPrefsCategory.setTitle("Debug");
+        screen.addPreference(debugPrefsCategory);
+
+        Preference addSampleData = new Preference(getContext());
+        addSampleData.setTitle("Add sample data");
+        addSampleData.setSummary("Don't press this a lot, it uses up Firestore quota");
         addSampleData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 MockUser.addSampleData(User.getCurrentUser());
@@ -49,32 +67,33 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+        debugPrefsCategory.addPreference(addSampleData);
 
-        Preference outputSharedPrefs = findPreference("output_shared_preferences");
+        Preference outputSharedPrefs = new Preference(getContext());
+        outputSharedPrefs.setTitle("Output shared preferences");
         outputSharedPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Util.debug("##### sharedPrefs: " + sharedPrefs.getAll());
                 return true;
             }
         });
+        debugPrefsCategory.addPreference(outputSharedPrefs);
 
-        Preference clearSharedPrefs = findPreference("clear_shared_preferences");
+        Preference clearSharedPrefs = new Preference(getContext());
+        clearSharedPrefs.setTitle("Clear shared preferences");
         clearSharedPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                removeSharedPrefs();
+                sharedPrefs.edit().clear().commit();
                 return true;
             }
         });
+        debugPrefsCategory.addPreference(clearSharedPrefs);
     }
 
     public void removeNotifTime() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.remove("notification_time");
         editor.apply();
-    }
-
-    public void removeSharedPrefs() {
-        sharedPrefs.edit().clear().commit();
     }
 
     private void initPreferences() {
