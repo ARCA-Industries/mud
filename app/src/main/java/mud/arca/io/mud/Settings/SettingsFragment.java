@@ -31,17 +31,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         initPreferences();
 
-        Preference addSampleData = findPreference("add_sample_data");
-        addSampleData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                MockUser.addSampleData(User.getCurrentUser());
-
-                Util.debug("Added sample data");
-
-                return true;
-            }
-        });
-
         Preference notifTime = findPreference("notification_time");
         notifTime.setDependency("notifications_enabled");
 
@@ -50,14 +39,41 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         myAlarmManager = new MyAlarmManager(getContext());
 
-        //removeNotifTime();
-        Util.debug("##### All prefs: " + sharedPrefs.getAll());
+        // Set up the debug preference onclicks
+        Preference addSampleData = findPreference("add_sample_data");
+        addSampleData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                MockUser.addSampleData(User.getCurrentUser());
+                Util.debug("Added sample data");
+                return true;
+            }
+        });
+
+        Preference outputSharedPrefs = findPreference("output_shared_preferences");
+        outputSharedPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Util.debug("##### sharedPrefs: " + sharedPrefs.getAll());
+                return true;
+            }
+        });
+
+        Preference clearSharedPrefs = findPreference("clear_shared_preferences");
+        clearSharedPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                removeSharedPrefs();
+                return true;
+            }
+        });
     }
 
     public void removeNotifTime() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.remove("notification_time");
         editor.apply();
+    }
+
+    public void removeSharedPrefs() {
+        sharedPrefs.edit().clear().commit();
     }
 
     private void initPreferences() {
