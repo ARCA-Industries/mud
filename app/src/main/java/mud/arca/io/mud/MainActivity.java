@@ -82,22 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper.ensureDefaultVariables();
 
-        testScheduleNotification(getApplicationContext());
-
         ThemeUtil.loadAndSetThemeFromPreferences(getApplicationContext());
     }
-
-    public void testScheduleNotification(Context context) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 3);
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent intent1 = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-    }
-
 
 }

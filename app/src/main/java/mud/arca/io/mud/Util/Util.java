@@ -2,6 +2,9 @@ package mud.arca.io.mud.Util;
 
 import android.util.Log;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,20 +64,6 @@ public class Util {
         return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    // output an ArrayList to debug
-    public static void printList(ArrayList<Long> al) {
-        StringBuffer sb = new StringBuffer();
-
-        sb.append("[");
-        for (Long lo : al) {
-            sb.append(lo);
-            sb.append(" ");
-        }
-        sb.append("]");
-        String str = sb.toString();
-        Util.debug(str);
-    }
-
     // Note: getColor() requires minSdkVersion 23 in app/gradle
     public static final int[] MUD_GRAPH_COLORS = {
             App.getContext().getColor(R.color.green),
@@ -93,12 +82,12 @@ public class Util {
         if (d == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d");
         return sdf.format(d);
     }
 
     public static String formatDateWithYear(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         return sdf.format(d);
     }
 
@@ -128,5 +117,40 @@ public class Util {
             ret.add(v.getName());
         }
         return ret;
+    }
+
+    /**
+     * Set a CollectionReference in database to newVals.
+     * @param cr
+     * @param newVals
+     */
+    public static void setCollectionReference(CollectionReference cr, List<Object> newVals) {
+        cr.get().addOnCompleteListener(task -> {
+            // delete all
+            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                document.getReference().delete();
+            }
+            // add all
+            for (Object o : newVals) {
+                cr.add(o);
+            }
+        });
+    }
+
+    /**
+     * Format a time.
+     * formatTime(16, 7) => "4:07 PM"
+     * @param hour
+     * @param minute
+     * @return
+     */
+    public static String formatTime(int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        Date date = cal.getTime();
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
+        return sdf.format(date);
     }
 }

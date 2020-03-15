@@ -12,13 +12,6 @@
 
         </Preference>
 
-        <EditTextPreference
-            app:defaultValue="2:00 PM"
-            app:key="notification_time"
-            app:title="Notification time"
-            app:useSimpleSummaryProvider="true">
-        </EditTextPreference>
-
         <ListPreference
             app:defaultValue="auto"
             app:entries="@array/theme_entries"
@@ -35,8 +28,21 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Backup &amp; Sync">
+    <PreferenceCategory app:title="Notifications">
+        <SwitchPreference
+            app:title="Enable notifications"
+            app:key="notifications_enabled"
+            android:summaryOff="Disabled"
+            android:summaryOn="Enabled"
+            />
 
+        <mud.arca.io.mud.Notifications.TimePreference
+            app:key="notification_time"
+            app:title="Notification time"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Backup &amp; Sync">
 
         <Preference
             app:defaultValue="Last sync: October 21, 2019"
@@ -48,6 +54,24 @@
             app:title="Log Out"
             app:summary="@string/preference_auth_logout_summary" />
 
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Debug">
+        <Preference
+            app:title="Add sample data"
+            app:key="add_sample_data"
+            app:summary="Don't press this a lot, it uses up Firestore quota"
+            />
+        <Preference
+            app:title="Output shared preferences"
+            app:key="output_shared_preferences"
+            />
+        <Preference
+            app:title="Clear shared preferences"
+            app:key="clear_shared_preferences"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

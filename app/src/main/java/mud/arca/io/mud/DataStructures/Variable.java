@@ -71,5 +71,10 @@ public class Variable implements Serializable {
         this.vartype = vartype;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Variable(%s)", name);
+    }
+
 
 }
