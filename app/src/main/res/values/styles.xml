@@ -37,6 +37,12 @@
         <item name="android:colorAccent">@color/green</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="LoginScreenAuthUI.AuthButton" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+        <item name="tint">@android:color/white</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:foreground">@drawable/ic_circle_ring</item>
+    </style>
 
     <style name="MudSeekBarTheme" parent="Widget.AppCompat.SeekBar" >
         <item name="colorAccent">@color/green</item>

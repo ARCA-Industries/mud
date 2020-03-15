@@ -19,13 +19,13 @@
         app:layout_constraintVertical_bias="0.24"
         app:srcCompat="@drawable/icon_line" />
 
-    <Button
+    <ImageButton
         android:id="@+id/goog_auth"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        style="@style/LoginScreenAuthUI.AuthButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@android:color/transparent"
-        android:foreground="@drawable/auth_goog"
+        android:src="@drawable/googleg_standard_color_18"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -34,17 +34,13 @@
         app:layout_constraintVertical_bias="0.739"
         app:rippleColor="@color/colorPrimaryDark" />
 
-    <Button
+    <ImageButton
         android:id="@+id/email_auth"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        style="@style/LoginScreenAuthUI.AuthButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
-        android:foreground="@drawable/auth_email"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp"
+        android:src="@drawable/ic_mail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.238"
@@ -53,13 +49,13 @@
         app:layout_constraintVertical_bias="0.739"
         app:rippleColor="@color/colorPrimaryDark" />
 
-    <Button
+    <ImageButton
         android:id="@+id/phone_auth"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+        style="@style/LoginScreenAuthUI.AuthButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@android:color/transparent"
-        android:foreground="@drawable/auth_phone"
+        android:src="@drawable/ic_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.763"
