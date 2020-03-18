@@ -87,6 +87,12 @@ public class User {
         return dayData.get(0).getDate();
     }
 
+    public Day getLatestDay() {
+        if (dayData.size() == 0) {
+            return null;
+        }
+        return dayData.get(dayData.size() - 1);
+    }
 
     public interface UserUpdateListener {
         void onUserUpdate(User user);
