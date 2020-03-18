@@ -1,9 +1,7 @@
 package mud.arca.io.mud.DayDetails;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,7 +37,7 @@ public class DayDetailsFragment extends Fragment {
     public static DayDetailsFragment newInstance(Day day) {
         DayDetailsFragment fragment = new DayDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DayDetailsActivity.EXTRA_DAY, day);
+        bundle.putSerializable(DayDetailsActivity.EXTRA_DATE, day);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -110,7 +108,7 @@ public class DayDetailsFragment extends Fragment {
         // Load Day from arguments
         Day day;
         try {
-            day = (Day) getArguments().getSerializable(DayDetailsActivity.EXTRA_DAY);
+            day = (Day) getArguments().getSerializable(DayDetailsActivity.EXTRA_DATE);
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("Must start this fragment with a Day! Use newInstance.");
         }
@@ -174,15 +172,27 @@ public class DayDetailsFragment extends Fragment {
 
         recyclerView.setAdapter(new DayDetailsRecyclerAdapter(DayDetailsContent.getItems(day)));
 
-        // Exit activity with result when user saves
+        // Let activity know when the user saves
         view.findViewById(R.id.recordDetailsSaveButton).setOnClickListener(button -> {
-            Intent data = getActivity().getIntent();
-            data.putExtra(DayDetailsActivity.EXTRA_DAY, day);
-            getActivity().setResult(Activity.RESULT_OK, data);
-            getActivity().finish();
+            mSaveListener.onSave(day);
         });
 
         return view;
     }
 
+    private SaveListener mSaveListener;
+
+    public interface SaveListener {
+        void onSave(Day day);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            mSaveListener = (SaveListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement SaveListener");
+        }
+    }
 }
