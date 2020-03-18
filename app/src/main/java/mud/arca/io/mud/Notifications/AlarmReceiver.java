@@ -38,8 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // TODO: Currently this redirects to the day details view, but the database doesn't update. Make sure the database knows which document to update.
-        Intent notificationIntent = DayDetailsActivity.getLaunchIntentForDay(context, User.getCurrentUser().getLatestDay());
+        Intent notificationIntent = DayDetailsActivity.getLaunchIntentForDate(context, User.getCurrentUser().getLatestDate());
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
