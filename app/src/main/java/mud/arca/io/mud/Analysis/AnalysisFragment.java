@@ -113,21 +113,6 @@ public class AnalysisFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Create spinner with resource id and objects to populate dropdown.
-     * @param id
-     * @param objects
-     * @return
-     */
-    private AppCompatSpinner setupSpinner(int id, List objects) {
-        AppCompatSpinner spinner = getView().findViewById(id);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(),
-                android.R.layout.simple_spinner_item, objects);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-        return spinner;
-    }
-
     public int getChartTypeSelectedInt() {
         return sharedPrefs.getInt("chartTypeSelectedInt", 0);
     }
@@ -157,18 +142,29 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+    /**
+     * Create spinner with resource id and objects to populate dropdown.
+     * @param spinner
+     * @param labels
+     * @return
+     */
+    private PersistentSpinner setupSpinner(AppCompatSpinner spinner, List<String> labels, String key) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(),
+                android.R.layout.simple_spinner_item, labels);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+        return new PersistentSpinner(getContext(), spinner, key);
+    }
+
     private void initializeView() {
         // Set up variable spinner
-        varSpinner = setupSpinner(R.id.inputVariableDropdown, Util.getVariableLabels());
-        int varSelectedInt = getVarSelectedInt();
-        varSpinner.setSelection(varSelectedInt, false);
+        varSpinner = getView().findViewById(R.id.inputVariableDropdown);
+        PersistentSpinner varPS = setupSpinner(varSpinner, Util.getVariableLabels(), "varSelectedInt");
 
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putInt("varSelectedInt", i);
-                editor.commit();
+                varPS.savePosition(i);
 
                 Util.debug("variableSpinner onItemSelected() called");
                 updatePlot();
@@ -188,17 +184,13 @@ public class AnalysisFragment extends Fragment {
         varSpinnerAH = new MyAnimationHandler(varSpinner);
 
         // Set up plot type spinner
-        plotTypeSpinner = setupSpinner(R.id.inputPlotTypeDropdown, getChartTypeLabels());
-        int chartTypeSelectedInt = getChartTypeSelectedInt();
-        plotTypeSpinner.setSelection(chartTypeSelectedInt, false);
+        plotTypeSpinner = getView().findViewById(R.id.inputPlotTypeDropdown);
+        PersistentSpinner plotTypePS = setupSpinner(plotTypeSpinner, getChartTypeLabels(), "chartTypeSelectedInt");
 
         plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putInt("chartTypeSelectedInt", i);
-                editor.commit();
-
+                plotTypePS.savePosition(i);
                 updateSpinners(i);
 
                 Util.debug("plotTypeSpinner onItemSelected() called");
