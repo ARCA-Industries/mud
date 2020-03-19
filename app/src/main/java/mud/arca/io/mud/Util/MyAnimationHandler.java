@@ -14,7 +14,7 @@ public class MyAnimationHandler {
     public final int initialHeight;
 
     // Duration of the animation, relative to collapse speed of 1dp/ms.
-    public int duration = 10;
+    public int duration = 2;
 
     public MyAnimationHandler(View view) {
         this.view = view;
@@ -30,8 +30,7 @@ public class MyAnimationHandler {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         view.getLayoutParams().height = 1;
         view.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 view.getLayoutParams().height = interpolatedTime == 1
@@ -52,15 +51,12 @@ public class MyAnimationHandler {
     }
 
     public void collapse() {
-        //final int initialHeight = view.getMeasuredHeight();
-
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     view.setVisibility(View.GONE);
-                }else{
+                } else {
                     view.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
                     view.requestLayout();
                 }

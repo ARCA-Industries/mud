@@ -317,33 +317,34 @@ public class AnalysisFragment extends Fragment {
         int varSelectedInt = getVarSelectedInt();
         String varName = User.getCurrentUser().getVarData().get(varSelectedInt).getName();
 
+        int chartTypeSelectedInt = getChartTypeSelectedInt();
+        ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
+
         // There's definitely a nicer and safer way to do this.
+        AnalysisChart analysisChart = null;
         try {
-            int chartTypeSelectedInt = getChartTypeSelectedInt();
-            ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
-
-            AnalysisChart analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
-
-            // If the chart type selected extends ChartWithDates, set start and end dates.
-            if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
-                ChartWithDates cwd = (ChartWithDates) analysisChart;
-                cwd.setStartDate(startDS.date);
-                cwd.setEndDate(endDS.date);
-            }
-
-            // If the chart type selected extends ChartWithVariable, set variable name.
-            if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
-                ChartWithVariable cwv = (ChartWithVariable) analysisChart;
-                cwv.setVarName(varName);
-            }
-
-            analysisChart.updateChart();
-
-            FrameLayout imageView = getView().findViewById(R.id.imageView);
-            imageView.removeAllViews();
-            imageView.addView((View) analysisChart);
+            analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
         } catch (IllegalAccessException | java.lang.InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
+        // If the chart type selected extends ChartWithDates, set start and end dates.
+        if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
+            ChartWithDates cwd = (ChartWithDates) analysisChart;
+            cwd.setStartDate(startDS.date);
+            cwd.setEndDate(endDS.date);
+        }
+
+        // If the chart type selected extends ChartWithVariable, set variable name.
+        if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
+            ChartWithVariable cwv = (ChartWithVariable) analysisChart;
+            cwv.setVarName(varName);
+        }
+
+        analysisChart.updateChart();
+
+        FrameLayout imageView = getView().findViewById(R.id.imageView);
+        imageView.removeAllViews();
+        imageView.addView((View) analysisChart);
     }
 }
