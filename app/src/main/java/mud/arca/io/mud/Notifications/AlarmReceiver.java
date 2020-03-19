@@ -16,6 +16,9 @@ import java.util.Calendar;
 import androidx.core.app.NotificationCompat;
 
 import androidx.core.app.NotificationManagerCompat;
+import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.DayDetails.DayDetailsActivity;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.MainActivity;
 import mud.arca.io.mud.R;
@@ -35,10 +38,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = DayDetailsActivity.getLaunchIntentForDate(context, User.getCurrentUser().getLatestDate());
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // TODO: set this pendingIntent to the details view of the current day.
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

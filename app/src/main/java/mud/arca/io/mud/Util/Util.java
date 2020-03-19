@@ -23,7 +23,7 @@ import mud.arca.io.mud.R;
 public class Util {
     /**
      * @param s a String in the format "12-December-2012"
-     * @return a Date from parsing the string
+     * @return a Date from parsing the string. The Date has time 12:00 AM.
      */
     public static Date parseDate(String s) {
         Date d = new Date();

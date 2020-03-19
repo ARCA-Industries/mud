@@ -3,10 +3,12 @@ package mud.arca.io.mud.Analysis;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -27,6 +29,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
@@ -56,8 +59,14 @@ public class AnalysisFragment extends Fragment {
 
     public DateSelector endDS;
     public DateSelector startDS;
-    private int varSelected = 0;
-    private ChartType chartTypeSelected = ChartType.VARIABLE_VS_TIME_CHART;
+    SharedPreferences sharedPrefs;
+    AppCompatSpinner varSpinner;
+    AppCompatSpinner plotTypeSpinner;
+    TextInputLayout inputStartLayout;
+    TextInputLayout inputEndLayout;
+    MyAnimationHandler startAH;
+    MyAnimationHandler endAH;
+    MyAnimationHandler varSpinnerAH;
 
     /**
      * Earliest Date in the current User.
@@ -79,11 +88,6 @@ public class AnalysisFragment extends Fragment {
      */
     Date endDate;
 
-    AppCompatSpinner varSpinner;
-    AppCompatSpinner plotTypeSpinner;
-    TextInputLayout inputStartLayout;
-    TextInputLayout inputEndLayout;
-
     public List<String> getChartTypeLabels() {
         List<String> ret = new ArrayList<>();
         for (ChartType ct : ChartType.values()) {
@@ -95,37 +99,74 @@ public class AnalysisFragment extends Fragment {
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Util.debug("onCreateView called");
         View view = inflater.inflate(R.layout.analysis_fragment, container, false);
 
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
         User.getCurrentUser().updateUserData(user -> {
-            refreshView();
+            initializeView();
+            updateSpinners(getChartTypeSelectedInt());
+            updatePlot();
         });
 
         return view;
     }
 
-    /**
-     * Create spinner with resource id and objects to populate dropdown.
-     * @param id
-     * @param objects
-     * @return
-     */
-    private AppCompatSpinner setupSpinner(int id, List objects) {
-        AppCompatSpinner spinner = getView().findViewById(id);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(),
-                android.R.layout.simple_spinner_item, objects);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-        return spinner;
+    public int getChartTypeSelectedInt() {
+        return sharedPrefs.getInt("chartTypeSelectedInt", 0);
     }
 
-    private void refreshView() {
+    public int getVarSelectedInt() {
+        return sharedPrefs.getInt("varSelectedInt", 0);
+    }
+
+    /**
+     * Expand/collapse spinners based on chartTypeSelectedInt.
+     */
+    private void updateSpinners(int chartTypeSelectedInt) {
+        ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
+
+        if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
+            varSpinnerAH.expand();
+        } else {
+            varSpinnerAH.collapse();
+        }
+
+        if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
+            startAH.expand();
+            endAH.expand();
+        } else {
+            startAH.collapse();
+            endAH.collapse();
+        }
+    }
+
+    /**
+     * Create spinner with resource id and objects to populate dropdown.
+     * @param spinner
+     * @param labels
+     * @return
+     */
+    private PersistentSpinner setupSpinner(AppCompatSpinner spinner, List<String> labels, String key) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(),
+                android.R.layout.simple_spinner_item, labels);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+        return new PersistentSpinner(getContext(), spinner, key);
+    }
+
+    private void initializeView() {
         // Set up variable spinner
-        varSpinner = setupSpinner(R.id.inputVariableDropdown, Util.getVariableLabels());
+        varSpinner = getView().findViewById(R.id.inputVariableDropdown);
+        PersistentSpinner varPS = setupSpinner(varSpinner, Util.getVariableLabels(), "varSelectedInt");
+
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                varSelected = i;
+                varPS.savePosition(i);
+
+                Util.debug("variableSpinner onItemSelected() called");
                 updatePlot();
             }
 
@@ -135,33 +176,24 @@ public class AnalysisFragment extends Fragment {
             }
         });
 
+        // Need to initialize animation handlers before plot type spinner.
         inputStartLayout = getView().findViewById(R.id.inputStartLayout);
         inputEndLayout = getView().findViewById(R.id.inputEndLayout);
-        MyAnimationHandler startAH = new MyAnimationHandler(inputStartLayout);
-        MyAnimationHandler endAH = new MyAnimationHandler(inputEndLayout);
-        MyAnimationHandler varSpinnerAH = new MyAnimationHandler(varSpinner);
+        startAH = new MyAnimationHandler(inputStartLayout);
+        endAH = new MyAnimationHandler(inputEndLayout);
+        varSpinnerAH = new MyAnimationHandler(varSpinner);
 
         // Set up plot type spinner
-        plotTypeSpinner = setupSpinner(R.id.inputPlotTypeDropdown, getChartTypeLabels());
+        plotTypeSpinner = getView().findViewById(R.id.inputPlotTypeDropdown);
+        PersistentSpinner plotTypePS = setupSpinner(plotTypeSpinner, getChartTypeLabels(), "chartTypeSelectedInt");
+
         plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                chartTypeSelected = ChartType.values()[i];
+                plotTypePS.savePosition(i);
+                updateSpinners(i);
 
-                if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
-                    varSpinnerAH.expand();
-                } else {
-                    varSpinnerAH.collapse();
-                }
-
-                if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
-                    startAH.expand();
-                    endAH.expand();
-                } else {
-                    startAH.collapse();
-                    endAH.collapse();
-                }
-
+                Util.debug("plotTypeSpinner onItemSelected() called");
                 updatePlot();
             }
 
@@ -224,8 +256,9 @@ public class AnalysisFragment extends Fragment {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int day) {
                             Date dateSelected = new GregorianCalendar(year, month, day).getTime();
-
                             setDate(dateSelected);
+
+                            Util.debug("onDateSet() called");
                             updatePlot();
                         }
                     };
@@ -281,37 +314,37 @@ public class AnalysisFragment extends Fragment {
             return;
         }
 
-        String varName = User.getCurrentUser().getVarData().get(varSelected).getName();
+        int varSelectedInt = getVarSelectedInt();
+        String varName = User.getCurrentUser().getVarData().get(varSelectedInt).getName();
+
+        int chartTypeSelectedInt = getChartTypeSelectedInt();
+        ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
 
         // There's definitely a nicer and safer way to do this.
+        AnalysisChart analysisChart = null;
         try {
-            AnalysisChart analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
-
-            // If the chart type selected extends ChartWithDates, set start and end dates.
-            if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
-                ChartWithDates cwd = (ChartWithDates) analysisChart;
-                cwd.setStartDate(startDS.date);
-                cwd.setEndDate(endDS.date);
-            }
-
-            // If the chart type selected extends ChartWithVariable, set variable name.
-            if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
-                ChartWithVariable cwv = (ChartWithVariable) analysisChart;
-                cwv.setVarName(varName);
-            }
-
-            //analysisChart.setDaysAndVariable(User.getCurrentUser().getDayData(), varName);
-            analysisChart.updateChart();
-
-            FrameLayout imageView = getView().findViewById(R.id.imageView);
-            imageView.removeAllViews();
-            imageView.addView((View) analysisChart);
+            analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
         } catch (IllegalAccessException | java.lang.InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
+        // If the chart type selected extends ChartWithDates, set start and end dates.
+        if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
+            ChartWithDates cwd = (ChartWithDates) analysisChart;
+            cwd.setStartDate(startDS.date);
+            cwd.setEndDate(endDS.date);
+        }
+
+        // If the chart type selected extends ChartWithVariable, set variable name.
+        if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
+            ChartWithVariable cwv = (ChartWithVariable) analysisChart;
+            cwv.setVarName(varName);
+        }
+
+        analysisChart.updateChart();
+
+        FrameLayout imageView = getView().findViewById(R.id.imageView);
+        imageView.removeAllViews();
+        imageView.addView((View) analysisChart);
     }
-
-
-
-
 }
