@@ -37,6 +37,7 @@
         android:contentDescription="Add Variable"
         android:onClick="createVariable"
         android:src="@drawable/ic_add_black_24dp"
+        android:tint="?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/variable_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/variable_name" />
