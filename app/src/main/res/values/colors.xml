@@ -22,4 +22,20 @@
     <color name="table_background">#E0E0E0</color>
 
     <color name="temp_nav">#ffffff</color>
+
+    <!-- Colors for the YearSummaryView -->
+    <array name="gradient_moodindicator_colors">
+        <item>#ee4a49</item>
+        <item>#ec8e6a</item>
+        <item>#f3e3c9</item>
+        <item>#7dcec0</item>
+    </array>
+    <array name="gradient_moodindicator_points">
+        <item>0</item>
+        <item>3.333333</item>
+        <item>6.666666</item>
+        <item>10</item>
+    </array>
+    <color name="gradient_moodindicator_blank">#ecedf1</color>
+
 </resources>

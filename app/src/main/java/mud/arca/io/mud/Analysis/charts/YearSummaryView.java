@@ -2,14 +2,12 @@ package mud.arca.io.mud.Analysis.charts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -27,20 +25,12 @@ import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.ColorGradientUtil;
 
 /**
  * TODO: document your custom view class.
  */
 public class YearSummaryView extends RecyclerView implements AnalysisChart {
-    private String mExampleString = "null"; // TODO: use a default from R.string...
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-    private Drawable mExampleDrawable;
-
-    private TextPaint mTextPaint;
-    private float mTextWidth;
-    private float mTextHeight;
-
     public static AnalysisChart newInstance(Context context) {
         return new YearSummaryView(context);
     }
@@ -60,19 +50,27 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
         init(attrs, defStyle);
     }
 
+    ColorGradientUtil colorGradientUtil;
+
     private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
 
+        // Initialize a ColorGradientUtil
+//        colorGradientUtil = new ColorGradientUtil(
+//                Arrays.asList(0d, 10 / 3d, 10 * 2 / 3d, 10d),
+//                Arrays.asList(
+//                        R.color.gradient_moodindicator_0,
+//                        R.color.gradient_moodindicator_33,
+//                        R.color.gradient_moodindicator_66,
+//                        R.color.gradient_moodindicator_100
+//                ),
+//                getResources()
+//        );
 
-    }
+        colorGradientUtil = new ColorGradientUtil(
+            ColorGradientUtil.getFloatArray(getResources(), R.array.gradient_moodindicator_points),
+                getResources().getIntArray(R.array.gradient_moodindicator_colors)
+        );
 
-    private void invalidateTextPaintAndMeasurements() {
-//        mTextPaint.setTextSize(mExampleDimension);
-//        mTextPaint.setColor(mExampleColor);
-//        mTextWidth = mTextPaint.measureText(mExampleString);
-//
-//        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-//        mTextHeight = fontMetrics.bottom;
     }
 
 
@@ -80,49 +78,19 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
     public void setData(Collection<Day> days) {
         System.out.println("days = " + days);
 
-//
-//        mExampleString = "BEGIN:";
-//
-//        for (Day day : days) {
-//            mExampleString += day.getAverageMood() + ", ";
-//        }
-
-
-//        setLayoutManager(new LinearLayoutManager(getContext()));
-
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 7);
-//        layoutManager.setReverseLayout(true);
-
-        // TODO: Reverse layout is doing weird things. Horizontal order is good but vertical weeks are bad.
-
-        setLayoutManager(layoutManager);
-
-
-//        Collections.sort(days, Comparator.comparing(o -> ((Day) o).getDate().getTime()));
+        setLayoutManager(new GridLayoutManager(getContext(), 7));
 
         List<Day> dayList = new ArrayList<>(days);
-
         dayList.sort(Comparator.comparing(Day::getDate));
 
 
         // Insert any missing spaces. Ensure index 0 is a Sunday
-//
-//        dayList.get(0).getDate().toInstant().atZone(ZoneId.of("UTC");
-//
-//        Instant.now().atZone(ZoneId.systemDefault()).getDayOfWeek();
-
-
         SimpleDateFormat dayOfWeek = new SimpleDateFormat("EEEE");
-//        Date d = new Date();
-//        String dayOfTheWeek = dayOfWeek.format(d);
-
-//        while (dayList.get(0).getDate().toInstant().atZone(ZoneId.of("UTC")).getDayOfWeek() != DayOfWeek.SUNDAY) {
-        System.out.println("dayOfWeek.format(dayList.get(0)) = " + dayOfWeek.format(dayList.get(0).getDate()));
+//        System.out.println("dayOfWeek.format(dayList.get(0)) = " + dayOfWeek.format(dayList.get(0).getDate()));
 
         // Add in blank days to the beginning; pad with empty so that Sunday is first
         while (!dayOfWeek.format(dayList.get(0).getDate()).equals("Sunday")) {
-            System.out.println("Adding: dayOfWeek.format(dayList.get(0)) = " + dayOfWeek.format(dayList.get(0).getDate()));
-
+//            System.out.println("Adding: dayOfWeek.format(dayList.get(0)) = " + dayOfWeek.format(dayList.get(0).getDate()));
             dayList.add(0, new Day(Date.from(dayList.get(0).getDate().toInstant().minus(1, ChronoUnit.DAYS))));
         }
 
@@ -144,9 +112,7 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
         // Scroll to end
         scrollToPosition(myAdapter.getItemCount() - 1);
 
-        System.out.println("getAdapter().getItemCount() = " + getAdapter().getItemCount());
-
-        invalidateTextPaintAndMeasurements();
+//        System.out.println("getAdapter().getItemCount() = " + getAdapter().getItemCount());
     }
 
     @Override
@@ -163,6 +129,8 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
         private Context context;
 
         private List<Day> userData;
+
+        private Toast current_toast = null;
 
         public MyAdapter(Context context, List<Day> userData) {
             this.context = context;
@@ -184,8 +152,6 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
             // Inflate the custom layout
             View customView = inflater.inflate(R.layout.yearsummary_day_layout, parent, false);
 
-//            customView.setPadding(12, 12, 12, 12);
-
             ViewHolder viewHolder = new ViewHolder(customView);
 
             return viewHolder;
@@ -197,21 +163,26 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
 
             int color;
             try {
-                double mood = userData.get(position).getAverageMood();
-                color = Color.rgb((int) (255 * (mood / 10)), 0, 0);
-                ((TextView) holder.itemView.findViewById(R.id.textview)).setText(String.valueOf(mood));
+                float mood = userData.get(position).getAverageMood();
+                color = colorGradientUtil.getColorForPoint(mood);
+//                ((TextView) holder.itemView.findViewById(R.id.textview)).setText(String.valueOf(mood));
             } catch (NoSuchElementException e) {
-                color = Color.BLUE;
+                color = getResources().getColor(R.color.gradient_moodindicator_blank, getResources().newTheme());
             }
 
             holder.itemView.findViewById(R.id.textview).setBackgroundColor(color);
 
 
-            // For debugging
             holder.itemView.setOnClickListener(view -> {
-                System.out.println("date = " + userData.get(position).getDate());
+                if (current_toast != null) {
+                    current_toast.cancel();
+                }
+                Toast t = Toast.makeText(context, SimpleDateFormat.getDateInstance().format(userData.get(position).getDate()), Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.TOP|Gravity.LEFT, holder.itemView.getLeft(), holder.itemView.getTop() + 3*holder.itemView.getHeight());
+                // TODO: Need to center toast horizontally with view. Or just place it in the standard position at the bottom.
+                t.show();
+                current_toast = t;
             });
-
 
         }
 
@@ -222,83 +193,4 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
 
     }
 
-
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
-    public String getExampleString() {
-        return mExampleString;
-    }
-
-    /**
-     * Sets the view's example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
-     */
-    public void setExampleString(String exampleString) {
-//        mExampleString = exampleString;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
-     */
-    public int getExampleColor() {
-        return mExampleColor;
-    }
-
-    /**
-     * Sets the view's example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        mExampleColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example dimension attribute value.
-     *
-     * @return The example dimension attribute value.
-     */
-    public float getExampleDimension() {
-        return mExampleDimension;
-    }
-
-    /**
-     * Sets the view's example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        mExampleDimension = exampleDimension;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example drawable attribute value.
-     *
-     * @return The example drawable attribute value.
-     */
-    public Drawable getExampleDrawable() {
-        return mExampleDrawable;
-    }
-
-    /**
-     * Sets the view's example drawable attribute value. In the example view, this drawable is
-     * drawn above the text.
-     *
-     * @param exampleDrawable The example drawable attribute value to use.
-     */
-    public void setExampleDrawable(Drawable exampleDrawable) {
-        mExampleDrawable = exampleDrawable;
-    }
 }
