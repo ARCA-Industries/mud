@@ -148,18 +148,18 @@ public class AnalysisFragment extends Fragment {
      * @param labels
      * @return
      */
-    private PersistentSpinner setupSpinner(AppCompatSpinner spinner, List<String> labels, String key) {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(),
+    public static PersistentSpinner setupSpinner(Context context, AppCompatSpinner spinner, List<String> labels, String key) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, labels);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
-        return new PersistentSpinner(getContext(), spinner, key);
+        return new PersistentSpinner(context, spinner, key);
     }
 
     private void initializeView() {
         // Set up variable spinner
         varSpinner = getView().findViewById(R.id.inputVariableDropdown);
-        PersistentSpinner varPS = setupSpinner(varSpinner, Util.getVariableLabels(), "varSelectedInt");
+        PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, Util.getVariableLabels(), "varSelectedInt");
 
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -185,7 +185,7 @@ public class AnalysisFragment extends Fragment {
 
         // Set up plot type spinner
         plotTypeSpinner = getView().findViewById(R.id.inputPlotTypeDropdown);
-        PersistentSpinner plotTypePS = setupSpinner(plotTypeSpinner, getChartTypeLabels(), "chartTypeSelectedInt");
+        PersistentSpinner plotTypePS = setupSpinner(getContext(), plotTypeSpinner, getChartTypeLabels(), "chartTypeSelectedInt");
 
         plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
