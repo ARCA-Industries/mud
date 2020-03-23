@@ -10,6 +10,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -85,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHelper.ensureDefaultVariables();
 
         ThemeUtil.loadAndSetThemeFromPreferences(getApplicationContext());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.three_dots_menu, menu);
+        return true;
     }
 
 }
