@@ -39,7 +39,7 @@ public class DayListFragment extends Fragment {
     private final static int RC_EDIT_DAY_DETAILS = 1001;
 
     private CollectionReference mItemsCollection;
-    private FirestoreRecyclerAdapter adapter;
+    private DayListRecyclerViewAdapter adapter;
     private ArrayAdapter<String> spinnerArrayAdapter;
     PersistentSpinner varPS;
 
@@ -101,6 +101,7 @@ public class DayListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 varPS.savePosition(i);
+                adapter.setSelectedVariable(((ArrayAdapter<String>)adapterView.getAdapter()).getItem(i));
             }
 
             @Override

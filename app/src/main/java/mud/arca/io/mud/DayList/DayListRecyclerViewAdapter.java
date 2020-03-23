@@ -25,6 +25,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
     private final OnDayItemClickListener mListener;
 
     private Context context;
+    private String selectedVariable = "";
 
     public DayListRecyclerViewAdapter(FirestoreRecyclerOptions<Day> options, OnDayItemClickListener listener) {
         super(options);
@@ -49,7 +50,7 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
         // Set UI from model data
         holder.mDateView.setText(Util.formatDate(model.getDate()));
         holder.mMoodView.setText(model.getMoodString());
-        holder.mVariableView.setText(model.getVarString("Sleep"));
+        holder.mVariableView.setText(model.getVarString(selectedVariable));
 
 
         // Set the DayDetailsActivity to launch on click
@@ -89,5 +90,12 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
     public interface OnDayItemClickListener {
 
         void onDayItemClick(Day day, DocumentReference reference);
+    }
+
+    public void setSelectedVariable(String variable) {
+        this.selectedVariable = variable;
+
+        // Update any views that are currently bound
+        notifyDataSetChanged();
     }
 }
