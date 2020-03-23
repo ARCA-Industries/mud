@@ -270,7 +270,7 @@ public class AnalysisFragment extends Fragment {
                     int oldYear = cal.get(Calendar.YEAR);
 
                     boolean useSpinner = sharedPrefs.getBoolean("use_spinner_datepicker", false);
-                    int themeResId = useSpinner ? R.style.MySpinnerDatePickerStyle : 0;
+                    int themeResId = useSpinner ? R.style.MySpinnerDatePickerStyle : R.style.MyCalendarDatePickerStyle;
 
                     // Initialize the DatePickerDialog with the old day selected.
                     DatePickerDialog picker = new DatePickerDialog(view.getContext(),
