@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -20,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import mud.arca.io.mud.Analysis.AnalysisFragment;
+import mud.arca.io.mud.Analysis.PersistentSpinner;
 import mud.arca.io.mud.DayDetails.DayDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MockUser;
@@ -38,6 +41,7 @@ public class DayListFragment extends Fragment {
     private CollectionReference mItemsCollection;
     private FirestoreRecyclerAdapter adapter;
     private ArrayAdapter<String> spinnerArrayAdapter;
+    PersistentSpinner varPS;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,12 +81,33 @@ public class DayListFragment extends Fragment {
                 .setNegativeButton(android.R.string.no, null).show());
 
         // Set up the dropdown
-        AppCompatSpinner spinner = view.findViewById(R.id.dayListVarDropdown);
-        spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
-                android.R.layout.simple_spinner_item,
-                Util.getVariableLabels());
+//        AppCompatSpinner varSpinner = view.findViewById(R.id.dayListVarDropdown);
+//        spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(),
+//                android.R.layout.simple_spinner_item,
+//                Util.getVariableLabels());
+//        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        varSpinner.setAdapter(spinnerArrayAdapter);
+
+
+        // Can't call AnalysisFragment.setupSpinner because we need to set spinnerArrayAdapter,
+        // in order for refreshDropdown to function.
+        AppCompatSpinner varSpinner = view.findViewById(R.id.dayListVarDropdown);
+        spinnerArrayAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, Util.getVariableLabels());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
+        varSpinner.setAdapter(spinnerArrayAdapter);
+        varPS = new PersistentSpinner(getContext(), varSpinner, "DayListVarSelectedInt");
+        varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                varPS.savePosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Not implemented
+            }
+        });
 
         User.getCurrentUser().updateUserData(u -> {
             User.setCurrentUser(u);
@@ -93,9 +118,10 @@ public class DayListFragment extends Fragment {
     }
 
     private void refreshDropdown() {
+        Util.debug("refreshDropdown called");
         spinnerArrayAdapter.clear();
         spinnerArrayAdapter.addAll(Util.getVariableLabels());
-
+        varPS.setSelectionToSharedPref();
     }
 
     private void setUpAdapter() {

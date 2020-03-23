@@ -13,7 +13,7 @@ public class PersistentSpinner {
     public String key;
 
     public SharedPreferences sharedPrefs;
-    //public AppCompatSpinner spinner;
+    public AppCompatSpinner spinner;
 
     /**
      * Save the position pos to shared preferences.
@@ -27,8 +27,13 @@ public class PersistentSpinner {
 
     public PersistentSpinner(Context context, AppCompatSpinner spinner, String key) {
         this.key = key;
+        this.spinner = spinner;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        // Initialize the  selection of the spinner
+        setSelectionToSharedPref();
+    }
+
+    // Initialize the selection of the spinner to the position stored in sharedPrefs
+    public void setSelectionToSharedPref() {
         int varSelectedInt = sharedPrefs.getInt(key, 0);
         spinner.setSelection(varSelectedInt, false);
     }
