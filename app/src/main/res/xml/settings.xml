@@ -9,7 +9,6 @@
             <intent
                 android:targetClass="mud.arca.io.mud.Settings.VariableManagementActivity"
                 android:targetPackage="io.arca.mud" />
-
         </Preference>
 
         <ListPreference
@@ -25,6 +24,12 @@
             app:key="location_weather"
             app:title="Select weather location"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:title="Use spinner DatePicker"
+            app:key="use_spinner_datepicker"
+            android:summary="Use spinner DatePicker instead of calendar DatePicker."
+            />
 
     </PreferenceCategory>
 

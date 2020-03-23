@@ -269,9 +269,12 @@ public class AnalysisFragment extends Fragment {
                     int oldMonth = cal.get(Calendar.MONTH);
                     int oldYear = cal.get(Calendar.YEAR);
 
+                    boolean useSpinner = sharedPrefs.getBoolean("use_spinner_datepicker", false);
+                    int themeResId = useSpinner ? R.style.MySpinnerDatePickerStyle : 0;
+
                     // Initialize the DatePickerDialog with the old day selected.
-                    DatePickerDialog picker = new DatePickerDialog(view.getContext(), listener,
-                            oldYear, oldMonth, oldDay);
+                    DatePickerDialog picker = new DatePickerDialog(view.getContext(),
+                            themeResId, listener, oldYear, oldMonth, oldDay);
 
                     // Restrict the dates in DatePickerDialog.
                     Date minDate;
