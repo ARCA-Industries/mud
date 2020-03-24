@@ -3,18 +3,15 @@ package mud.arca.io.mud.Analysis;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -29,6 +26,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,12 +36,13 @@ import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
+import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
-public class AnalysisFragment extends Fragment {
+public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
     private enum ChartType {
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
@@ -61,6 +60,31 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onThreeDotsClicked(View anchor) {
+        PopupMenu menu = new PopupMenu(getActivity(), anchor);
+        menu.getMenu().add(Menu.NONE, 1, 0, "Share");
+        menu.getMenu().add(Menu.NONE, 2, 1, "Comment");
+        menu.show();
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                int i = item.getItemId();
+                if (i == 1) {
+                    //handle share
+                    return true;
+                } else if (i == 2) {
+                    //handle comment
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
     public DateSelector endDS;
     public DateSelector startDS;
     SharedPreferences sharedPrefs;
@@ -71,6 +95,7 @@ public class AnalysisFragment extends Fragment {
     MyAnimationHandler startAH;
     MyAnimationHandler endAH;
     MyAnimationHandler varSpinnerAH;
+    View view;
 
     /**
      * Earliest Date in the current User.
@@ -104,7 +129,7 @@ public class AnalysisFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Util.debug("onCreateView called");
-        View view = inflater.inflate(R.layout.analysis_fragment, container, false);
+        view = inflater.inflate(R.layout.analysis_fragment, container, false);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
