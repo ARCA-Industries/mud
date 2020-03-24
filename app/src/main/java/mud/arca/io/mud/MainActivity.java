@@ -33,13 +33,36 @@ import mud.arca.io.mud.Util.Util;
 
 public class MainActivity extends AppCompatActivity {
 
+    private enum MudFragment {
+        ANALYSIS(new AnalysisFragment(), "Analysis"),
+        DASHBOARD(new DayListFragment(), "Dashboard"),
+        SETTINGS(new SettingsFragment(), "Settings"),
+        ;
+
+        Fragment fragment;
+        String title;
+
+        MudFragment(Fragment fragment, String title) {
+            this.fragment = fragment;
+            this.title = title;
+        }
+    }
+
     private FrameLayout mTextMessage;
 
-    final private Fragment fragmentHome = new AnalysisFragment();
-    final private Fragment fragmentDashboard = new DayListFragment();
-    final private Fragment fragmentNotifications = new SettingsFragment();
+//    final private Fragment fragmentHome = new AnalysisFragment();
+//    final private Fragment fragmentDashboard = new DayListFragment();
+//    final private Fragment fragmentNotifications = new SettingsFragment();
 
-    private Fragment currentFragment = fragmentDashboard;
+    private Fragment currentFragment;
+
+    private void switchToFragment(MudFragment mudFragment) {
+        setTitle(mudFragment.title);
+        currentFragment = mudFragment.fragment;
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, currentFragment)
+                .commit();
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,32 +71,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_analysis:
-                    setTitle(R.string.title_analysis);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_container, fragmentHome)
-                            .commit();
-                    currentFragment = fragmentHome;
+                    switchToFragment(MudFragment.ANALYSIS);
                     return true;
                 case R.id.navigation_dashboard:
-                    setTitle(R.string.title_dashboard);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_container, fragmentDashboard)
-                            .commit();
-                    currentFragment = fragmentDashboard;
+                    switchToFragment(MudFragment.DASHBOARD);
                     return true;
                 case R.id.navigation_notifications:
-                    setTitle(R.string.title_profile);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_container, fragmentNotifications)
-                            .commit();
-                    currentFragment = fragmentNotifications;
+                    switchToFragment(MudFragment.SETTINGS);
                     return true;
             }
-//
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//
-//            }
 
             return false;
         }
