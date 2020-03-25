@@ -1,6 +1,5 @@
 package mud.arca.io.mud.Notifications;
 
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,11 +15,8 @@ import java.util.Date;
 import androidx.core.app.NotificationCompat;
 
 import androidx.core.app.NotificationManagerCompat;
-import mud.arca.io.mud.DataStructures.Day;
-import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DayDetails.DayDetailsActivity;
 import mud.arca.io.mud.Util.Util;
-import mud.arca.io.mud.MainActivity;
 import mud.arca.io.mud.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -65,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Daily Mood Reminders"; // TODO: Export to getResources
-            String description ="Very long channel description that supports\nmultiple\nlines\netc..."; // TODO: Export to getResources
+            String description = "Very long channel description that supports\nmultiple\nlines\netc..."; // TODO: Export to getResources
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(MOOD_REMINDER_CHANNEL_ID, name, importance);
             channel.setDescription(description);
@@ -75,7 +71,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 
 
 }
