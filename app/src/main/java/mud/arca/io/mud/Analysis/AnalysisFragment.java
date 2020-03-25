@@ -166,14 +166,16 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
         public void applyToDateSelectors() {
             endDS.setDate(latestDate);
-            startDS.setDate(Util.intToDate(latestDate, -numDays));
+            // Add (-numDays+1) Because if you set it to 6 days ago, then the range is 7 days.
+            startDS.setDate(Util.intToDate(latestDate, -numDays+1));
             updatePlot();
         }
     }
 
     public List<ItemToSelectDays> menuDropdownItems = Arrays.asList(
             new ItemToSelectDays(7),
-            new ItemToSelectDays(30)
+            new ItemToSelectDays(30),
+            new ItemToSelectDays(100)
     );
 
     @Override
@@ -354,9 +356,9 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         earliestDate = User.getCurrentUser().getEarliestDate();
         latestDate = User.getCurrentUser().getLatestDate();
         // Initialize end date to latest date in current user.
-        // Initialize start date to 30 days before end date.
+        // Initialize start date to 29 days before end date (So that the range is 30 days)
         endDate = latestDate;
-        startDate = Util.intToDate(latestDate, -30);
+        startDate = Util.intToDate(latestDate, -30+1);
 
         // Initialize DateSelectors
         EditText startET = getView().findViewById(R.id.inputStartEditText);
