@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -152,5 +153,19 @@ public class Util {
 
         final SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
         return sdf.format(date);
+    }
+
+    /**
+     * Set any date's time to 12AM.
+     */
+    public static Date getDateNoTime(Date date) {
+//        date.toInstant().truncatedTo(ChronoUnit.DAYS); // Only supported in Java8 (API26)
+        Calendar d = new GregorianCalendar();
+        d.setTime(date);
+        d.set(Calendar.HOUR_OF_DAY,0);
+        d.set(Calendar.MINUTE,0);
+        d.set(Calendar.SECOND,0);
+        d.set(Calendar.MILLISECOND,0);
+        return d.getTime();
     }
 }
