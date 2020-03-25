@@ -47,4 +47,23 @@
     <style name="MudSeekBarTheme" parent="Widget.AppCompat.SeekBar" >
         <item name="colorAccent">@color/green</item>
     </style>
+
+    <style name="MySpinnerDatePickerStyle" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
+    </style>
+
+    <style name="MySpinnerDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+    <style name="MyCalendarDatePickerStyle" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/MyCalendarDatePicker</item>
+    </style>
+
+    <style name="MyCalendarDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">calendar</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="colorPrimary">@color/green</item>
+    </style>
+
 </resources>
