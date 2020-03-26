@@ -78,6 +78,18 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             }
         }
 
+        /**
+         * Get the key used to save and load the date string from sharedPrefs.
+         * @return
+         */
+        public String getKey() {
+            if (isStartDate) {
+                return "AnalysisStartDate";
+            } else {
+                return "AnalysisEndDate";
+            }
+        }
+
         public void setDate(Date dateSelected) {
             // Set text of EditText
             String dateString = Util.formatDateWithYear(dateSelected);
@@ -86,11 +98,10 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             // Save to field in AnalysisFragment and sharedPrefs
             if (isStartDate) {
                 startDate = dateSelected;
-                saveString("AnalysisStartDate", dateString);
             } else {
                 endDate = dateSelected;
-                saveString("AnalysisEndDate", dateString);
             }
+            saveString(getKey(), dateString);
         }
 
         public DateSelector(View view, EditText et, boolean isStartDate) {
@@ -151,25 +162,14 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             });
 
             // Set the initial date of the DateSelector
-            if (isStartDate) {
-                Date newStartDate;
-                String startDateString = sharedPrefs.getString("AnalysisStartDate", "");
-                if (startDateString.equals("")) {
-                    newStartDate = startDate;
-                } else {
-                    newStartDate = Util.parseDateWithYear(startDateString);
-                }
-                setDate(newStartDate);
+            Date newDate;
+            String dateString = sharedPrefs.getString(getKey(), "");
+            if (dateString.equals("")) {
+                newDate = getDate();
             } else {
-                Date newEndDate;
-                String endDateString = sharedPrefs.getString("AnalysisEndDate", "");
-                if (endDateString.equals("")) {
-                    newEndDate = endDate;
-                } else {
-                    newEndDate = Util.parseDateWithYear(endDateString);
-                }
-                setDate(newEndDate);
+                newDate = Util.parseDateWithYear(dateString);
             }
+            setDate(newDate);
         }
     }
 
