@@ -165,9 +165,16 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         }
 
         public void applyToDateSelectors() {
-            endDS.setDate(latestDate);
             // Add (-numDays+1) Because if you set it to 6 days ago, then the range is 7 days.
-            startDS.setDate(Util.intToDate(latestDate, -numDays+1));
+            Date newStartDate = Util.intToDate(latestDate, -numDays+1);
+
+            // Make sure new start date is not before the user's earliest day.
+            if (newStartDate.before(earliestDate)) {
+                newStartDate = earliestDate;
+            }
+
+            startDS.setDate(newStartDate);
+            endDS.setDate(latestDate);
             updatePlot();
         }
     }
