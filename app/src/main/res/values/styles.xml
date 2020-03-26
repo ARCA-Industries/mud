@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Handles the overrides for different status/navigation bar colors, transparencies, light/dark, etc. since it varies across Android versions -->
+    <style name="AppBaseTheme.DayNight.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
 
-    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    <style name="AppBaseTheme" parent="AppBaseTheme.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="actionBarTheme">@style/MyActionBar</item>
-
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
