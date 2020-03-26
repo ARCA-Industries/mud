@@ -64,24 +64,44 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
     /**
      * DateSelector is used to initialize an EditText, so that it pops up a date picker dialog
-     * when clicked. The date field keeps track of the date the user selects in the dialog.
+     * when clicked.
      */
     public class DateSelector {
-        public Date date;
         public EditText et;
         public boolean isStartDate;
 
+        public Date getDate() {
+            if (isStartDate) {
+                return startDate;
+            } else {
+                return endDate;
+            }
+        }
+
+        /**
+         * Get the key used to save and load the date string from sharedPrefs.
+         * @return
+         */
+        public String getKey() {
+            if (isStartDate) {
+                return "AnalysisStartDate";
+            } else {
+                return "AnalysisEndDate";
+            }
+        }
+
         public void setDate(Date dateSelected) {
             // Set text of EditText
-            et.setText(Util.formatDateWithYear(dateSelected));
-            // Save to field
-            date = dateSelected;
-            // Save to field in AnalysisFragment
+            String dateString = Util.formatDateWithYear(dateSelected);
+            et.setText(dateString);
+
+            // Save to field in AnalysisFragment and sharedPrefs
             if (isStartDate) {
                 startDate = dateSelected;
             } else {
                 endDate = dateSelected;
             }
+            saveString(getKey(), dateString);
         }
 
         public DateSelector(View view, EditText et, boolean isStartDate) {
@@ -110,7 +130,7 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
                     };
 
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
+                    cal.setTime(getDate());
                     int oldDay = cal.get(Calendar.DAY_OF_MONTH);
                     int oldMonth = cal.get(Calendar.MONTH);
                     int oldYear = cal.get(Calendar.YEAR);
@@ -142,12 +162,26 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             });
 
             // Set the initial date of the DateSelector
-            if (isStartDate) {
-                setDate(startDate);
+            Date newDate;
+            String dateString = sharedPrefs.getString(getKey(), "");
+            if (dateString.equals("")) {
+                newDate = getDate();
             } else {
-                setDate(latestDate);
+                newDate = Util.parseDateWithYear(dateString);
             }
+            setDate(newDate);
         }
+    }
+
+    /**
+     * Save the String s to sharedPrefs.
+     * @param key
+     * @param s
+     */
+    public void saveString(String key, String s) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString(key, s);
+        editor.commit();
     }
 
     /**
@@ -165,15 +199,24 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         }
 
         public void applyToDateSelectors() {
+            // Add (-numDays+1) Because if you set it to 6 days ago, then the range is 7 days.
+            Date newStartDate = Util.intToDate(latestDate, -numDays+1);
+
+            // Make sure new start date is not before the user's earliest day.
+            if (newStartDate.before(earliestDate)) {
+                newStartDate = earliestDate;
+            }
+
+            startDS.setDate(newStartDate);
             endDS.setDate(latestDate);
-            startDS.setDate(Util.intToDate(latestDate, -numDays));
             updatePlot();
         }
     }
 
     public List<ItemToSelectDays> menuDropdownItems = Arrays.asList(
             new ItemToSelectDays(7),
-            new ItemToSelectDays(30)
+            new ItemToSelectDays(30),
+            new ItemToSelectDays(100)
     );
 
     @Override
@@ -353,16 +396,23 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         // Initialize dates
         earliestDate = User.getCurrentUser().getEarliestDate();
         latestDate = User.getCurrentUser().getLatestDate();
-        // Initialize end date to latest date in current user.
-        // Initialize start date to 30 days before end date.
-        endDate = latestDate;
-        startDate = Util.intToDate(latestDate, -30);
+        endDate = getDefaultEndDate();
+        startDate = getDefaultStartDate();
 
         // Initialize DateSelectors
         EditText startET = getView().findViewById(R.id.inputStartEditText);
         startDS = new DateSelector(getView(), startET, true);
         EditText endET = getView().findViewById(R.id.inputEndEditText);
         endDS = new DateSelector(getView(), endET, false);
+    }
+
+    public Date getDefaultEndDate() {
+        return latestDate;
+    }
+
+    public Date getDefaultStartDate() {
+        // Initialize start date to 29 days before end date (So that the range is 30 days)
+        return Util.intToDate(latestDate, -30+1);
     }
 
     @Override
@@ -398,8 +448,8 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         // If the chart type selected extends ChartWithDates, set start and end dates.
         if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
             ChartWithDates cwd = (ChartWithDates) analysisChart;
-            cwd.setStartDate(startDS.date);
-            cwd.setEndDate(endDS.date);
+            cwd.setStartDate(startDate);
+            cwd.setEndDate(endDate);
         }
 
         // If the chart type selected extends ChartWithVariable, set variable name.

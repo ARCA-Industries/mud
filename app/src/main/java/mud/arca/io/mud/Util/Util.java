@@ -92,6 +92,16 @@ public class Util {
         return sdf.format(d);
     }
 
+    public static Date parseDateWithYear(String s) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+        try {
+            return sdf.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return Util.parseDate("15-December-2019");
+    }
+
     // Round a float to the nearest 0.5.
     public static float roundToHalf(float f) {
         double d = (double) f;
