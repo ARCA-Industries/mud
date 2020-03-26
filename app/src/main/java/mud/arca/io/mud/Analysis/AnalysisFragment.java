@@ -64,20 +64,24 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
     /**
      * DateSelector is used to initialize an EditText, so that it pops up a date picker dialog
-     * when clicked. The date field keeps track of the date the user selects in the dialog.
+     * when clicked.
      */
     public class DateSelector {
-        public Date date;
         public EditText et;
         public boolean isStartDate;
+
+        public Date getDate() {
+            if (isStartDate) {
+                return startDate;
+            } else {
+                return endDate;
+            }
+        }
 
         public void setDate(Date dateSelected) {
             // Set text of EditText
             String dateString = Util.formatDateWithYear(dateSelected);
             et.setText(dateString);
-
-            // Save to field
-            date = dateSelected;
 
             // Save to field in AnalysisFragment and sharedPrefs
             if (isStartDate) {
@@ -115,7 +119,7 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
                     };
 
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
+                    cal.setTime(getDate());
                     int oldDay = cal.get(Calendar.DAY_OF_MONTH);
                     int oldMonth = cal.get(Calendar.MONTH);
                     int oldYear = cal.get(Calendar.YEAR);
@@ -444,8 +448,8 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         // If the chart type selected extends ChartWithDates, set start and end dates.
         if (ChartWithDates.class.isAssignableFrom(chartTypeSelected.view)) {
             ChartWithDates cwd = (ChartWithDates) analysisChart;
-            cwd.setStartDate(startDS.date);
-            cwd.setEndDate(endDS.date);
+            cwd.setStartDate(startDate);
+            cwd.setEndDate(endDate);
         }
 
         // If the chart type selected extends ChartWithVariable, set variable name.
