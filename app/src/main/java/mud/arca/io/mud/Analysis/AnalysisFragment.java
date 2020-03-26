@@ -73,14 +73,19 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
         public void setDate(Date dateSelected) {
             // Set text of EditText
-            et.setText(Util.formatDateWithYear(dateSelected));
+            String dateString = Util.formatDateWithYear(dateSelected);
+            et.setText(dateString);
+
             // Save to field
             date = dateSelected;
-            // Save to field in AnalysisFragment
+
+            // Save to field in AnalysisFragment and sharedPrefs
             if (isStartDate) {
                 startDate = dateSelected;
+                saveString("AnalysisStartDate", dateString);
             } else {
                 endDate = dateSelected;
+                saveString("AnalysisEndDate", dateString);
             }
         }
 
@@ -143,11 +148,36 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
             // Set the initial date of the DateSelector
             if (isStartDate) {
-                setDate(startDate);
+                Date newStartDate;
+                String startDateString = sharedPrefs.getString("AnalysisStartDate", "");
+                if (startDateString.equals("")) {
+                    newStartDate = startDate;
+                } else {
+                    newStartDate = Util.parseDateWithYear(startDateString);
+                }
+                setDate(newStartDate);
             } else {
-                setDate(latestDate);
+                Date newEndDate;
+                String endDateString = sharedPrefs.getString("AnalysisEndDate", "");
+                if (endDateString.equals("")) {
+                    newEndDate = endDate;
+                } else {
+                    newEndDate = Util.parseDateWithYear(endDateString);
+                }
+                setDate(newEndDate);
             }
         }
+    }
+
+    /**
+     * Save the String s to sharedPrefs.
+     * @param key
+     * @param s
+     */
+    public void saveString(String key, String s) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString(key, s);
+        editor.commit();
     }
 
     /**
@@ -362,16 +392,23 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         // Initialize dates
         earliestDate = User.getCurrentUser().getEarliestDate();
         latestDate = User.getCurrentUser().getLatestDate();
-        // Initialize end date to latest date in current user.
-        // Initialize start date to 29 days before end date (So that the range is 30 days)
-        endDate = latestDate;
-        startDate = Util.intToDate(latestDate, -30+1);
+        endDate = getDefaultEndDate();
+        startDate = getDefaultStartDate();
 
         // Initialize DateSelectors
         EditText startET = getView().findViewById(R.id.inputStartEditText);
         startDS = new DateSelector(getView(), startET, true);
         EditText endET = getView().findViewById(R.id.inputEndEditText);
         endDS = new DateSelector(getView(), endET, false);
+    }
+
+    public Date getDefaultEndDate() {
+        return latestDate;
+    }
+
+    public Date getDefaultStartDate() {
+        // Initialize start date to 29 days before end date (So that the range is 30 days)
+        return Util.intToDate(latestDate, -30+1);
     }
 
     @Override
