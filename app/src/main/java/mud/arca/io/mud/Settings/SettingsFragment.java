@@ -28,21 +28,15 @@ import mud.arca.io.mud.Notifications.MyAlarmManager;
 import mud.arca.io.mud.Notifications.TimePreference;
 import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.ThemeUtil;
 import mud.arca.io.mud.Util.Util;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements FragmentWithMenu {
+public class SettingsFragment extends PreferenceFragmentCompat {
     SharedPreferences sharedPrefs;
     MyAlarmManager myAlarmManager;
 
     // Set to true to show the Debug PreferenceCategory.
     public boolean showDebugPrefs = true;
-
-    @Override
-    public void onThreeDotsClicked(View anchor) {
-        // Do nothing
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

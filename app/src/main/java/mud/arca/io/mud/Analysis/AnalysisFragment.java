@@ -39,13 +39,12 @@ import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
-public class AnalysisFragment extends Fragment implements FragmentWithMenu {
+public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
@@ -177,10 +176,6 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             new ItemToSelectDays(30)
     );
 
-    @Override
-    public void onThreeDotsClicked(View anchor) {
-
-    }
 
     private void setupToolbar(View rootView) {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);

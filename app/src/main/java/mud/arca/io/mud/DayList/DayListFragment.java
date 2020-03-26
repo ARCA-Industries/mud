@@ -27,7 +27,6 @@ import mud.arca.io.mud.DayDetails.DayDetailsActivity;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Database.DatabaseHelper;
@@ -35,7 +34,7 @@ import mud.arca.io.mud.Database.DatabaseHelper;
 /**
  * A fragment containing the Day list (Dashboard).
  */
-public class DayListFragment extends Fragment implements FragmentWithMenu {
+public class DayListFragment extends Fragment {
 
     private final static int RC_EDIT_DAY_DETAILS = 1001;
 
@@ -44,10 +43,6 @@ public class DayListFragment extends Fragment implements FragmentWithMenu {
     private ArrayAdapter<String> spinnerArrayAdapter;
     PersistentSpinner varPS;
 
-    @Override
-    public void onThreeDotsClicked(View anchor) {
-        // Do nothing
-    }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
