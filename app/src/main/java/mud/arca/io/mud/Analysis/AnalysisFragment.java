@@ -179,39 +179,24 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
 
     @Override
     public void onThreeDotsClicked(View anchor) {
-        PopupMenu menu = new PopupMenu(getActivity(), anchor);
 
-        for (int id = 0; id < menuDropdownItems.size(); id++) {
-            ItemToSelectDays item = menuDropdownItems.get(id);
-            menu.getMenu().add(Menu.NONE, id, id, item.getText());
-        }
-
-        menu.show();
-
-        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                int id = item.getItemId();
-                if (id >= menuDropdownItems.size()) {
-                    // This should never happen, it should always be that case that id < menuDropdownItems.size().
-                    return false;
-                } else {
-                    menuDropdownItems.get(id).applyToDateSelectors();
-                    return true;
-                }
-            }
-        });
     }
 
     private void setupToolbar(View rootView) {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_analysis));
         toolbar.setOnMenuItemClickListener(item -> {
-            onThreeDotsClicked(toolbar);
+            // Note: This assumes that all menu items in the toolbar are from menuDropdownItems.
+            //       If this is no longer the case, we'll need to check IDs first.
+            menuDropdownItems.get(item.getItemId()).applyToDateSelectors();
             return true;
         });
-        toolbar.inflateMenu(R.menu.three_dots_menu);
+
+        // Inflate menu
+        for (int id = 0; id < menuDropdownItems.size(); id++) {
+            ItemToSelectDays item = menuDropdownItems.get(id);
+            toolbar.getMenu().add(Menu.NONE, id, id, item.getText());
+        }
     }
 
     public DateSelector endDS;
