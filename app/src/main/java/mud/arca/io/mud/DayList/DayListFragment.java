@@ -19,6 +19,7 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.Analysis.PersistentSpinner;
@@ -65,6 +66,8 @@ public class DayListFragment extends Fragment implements FragmentWithMenu {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_datarecord_list, container, false);
+
+        setupToolbar(view);
 
         mItemsCollection = DatabaseHelper.getDaysCollection();
         setUpAdapter();
@@ -120,6 +123,11 @@ public class DayListFragment extends Fragment implements FragmentWithMenu {
         });
 
         return view;
+    }
+
+    private void setupToolbar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.title_dashboard));
     }
 
     private void refreshDropdown() {

@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -203,6 +204,16 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
         });
     }
 
+    private void setupToolbar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.title_analysis));
+        toolbar.setOnMenuItemClickListener(item -> {
+            onThreeDotsClicked(toolbar);
+            return true;
+        });
+        toolbar.inflateMenu(R.menu.three_dots_menu);
+    }
+
     public DateSelector endDS;
     public DateSelector startDS;
     SharedPreferences sharedPrefs;
@@ -248,6 +259,8 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Util.debug("onCreateView called");
         view = inflater.inflate(R.layout.analysis_fragment, container, false);
+
+        setupToolbar(view);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
