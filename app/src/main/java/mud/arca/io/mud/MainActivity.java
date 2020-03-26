@@ -35,17 +35,17 @@ import mud.arca.io.mud.Util.Util;
 public class MainActivity extends AppCompatActivity {
 
     private enum MudFragment {
-        ANALYSIS(new AnalysisFragment(), "Analysis"),
-        DASHBOARD(new DayListFragment(), "Dashboard"),
-        SETTINGS(new SettingsFragment(), "Settings"),
+        ANALYSIS(new AnalysisFragment(), R.string.title_analysis),
+        DASHBOARD(new DayListFragment(), R.string.title_dashboard),
+        SETTINGS(new SettingsFragment(), R.string.title_profile),
         ;
 
         Fragment fragment;
-        String title;
+        int titleRes;
 
-        MudFragment(Fragment fragment, String title) {
+        MudFragment(Fragment fragment, int titleRes) {
             this.fragment = fragment;
-            this.title = title;
+            this.titleRes = titleRes;
         }
     }
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment currentFragment;
 
     private void switchToFragment(MudFragment mudFragment) {
-        setTitle(mudFragment.title);
+        setTitle(getString(mudFragment.titleRes));
         currentFragment = mudFragment.fragment;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, currentFragment)
