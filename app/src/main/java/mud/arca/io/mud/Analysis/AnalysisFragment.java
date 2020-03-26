@@ -257,8 +257,6 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             updatePlot();
         });
 
-        //getActivity().getActionBar().setCustomView();
-
         return view;
     }
 

@@ -1,31 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-<!--    <style name="AppTheme" parent="AppBaseTheme">-->
-<!--    </style>-->
-
-    <!--    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight">-->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <!--        <item name="actionBarTheme">@style/MyActionBar</item>-->
+        <item name="actionBarTheme">@style/MyActionBar</item>
 
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
+    </style>
 
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBarOverlay">false</item>
+    <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
     <style name="AppTheme.CardBottomBar" parent="AppBaseTheme">
@@ -35,13 +23,11 @@
     <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
         <item name="android:background">?attr/colorSurface</item>
     </style>
-
     <style name ="LoginScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/gradient_red_green</item>
     </style>
-
     <style name ="LoginScreenAuthUI" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -79,7 +65,5 @@
         <item name="colorAccent">@color/green</item>
         <item name="colorPrimary">@color/green</item>
     </style>
-
-
 
 </resources>
