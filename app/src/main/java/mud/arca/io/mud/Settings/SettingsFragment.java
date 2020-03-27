@@ -19,6 +19,7 @@ import androidx.preference.PreferenceScreen;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.LoginScreenActivity;
+import mud.arca.io.mud.Notifications.AlarmReceiver;
 import mud.arca.io.mud.Notifications.MyAlarmManager;
 import mud.arca.io.mud.Notifications.TimePreference;
 import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
@@ -120,6 +121,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Fragme
 
         findPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
             ThemeUtil.setTheme(newValue.toString());
+            return true;
+        });
+
+        findPreference("notifications_test").setOnPreferenceClickListener(preference -> {
+            Intent broadcastIntent = new Intent(getContext(), AlarmReceiver.class);
+            getContext().sendBroadcast(broadcastIntent);
             return true;
         });
     }
