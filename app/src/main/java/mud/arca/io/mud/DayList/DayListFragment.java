@@ -120,6 +120,8 @@ public class DayListFragment extends Fragment implements FragmentWithMenu {
             refreshDropdown();
         });
 
+        DatabaseHelper.ensureContinuousDays();
+
         return view;
     }
 
