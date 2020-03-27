@@ -45,9 +45,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Fragme
 
         initPreferences();
 
-        Preference notifTime = findPreference("notification_time");
-        notifTime.setDependency("notifications_enabled");
-
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         sharedPrefs.registerOnSharedPreferenceChangeListener(spChanged);
 
