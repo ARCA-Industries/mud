@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentReference;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import java.text.SimpleDateFormat;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +23,7 @@ import mud.arca.io.mud.R;
  * {@link RecyclerView.Adapter} that can display a {@link Day} and makes a call to the
  * specified {@link OnDayItemClickListener} when an item is clicked.
  */
-public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, DayListRecyclerViewAdapter.ViewHolder> {
+public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, DayListRecyclerViewAdapter.ViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
 
     private final OnDayItemClickListener mListener;
 
@@ -62,6 +65,12 @@ public class DayListRecyclerViewAdapter extends FirestoreRecyclerAdapter<Day, Da
             }
         });
 
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return new SimpleDateFormat("MMM yyyy").format(getItem(position).getDate());
     }
 
 
