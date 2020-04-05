@@ -1,28 +1,46 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Handles the overrides for different status/navigation bar colors, transparencies, light/dark, etc. since it varies across Android versions -->
+    <style name="AppBaseTheme.DayNight" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
 
-    <style name="AppBaseTheme" parent="Theme.MaterialComponents.DayNight">>
+
+    <style name="AppBaseTheme" parent="AppBaseTheme.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="actionBarTheme">@style/MyActionBar</item>
 
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
+        <item name="preferenceTheme">@style/AppPreferenceTheme</item>
+    </style>
+
+    <style name="AppBaseTheme.NoActionBar" parent="AppBaseTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
-    <style name="AppTheme.CardBottomBar" parent="AppBaseTheme">
+    <style name="MainActivityTheme" parent="AppBaseTheme.NoActionBar">
         <item name="android:navigationBarColor">@color/temp_nav</item>
     </style>
 
     <style name="MyActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar.Surface">
         <item name="android:background">?attr/colorSurface</item>
     </style>
+
+    <style name="AppPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="preferenceFragmentCompatStyle">@style/AppPreferenceFragmentCompatStyle</item>
+    </style>
+    <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
+        <item name="android:layout">@layout/fragment_preferences</item>
+    </style>
+
     <style name ="LoginScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>

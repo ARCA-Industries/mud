@@ -7,16 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
@@ -27,37 +21,33 @@ import mud.arca.io.mud.DayList.DayListFragment;
 import mud.arca.io.mud.Notifications.AlarmReceiver;
 import mud.arca.io.mud.Settings.SettingsFragment;
 import mud.arca.io.mud.Database.DatabaseHelper;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.ThemeUtil;
 import mud.arca.io.mud.Util.Util;
 
 public class MainActivity extends AppCompatActivity {
 
     private enum MudFragment {
-        ANALYSIS(new AnalysisFragment(), "Analysis"),
-        DASHBOARD(new DayListFragment(), "Dashboard"),
-        SETTINGS(new SettingsFragment(), "Settings"),
+        ANALYSIS(new AnalysisFragment(), R.string.title_analysis),
+        DASHBOARD(new DayListFragment(), R.string.title_dashboard),
+        SETTINGS(new SettingsFragment(), R.string.title_profile),
         ;
 
         Fragment fragment;
-        String title;
+        int titleRes;
 
-        MudFragment(Fragment fragment, String title) {
+        MudFragment(Fragment fragment, int titleRes) {
             this.fragment = fragment;
-            this.title = title;
+            this.titleRes = titleRes;
         }
     }
 
     private FrameLayout mTextMessage;
 
-//    final private Fragment fragmentHome = new AnalysisFragment();
-//    final private Fragment fragmentDashboard = new DayListFragment();
-//    final private Fragment fragmentNotifications = new SettingsFragment();
 
     private Fragment currentFragment;
 
     private void switchToFragment(MudFragment mudFragment) {
-        setTitle(mudFragment.title);
+        setTitle(getString(mudFragment.titleRes));
         currentFragment = mudFragment.fragment;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, currentFragment)
@@ -97,32 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         navigation.setSelectedItemId(R.id.navigation_dashboard);
 
         DatabaseHelper.ensureDefaultVariables();
 
         ThemeUtil.loadAndSetThemeFromPreferences(getApplicationContext());
+
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.three_dots_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.threeDots:
-                View anchor = findViewById(R.id.threeDots);
-                ((FragmentWithMenu) currentFragment).onThreeDotsClicked(anchor);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 }

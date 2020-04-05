@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
@@ -23,11 +28,10 @@ import mud.arca.io.mud.Notifications.MyAlarmManager;
 import mud.arca.io.mud.Notifications.TimePreference;
 import mud.arca.io.mud.Notifications.TimePreferenceDialogFragmentCompat;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.ThemeUtil;
 import mud.arca.io.mud.Util.Util;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements FragmentWithMenu {
+public class SettingsFragment extends PreferenceFragmentCompat {
     SharedPreferences sharedPrefs;
     MyAlarmManager myAlarmManager;
 
@@ -35,9 +39,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Fragme
     public boolean showDebugPrefs = true;
 
     @Override
-    public void onThreeDotsClicked(View anchor) {
-        // Do nothing
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        setupToolbar(view);
+        return view;
     }
+
+    private void setupToolbar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.title_profile));
+    }
+
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

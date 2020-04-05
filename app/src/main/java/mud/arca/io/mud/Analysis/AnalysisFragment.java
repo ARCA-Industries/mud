@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,13 +39,12 @@ import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
-import mud.arca.io.mud.Util.FragmentWithMenu;
 import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
-public class AnalysisFragment extends Fragment implements FragmentWithMenu {
+public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
@@ -219,31 +219,22 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
             new ItemToSelectDays(100)
     );
 
-    @Override
-    public void onThreeDotsClicked(View anchor) {
-        PopupMenu menu = new PopupMenu(getActivity(), anchor);
 
+    private void setupToolbar(View rootView) {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.title_analysis));
+        toolbar.setOnMenuItemClickListener(item -> {
+            // Note: This assumes that all menu items in the toolbar are from menuDropdownItems.
+            //       If this is no longer the case, we'll need to check IDs first.
+            menuDropdownItems.get(item.getItemId()).applyToDateSelectors();
+            return true;
+        });
+
+        // Inflate menu
         for (int id = 0; id < menuDropdownItems.size(); id++) {
             ItemToSelectDays item = menuDropdownItems.get(id);
-            menu.getMenu().add(Menu.NONE, id, id, item.getText());
+            toolbar.getMenu().add(Menu.NONE, id, id, item.getText());
         }
-
-        menu.show();
-
-        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                int id = item.getItemId();
-                if (id >= menuDropdownItems.size()) {
-                    // This should never happen, it should always be that case that id < menuDropdownItems.size().
-                    return false;
-                } else {
-                    menuDropdownItems.get(id).applyToDateSelectors();
-                    return true;
-                }
-            }
-        });
     }
 
     public DateSelector endDS;
@@ -291,6 +282,8 @@ public class AnalysisFragment extends Fragment implements FragmentWithMenu {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Util.debug("onCreateView called");
         view = inflater.inflate(R.layout.analysis_fragment, container, false);
+
+        setupToolbar(view);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
