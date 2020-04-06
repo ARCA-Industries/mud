@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="compose"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:shortcutShortLabel="@string/shortcut_recordmood_label_short"
+        android:shortcutLongLabel="@string/shortcut_recordmood_label_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="io.arca.mud"
+            android:targetClass="mud.arca.io.mud.DayDetails.DayDetailsActivity" >
+            <extra
+                android:name="FLAG_USE_TODAY"
+                android:value="true"/>
+        </intent>
+    </shortcut>
+</shortcuts>
