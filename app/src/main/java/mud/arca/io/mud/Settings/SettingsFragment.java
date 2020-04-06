@@ -86,6 +86,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
         debugPrefsCategory.addPreference(addSampleData);
 
+        Preference fillSampleData = new Preference(getContext());
+        fillSampleData.setTitle("Replace data with sample");
+        fillSampleData.setSummary("Replaces data in every existing day with sample data.\nDon't press this a lot, it uses up Firestore quota");
+        fillSampleData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                MockUser.fillSampleData();
+                return true;
+            }
+        });
+        debugPrefsCategory.addPreference(fillSampleData);
+
         Preference outputSharedPrefs = new Preference(getContext());
         outputSharedPrefs.setTitle("Output shared preferences");
         outputSharedPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

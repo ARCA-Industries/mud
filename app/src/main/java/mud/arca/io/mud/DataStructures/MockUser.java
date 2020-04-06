@@ -1,5 +1,7 @@
 package mud.arca.io.mud.DataStructures;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +68,20 @@ public class MockUser extends User {
 
     }
 
+    /** Doesn't create any new days. Simply replaces the data of existing days */
+    public static void fillSampleData() {
+        r = new Random(0);
+        DatabaseHelper.getDaysCollection().get().addOnCompleteListener(task -> {
+            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                document.getReference().set(
+                        getMockDay(
+                                document.toObject(Day.class).getDate()
+                        )
+                );
+            }
+        });
+    }
+
     public static Date getBaseDate() {
         return Util.parseDate("15-December-2019");
     }
@@ -73,24 +89,28 @@ public class MockUser extends User {
     public static ArrayList<Day> getMockDays() {
         ArrayList<Day> days = new ArrayList<>();
         for (int i = 0; i < NUM_DAYS; i++) {
-            Day day = new Day(Util.intToDate(getBaseDate(), i));
-            ArrayList<Measurement> mockMeasurements = getMockMeasurements(day);
-
-            day.getMeasurements().clear();
-            for (Measurement m : mockMeasurements) {
-                if (r.nextDouble() < PROB_MEASUREMENTS) {
-                    day.getMeasurements().add(m);
-                }
-            }
-
-            if (r.nextDouble() < PROB_MOOD) {
-                MoodRecording mr = getMockMoodRecording(day, mockMeasurements);
-                day.setMoodRecording(mr);
-            }
-
-            days.add(day);
+            days.add(getMockDay(Util.intToDate(getBaseDate(), i)));
         }
         return days;
+    }
+
+    private static Day getMockDay(Date date) {
+        Day day = new Day(date);
+        ArrayList<Measurement> mockMeasurements = getMockMeasurements(day);
+
+        day.getMeasurements().clear();
+        for (Measurement m : mockMeasurements) {
+            if (r.nextDouble() < PROB_MEASUREMENTS) {
+                day.getMeasurements().add(m);
+            }
+        }
+
+        if (r.nextDouble() < PROB_MOOD) {
+            MoodRecording mr = getMockMoodRecording(day, mockMeasurements);
+            day.setMoodRecording(mr);
+        }
+
+        return day;
     }
 
     /**
