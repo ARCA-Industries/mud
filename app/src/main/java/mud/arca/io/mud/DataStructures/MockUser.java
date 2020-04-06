@@ -105,9 +105,11 @@ public class MockUser extends User {
         try {
             Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
             // Mood is calculated as a linear function of Sleep plus some random noise.
+            // Note that this occasionally results in sleep > 10.0, which is bad.
+            // So clip to 10.0. This will technically result in skewed probability, but oh well.
             float linear = m.getValue() - 1;
             float noise = r.nextFloat()*2 - 1;
-            MoodRecording recording = new MoodRecording(timestamp, linear+noise);
+            MoodRecording recording = new MoodRecording(timestamp, Math.min(linear+noise, 10));
             return recording;
         } catch (NoSuchElementException e) {
             // do nothing
