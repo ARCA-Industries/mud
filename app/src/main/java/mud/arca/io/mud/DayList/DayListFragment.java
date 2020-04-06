@@ -113,6 +113,12 @@ public class DayListFragment extends Fragment {
             }
         });
 
+        if (varPS.spinner.getSelectedItem() != null) {
+            // If varPS is already loaded and the selected item hasn't changed, onItemSelected won't be called.
+            // Manually let the adapter know about the selected item here instead.
+            adapter.setSelectedVariable((String) varPS.spinner.getSelectedItem());
+        }
+
         User.getCurrentUser().updateUserData(u -> {
             User.setCurrentUser(u);
             refreshDropdown();
