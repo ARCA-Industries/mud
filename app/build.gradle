@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
+    implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
 }

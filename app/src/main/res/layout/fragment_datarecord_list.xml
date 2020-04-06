@@ -80,7 +80,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.66" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:id="@+id/list"
         android:name="mud.arca.io.mud.DataRecordFragment"
         android:layout_width="0dp"
@@ -94,15 +94,16 @@
         tools:context=".DayList.DayListFragment"
         tools:listitem="@android:layout/simple_list_item_1"
 
-        app:fastScrollEnabled="true"
-        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-
+        android:scrollbars="none"
+        app:fastScrollPopupBgColor="@color/colorPrimary"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollTrackColor="#00000000"
+        app:fastScrollThumbColor="@color/colorPrimary"
+        app:fastScrollThumbInactiveColor="@color/colorPrimary"
+        app:fastScrollPopupTextSize="24sp"
         >
 
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

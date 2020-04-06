@@ -118,6 +118,8 @@ public class DayListFragment extends Fragment {
             refreshDropdown();
         });
 
+        DatabaseHelper.ensureContinuousDays();
+
         return view;
     }
 

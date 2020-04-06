@@ -44,7 +44,16 @@
         <mud.arca.io.mud.Notifications.TimePreference
             app:key="notification_time"
             app:title="Notification time"
+            app:dependency="notifications_enabled"
             />
+
+        <Preference
+            app:title="Test Notifications"
+            app:key="notifications_test"
+            app:summary="Send a test notification"
+            android:dependency="notifications_enabled"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Backup &amp; Sync">
