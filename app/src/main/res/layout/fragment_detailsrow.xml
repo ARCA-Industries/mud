@@ -39,11 +39,12 @@
         android:maxLength="50"
         />
 
-    <ImageView android:id="@+id/variableListDeleteButton"
+    <ImageView
+        android:id="@+id/variableListDeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
-        android:tint="#EC8F6A"
+        android:src="@drawable/ic_delete_simple"
+        android:tint="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/valueTextView"
