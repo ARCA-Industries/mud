@@ -105,6 +105,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
         debugPrefsCategory.addPreference(clearSharedPrefs);
+
+        // This is a quick ugly fix to make clearSharedPrefs show up.
+        Preference testpref = new Preference(getContext());
+        testpref.setTitle("test");
+        debugPrefsCategory.addPreference(testpref);
     }
 
     public void removeNotifTime() {
