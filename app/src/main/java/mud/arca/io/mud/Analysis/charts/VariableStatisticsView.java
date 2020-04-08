@@ -17,18 +17,18 @@ import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
 
-public class VariableStatistics extends RecyclerView implements AnalysisChart {
-    public VariableStatistics(Context context) {
+public class VariableStatisticsView extends RecyclerView implements AnalysisChart {
+    public VariableStatisticsView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public VariableStatistics(Context context, AttributeSet attrs) {
+    public VariableStatisticsView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public VariableStatistics(Context context, AttributeSet attrs, int defStyle) {
+    public VariableStatisticsView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
