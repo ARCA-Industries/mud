@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,8 @@ import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
 import mud.arca.io.mud.Util.Util;
 
@@ -73,8 +76,8 @@ public class VariableStatisticsView extends RecyclerView
 
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(new Statistic("Mean", 5f, false));
-        //statistics.add(new Statistic("Number of days", 5f, true));
         statistics.add(getNumDays());
+        statistics.add(getNumMissingValues());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -90,7 +93,26 @@ public class VariableStatisticsView extends RecyclerView
      */
     public Statistic getNumDays() {
         float value = (float) Util.daysBetween(startDate, endDate) + 1;
-        return new Statistic("Number of days", value, false);
+        return new Statistic("Number of days", value, true);
+    }
+
+    /**
+     * Calculate the number of days between startDate and endDate (inclusive) that are
+     * missing a Measurement for the selected variable.
+     * @return
+     */
+    public Statistic getNumMissingValues() {
+        int count = 0;
+        for (Day day : User.getCurrentUser().fetchDays(startDate, endDate)) {
+            Collection<Measurement> measurements = day.getMeasurements();
+            try {
+                Measurement m = Measurement.searchList(measurements, varName);
+            } catch (NoSuchElementException e) {
+                count++;
+            }
+        }
+
+        return new Statistic("Days with missing values", (float) count, true);
     }
 
     /**
