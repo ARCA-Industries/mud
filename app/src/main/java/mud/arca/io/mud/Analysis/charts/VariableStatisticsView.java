@@ -23,7 +23,6 @@ import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
-import mud.arca.io.mud.Util.Util;
 
 public class VariableStatisticsView extends RecyclerView
         implements AnalysisChart, ChartWithVariable, ChartWithDates {
@@ -31,6 +30,10 @@ public class VariableStatisticsView extends RecyclerView
     private String varName;
     private Date startDate;
     private Date endDate;
+
+    /**
+     * List of days between startDate and endDate inclusive.
+     */
     public ArrayList<Day> daysSelected;
 
     /**
@@ -77,9 +80,9 @@ public class VariableStatisticsView extends RecyclerView
         initVariableValues();
 
         List<Statistic> statistics = new ArrayList<>();
-        statistics.add(new Statistic("Mean", 5f, false));
         statistics.add(getNumDays());
-        statistics.add(getNumDaysWithoutMeasurements());
+        statistics.add(getDaysWithMeasurements());
+        statistics.add(getDaysWithoutMeasurements());
         statistics.add(getMinimum());
         statistics.add(getMaximum());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
@@ -140,8 +143,14 @@ public class VariableStatisticsView extends RecyclerView
      * @return
      */
     public Statistic getNumDays() {
-        float value = (float) Util.daysBetween(startDate, endDate) + 1;
+        //float value = (float) Util.daysBetween(startDate, endDate) + 1;
+        float value = (float) daysSelected.size();
         return new Statistic("Number of days", value, true);
+    }
+
+    public Statistic getDaysWithMeasurements() {
+        float value = (float) variableValues.size();
+        return new Statistic("Days with measurements", value, true);
     }
 
     /**
@@ -149,16 +158,17 @@ public class VariableStatisticsView extends RecyclerView
      * missing a Measurement for the selected variable.
      * @return
      */
-    public Statistic getNumDaysWithoutMeasurements() {
-        int count = 0;
-        for (Day day : daysSelected) {
-            Collection<Measurement> measurements = day.getMeasurements();
-            try {
-                Measurement m = Measurement.searchList(measurements, varName);
-            } catch (NoSuchElementException e) {
-                count++;
-            }
-        }
+    public Statistic getDaysWithoutMeasurements() {
+//        int count = 0;
+//        for (Day day : daysSelected) {
+//            Collection<Measurement> measurements = day.getMeasurements();
+//            try {
+//                Measurement m = Measurement.searchList(measurements, varName);
+//            } catch (NoSuchElementException e) {
+//                count++;
+//            }
+//        }
+        int count = daysSelected.size() - variableValues.size();
         return new Statistic("Days without measurements", (float) count, true);
     }
 
