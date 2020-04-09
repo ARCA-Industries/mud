@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -77,7 +74,7 @@ public class VariableStatisticsView extends RecyclerView
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(new Statistic("Mean", 5f, false));
         statistics.add(getNumDays());
-        statistics.add(getNumMissingValues());
+        statistics.add(getNumDaysWithoutMeasurements());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -101,7 +98,7 @@ public class VariableStatisticsView extends RecyclerView
      * missing a Measurement for the selected variable.
      * @return
      */
-    public Statistic getNumMissingValues() {
+    public Statistic getNumDaysWithoutMeasurements() {
         int count = 0;
         for (Day day : User.getCurrentUser().fetchDays(startDate, endDate)) {
             Collection<Measurement> measurements = day.getMeasurements();
@@ -111,8 +108,7 @@ public class VariableStatisticsView extends RecyclerView
                 count++;
             }
         }
-
-        return new Statistic("Days with missing values", (float) count, true);
+        return new Statistic("Days without measurements", (float) count, true);
     }
 
     /**
