@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -41,8 +42,10 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
         LayoutManager layoutManager = new LinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
 
-        List<String> data = Arrays.asList("foo", "bar");
-        MyAdapter myAdapter = new MyAdapter(getContext(), data);
+        List<Statistic> statistics = new ArrayList<>();
+        statistics.add(new Statistic("Mean", 5f, false));
+        statistics.add(new Statistic("Number of days", 5f, true));
+        MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
     }
@@ -51,18 +54,46 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
 
     }
 
+    /**
+     * Stores name of statistic (mean, median, etc.) and float value.
+     */
+    public class Statistic {
+        private String name;
+        private float value;
+        private boolean isInteger;
+
+        public Statistic(String name, float value, boolean isInteger) {
+            this.name = name;
+            this.value = value;
+            this.isInteger = isInteger;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getFormattedValue() {
+            if (isInteger) {
+                return String.format("%d", Math.round(value));
+            } else {
+                return String.format("%.2f", value);
+            }
+        }
+    }
+
+
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        private List<String> mDataset;
+        private List<Statistic> mDataset;
 
         private Context context;
 
-        public MyAdapter(Context context, List<String> data) {
+        public MyAdapter(Context context, List<Statistic> data) {
             this.context = context;
             this.mDataset = data;
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public String text;
+            //public String text;
 
             public MyViewHolder(View v) {
                 super(v);
@@ -86,10 +117,10 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
         @Override
         public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
             TextView tv1 = holder.itemView.findViewById(R.id.textview1);
-            tv1.setText(mDataset.get(position));
+            tv1.setText(mDataset.get(position).getName());
 
             TextView tv2 = holder.itemView.findViewById(R.id.textview2);
-            tv2.setText(mDataset.get(position));
+            tv2.setText(mDataset.get(position).getFormattedValue());
         }
 
         // Return the size of your dataset (invoked by the layout manager)
