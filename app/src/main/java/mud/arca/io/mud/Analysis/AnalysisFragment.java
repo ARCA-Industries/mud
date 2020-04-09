@@ -194,7 +194,7 @@ public class AnalysisFragment extends Fragment {
         }
 
         public String getText() {
-            return String.format("Plot last %d days", numDays);
+            return String.format("Select last %d days", numDays);
         }
 
         public void applyToDateSelectors() {

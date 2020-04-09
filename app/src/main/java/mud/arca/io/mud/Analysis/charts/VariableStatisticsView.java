@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -79,6 +80,8 @@ public class VariableStatisticsView extends RecyclerView
         statistics.add(new Statistic("Mean", 5f, false));
         statistics.add(getNumDays());
         statistics.add(getNumDaysWithoutMeasurements());
+        statistics.add(getMinimum());
+        statistics.add(getMaximum());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -110,6 +113,28 @@ public class VariableStatisticsView extends RecyclerView
         //Util.debug("variableValues: " + variableValues);
     }
 
+    public Statistic getMinimum() {
+        float value;
+        if (variableValues.size() == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else {
+            value = Collections.min(variableValues);
+        }
+        return new Statistic("Minimum", value, false);
+    }
+
+    public Statistic getMaximum() {
+        float value;
+        if (variableValues.size() == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else {
+            value = Collections.max(variableValues);
+        }
+        return new Statistic("Maximum", value, false);
+    }
+
     /**
      * Calculate the number of days between startDate and endDate (inclusive).
      * @return
@@ -137,6 +162,10 @@ public class VariableStatisticsView extends RecyclerView
         return new Statistic("Days without measurements", (float) count, true);
     }
 
+    public boolean isNaN(float value) {
+        return value != value;
+    }
+
     /**
      * Stores name of statistic (mean, median, etc.) and float value.
      */
@@ -156,7 +185,9 @@ public class VariableStatisticsView extends RecyclerView
         }
 
         public String getFormattedValue() {
-            if (isInteger) {
+            if (isNaN(value)) {
+                return "(no value)";
+            } else if (isInteger) {
                 return String.format("%d", Math.round(value));
             } else {
                 return String.format("%.2f", value);
