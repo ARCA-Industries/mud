@@ -178,4 +178,40 @@ public class Util {
         d.set(Calendar.MILLISECOND,0);
         return d.getTime();
     }
+
+    /**
+     * Return the number of days between two dates.
+     * This function is necessary because using (endDate.getTime() - startDate.getTime()) / MS_PER_DAY
+     * does not return the correct value because of daylight saving time.
+     * https://stackoverflow.com/questions/20165564/calculating-days-between-two-dates-with-java
+     * @return
+     */
+    public static int daysBetween(Date date1, Date date2){
+        Calendar dayOne = new GregorianCalendar();
+        Calendar dayTwo = new GregorianCalendar();
+        dayOne.setTime(date1);
+        dayTwo.setTime(date2);
+
+        if (dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
+            return Math.abs(dayOne.get(Calendar.DAY_OF_YEAR) - dayTwo.get(Calendar.DAY_OF_YEAR));
+        } else {
+            if (dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
+                //swap them
+                Calendar temp = dayOne;
+                dayOne = dayTwo;
+                dayTwo = temp;
+            }
+            int extraDays = 0;
+
+            int dayOneOriginalYearDays = dayOne.get(Calendar.DAY_OF_YEAR);
+
+            while (dayOne.get(Calendar.YEAR) > dayTwo.get(Calendar.YEAR)) {
+                dayOne.add(Calendar.YEAR, -1);
+                // getActualMaximum() important for leap years
+                extraDays += dayOne.getActualMaximum(Calendar.DAY_OF_YEAR);
+            }
+
+            return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays ;
+        }
+    }
 }

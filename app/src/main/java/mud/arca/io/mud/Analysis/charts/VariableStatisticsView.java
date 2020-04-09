@@ -9,16 +9,45 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.Analysis.AnalysisChart;
+import mud.arca.io.mud.Analysis.ChartWithDates;
+import mud.arca.io.mud.Analysis.ChartWithVariable;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.Util;
 
-public class VariableStatisticsView extends RecyclerView implements AnalysisChart {
+public class VariableStatisticsView extends RecyclerView
+        implements AnalysisChart, ChartWithVariable, ChartWithDates {
+
+    /**
+     * Number of milliseconds in one day.
+     */
+    public static final int MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    private String varName;
+    private Date startDate;
+    private Date endDate;
+
+    public void setVarName(String varName) {
+        this.varName = varName;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     public VariableStatisticsView(Context context) {
         super(context);
         init(null, 0);
@@ -44,7 +73,8 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
 
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(new Statistic("Mean", 5f, false));
-        statistics.add(new Statistic("Number of days", 5f, true));
+        //statistics.add(new Statistic("Number of days", 5f, true));
+        statistics.add(getNumDays());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -52,6 +82,15 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
 
     public void setDaysAndVariable(Collection<Day> days, String varName) {
 
+    }
+
+    /**
+     * Calculate the number of days between startDate and endDate (inclusive).
+     * @return
+     */
+    public Statistic getNumDays() {
+        float value = (float) Util.daysBetween(startDate, endDate) + 1;
+        return new Statistic("Number of days", value, false);
     }
 
     /**
