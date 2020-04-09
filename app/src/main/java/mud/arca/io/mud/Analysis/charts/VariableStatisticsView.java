@@ -85,8 +85,11 @@ public class VariableStatisticsView extends RecyclerView implements AnalysisChar
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
-            TextView tv = holder.itemView.findViewById(R.id.textview);
-            tv.setText(mDataset.get(position));
+            TextView tv1 = holder.itemView.findViewById(R.id.textview1);
+            tv1.setText(mDataset.get(position));
+
+            TextView tv2 = holder.itemView.findViewById(R.id.textview2);
+            tv2.setText(mDataset.get(position));
         }
 
         // Return the size of your dataset (invoked by the layout manager)
