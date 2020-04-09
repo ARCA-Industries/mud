@@ -27,14 +27,15 @@ import mud.arca.io.mud.Util.Util;
 public class VariableStatisticsView extends RecyclerView
         implements AnalysisChart, ChartWithVariable, ChartWithDates {
 
-    /**
-     * Number of milliseconds in one day.
-     */
-    public static final int MS_PER_DAY = 1000 * 60 * 60 * 24;
-
     private String varName;
     private Date startDate;
     private Date endDate;
+    public ArrayList<Day> daysSelected;
+
+    /**
+     * Measurements for the selected variable.
+     */
+    public ArrayList<Float> variableValues;
 
     public void setVarName(String varName) {
         this.varName = varName;
@@ -71,6 +72,9 @@ public class VariableStatisticsView extends RecyclerView
         LayoutManager layoutManager = new LinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
 
+        initDaysSelected();
+        initVariableValues();
+
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(new Statistic("Mean", 5f, false));
         statistics.add(getNumDays());
@@ -82,6 +86,28 @@ public class VariableStatisticsView extends RecyclerView
 
     public void setDaysAndVariable(Collection<Day> days, String varName) {
 
+    }
+
+
+    /**
+     * This function should be called once in updateChart() so that User.fetchDays is only called once.
+     */
+    public void initDaysSelected() {
+        daysSelected = User.getCurrentUser().fetchDays(startDate, endDate);
+    }
+
+    public void initVariableValues() {
+        variableValues = new ArrayList<>();
+        for (Day day : daysSelected) {
+            Collection<Measurement> measurements = day.getMeasurements();
+            try {
+                Measurement m = Measurement.searchList(measurements, varName);
+                variableValues.add(m.getValue());
+            } catch (NoSuchElementException e) {
+                // Do nothing
+            }
+        }
+        //Util.debug("variableValues: " + variableValues);
     }
 
     /**
@@ -100,7 +126,7 @@ public class VariableStatisticsView extends RecyclerView
      */
     public Statistic getNumDaysWithoutMeasurements() {
         int count = 0;
-        for (Day day : User.getCurrentUser().fetchDays(startDate, endDate)) {
+        for (Day day : daysSelected) {
             Collection<Measurement> measurements = day.getMeasurements();
             try {
                 Measurement m = Measurement.searchList(measurements, varName);
