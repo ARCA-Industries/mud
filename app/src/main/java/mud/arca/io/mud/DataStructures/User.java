@@ -42,8 +42,8 @@ public class User {
     public ArrayList<Day> fetchDays(Date startDate, Date endDate) {
         ArrayList<Day> ret = new ArrayList<>();
 
-//        Util.debug(Util.formatDateWithYear(startDate));
-//        Util.debug(Util.formatDateWithYear(endDate));
+        Util.debug("fetchDays startDate:" + Util.formatDateWithYear(startDate));
+        Util.debug("fetchDays endDate:" + Util.formatDateWithYear(endDate));
 //        Util.debug(String.valueOf(Util.dateLTE(startDate, endDate)));
 
         // This could definitely be more efficient if we assume the dayData is sorted by Date.

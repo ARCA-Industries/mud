@@ -31,8 +31,8 @@
         android:id="@+id/moodDeleteButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_delete"
-        android:tint="#EC8F6A"
+        android:src="@drawable/ic_delete_simple"
+        android:tint="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         />

@@ -2,13 +2,11 @@ package mud.arca.io.mud.Analysis;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +26,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -37,6 +34,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
+import mud.arca.io.mud.Analysis.charts.VariableStatisticsView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
 import mud.arca.io.mud.Util.MyAnimationHandler;
@@ -51,6 +49,7 @@ public class AnalysisFragment extends Fragment {
         MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
         YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
+        VARIABLE_STATISTICS(VariableStatisticsView.class, "Variable Statistics"),
         ;
 
         Class<? extends AnalysisChart> view;
@@ -195,7 +194,7 @@ public class AnalysisFragment extends Fragment {
         }
 
         public String getText() {
-            return String.format("Plot last %d days", numDays);
+            return String.format("Select last %d days", numDays);
         }
 
         public void applyToDateSelectors() {
