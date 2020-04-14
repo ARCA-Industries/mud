@@ -101,9 +101,10 @@ public class VariableStatisticsView extends RecyclerView
         statistics.add(getMaximum());
         statistics.add(getMedian());
         statistics.add(getMean());
+        statistics.add(getStandardDeviation());
+
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
-
     }
 
     public void setDaysAndVariable(Collection<Day> days, String varName) {
@@ -175,6 +176,23 @@ public class VariableStatisticsView extends RecyclerView
 
     public Statistic getMean() {
         return new Statistic("Mean", mean, false);
+    }
+
+    public Statistic getStandardDeviation() {
+        int size = variableValues.size();
+        float value;
+        if (size == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else {
+            float sum = 0;
+            for (float f : variableValues) {
+                float diff = f - mean;
+                sum += diff * diff;
+            }
+            value = (float) Math.sqrt(sum / size);
+        }
+        return new Statistic("Standard deviation", value, false);
     }
 
     public void initMean() {
