@@ -48,6 +48,11 @@ public class VariableStatisticsView extends RecyclerView
      */
     public ArrayList<Float> sortedVariableValues;
 
+    /**
+     * The mean of the variableValues. Re-used to calculate standard deviation.
+     */
+    public float mean;
+
     public void setVarName(String varName) {
         this.varName = varName;
     }
@@ -86,6 +91,7 @@ public class VariableStatisticsView extends RecyclerView
         initDaysSelected();
         initVariableValues();
         initSortedVariableValues();
+        initMean();
 
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(getNumDays());
@@ -94,6 +100,7 @@ public class VariableStatisticsView extends RecyclerView
         statistics.add(getMinimum());
         statistics.add(getMaximum());
         statistics.add(getMedian());
+        statistics.add(getMean());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -164,6 +171,24 @@ public class VariableStatisticsView extends RecyclerView
             value = sortedVariableValues.get(size/2);
         }
         return new Statistic("Median", value, false);
+    }
+
+    public Statistic getMean() {
+        return new Statistic("Mean", mean, false);
+    }
+
+    public void initMean() {
+        int size = variableValues.size();
+        if (size == 0) {
+            // Set value to NaN
+            mean = 0f / 0f;
+        } else {
+            float sum = 0;
+            for (float f : variableValues) {
+                sum += f;
+            }
+            mean = sum / size;
+        }
     }
 
     /**
