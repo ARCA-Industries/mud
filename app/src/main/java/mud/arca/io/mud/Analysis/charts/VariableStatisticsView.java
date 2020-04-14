@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -23,6 +24,7 @@ import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.Util;
 
 public class VariableStatisticsView extends RecyclerView
         implements AnalysisChart, ChartWithVariable, ChartWithDates {
@@ -40,6 +42,11 @@ public class VariableStatisticsView extends RecyclerView
      * Measurements for the selected variable.
      */
     public ArrayList<Float> variableValues;
+
+    /**
+     * Sorted measurements for the selected variable.
+     */
+    public ArrayList<Float> sortedVariableValues;
 
     public void setVarName(String varName) {
         this.varName = varName;
@@ -78,6 +85,7 @@ public class VariableStatisticsView extends RecyclerView
 
         initDaysSelected();
         initVariableValues();
+        initSortedVariableValues();
 
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(getNumDays());
@@ -85,6 +93,7 @@ public class VariableStatisticsView extends RecyclerView
         statistics.add(getDaysWithoutMeasurements());
         statistics.add(getMinimum());
         statistics.add(getMaximum());
+        statistics.add(getMedian());
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
 
@@ -116,6 +125,11 @@ public class VariableStatisticsView extends RecyclerView
         //Util.debug("variableValues: " + variableValues);
     }
 
+    public void initSortedVariableValues() {
+        sortedVariableValues = (ArrayList<Float>) variableValues.clone();
+        Collections.sort(sortedVariableValues);
+    }
+
     public Statistic getMinimum() {
         float value;
         if (variableValues.size() == 0) {
@@ -136,6 +150,20 @@ public class VariableStatisticsView extends RecyclerView
             value = Collections.max(variableValues);
         }
         return new Statistic("Maximum", value, false);
+    }
+
+    public Statistic getMedian() {
+        float value;
+        int size = sortedVariableValues.size();
+        if (size == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else if (size % 2 == 0) {
+            value = (sortedVariableValues.get(size/2) + sortedVariableValues.get(size/2 - 1)) / 2;
+        } else {
+            value = sortedVariableValues.get(size/2);
+        }
+        return new Statistic("Median", value, false);
     }
 
     /**
