@@ -47,7 +47,7 @@ public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
         VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
-        MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
+        // MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
         YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_STATISTICS(VariableStatisticsView.class, "Variable Statistics"),
@@ -296,13 +296,6 @@ public class AnalysisFragment extends Fragment {
         return view;
     }
 
-    public int getChartTypeSelectedInt() {
-        return sharedPrefs.getInt("chartTypeSelectedInt", 0);
-    }
-
-    public int getVarSelectedInt() {
-        return sharedPrefs.getInt("varSelectedInt", 0);
-    }
 
     /**
      * Expand/collapse spinners based on chartTypeSelectedInt.
@@ -332,11 +325,21 @@ public class AnalysisFragment extends Fragment {
      * @return
      */
     public static PersistentSpinner setupSpinner(Context context, AppCompatSpinner spinner, List<String> labels, String key) {
+        setSpinnerLabels(context, spinner, labels);
+        return new PersistentSpinner(context, spinner, key);
+    }
+
+    /**
+     * Set the items in the dropdown of the spinner.
+     * @param context
+     * @param spinner
+     * @param labels
+     */
+    public static void setSpinnerLabels(Context context, AppCompatSpinner spinner, List<String> labels) {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, labels);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
-        return new PersistentSpinner(context, spinner, key);
     }
 
     public List<String> getVariableLabelsWithMood() {
@@ -345,13 +348,56 @@ public class AnalysisFragment extends Fragment {
         return ret;
     }
 
+    public List<ChartType> chartsWithMoodPseudoVariable = Arrays.asList(
+            ChartType.VARIABLE_VS_TIME_CHART,
+            ChartType.VARIABLE_STATISTICS
+    );
+
+    /**
+     * Return the name of the variable that is selected in the variable dropdown.
+     * Handles a special case for "Mood" pseudo-variable.
+     * @return
+     */
+    public String getSelectedVarName() {
+        ArrayList<Variable> varData = User.getCurrentUser().getVarData();
+        if (varData.size() == getVarSelectedInt()) {
+            return Util.MOOD_STRING;
+        } else {
+            return varData.get(getVarSelectedInt()).getName();
+        }
+    }
+
+    public int getChartTypeSelectedInt() {
+        return sharedPrefs.getInt("chartTypeSelectedInt", 0);
+    }
+
+    public int getVarSelectedInt() {
+        return sharedPrefs.getInt("varSelectedInt", 0);
+    }
+
+    public ChartType getChartTypeSelected() {
+        return ChartType.values()[getChartTypeSelectedInt()];
+    }
+
+    /**
+     * Get the correct variable labels.
+     * The labels contain "Mood" or not depending on the chartType.
+     * @return
+     */
+    public List<String> getVariableLabels() {
+        if (chartsWithMoodPseudoVariable.contains(getChartTypeSelected())) {
+            return getVariableLabelsWithMood();
+        } else {
+            return Util.getVariableLabels();
+        }
+    }
+
     private void initializeView() {
         Util.debug("^^^^initializeView called");
 
         // Set up variable spinner
         varSpinner = getView().findViewById(R.id.inputVariableDropdown);
-        //PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, Util.getVariableLabels(), "varSelectedInt");
-        PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, getVariableLabelsWithMood(), "varSelectedInt");
+        PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, getVariableLabels(), "varSelectedInt");
 
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -384,6 +430,23 @@ public class AnalysisFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 plotTypePS.savePosition(i);
                 updateSpinners(i);
+
+                ChartType chartTypeSelected = getChartTypeSelected();
+                // If the user just switched to a chart that has a variable dropdown, we must update
+                // the dropdown items.
+                if (ChartWithVariable.class.isAssignableFrom(chartTypeSelected.view)) {
+                    // Update the dropdown items.
+                    setSpinnerLabels(getContext(), varSpinner, getVariableLabels());
+                    // After updating the dropdown items, we must set the selection of varSpinner again.
+                    // If we are switching to a chart type without the Mood pseudo-variable
+                    // and Mood is selected, then reset the index to 0.
+                    int varSelectedIndex = getVarSelectedInt();
+                    if (!chartsWithMoodPseudoVariable.contains(chartTypeSelected) &&
+                            getVarSelectedInt() == Util.getVariableLabels().size()) {
+                        varSelectedIndex = 0;
+                    }
+                    varSpinner.setSelection(varSelectedIndex);
+                }
 
                 Util.debug("plotTypeSpinner onItemSelected() called");
                 updatePlot();
@@ -422,19 +485,8 @@ public class AnalysisFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    /**
-     * Return the name of the variable that is selected in the variable dropdown.
-     * Handles a special case for "Mood" pseudo-variable.
-     * @return
-     */
-    public String getSelectedVarName() {
-        ArrayList<Variable> varData = User.getCurrentUser().getVarData();
-        if (varData.size() == getVarSelectedInt()) {
-            return Util.MOOD_STRING;
-        } else {
-            return varData.get(getVarSelectedInt()).getName();
-        }
-    }
+
+
 
     /**
      * Looks at the chartTypeSelected and varSelected to update the plot.
@@ -447,12 +499,8 @@ public class AnalysisFragment extends Fragment {
             return;
         }
 
-//        int varSelectedInt = getVarSelectedInt();
-//        String varName = User.getCurrentUser().getVarData().get(varSelectedInt).getName();
         String varName = getSelectedVarName();
-
-        int chartTypeSelectedInt = getChartTypeSelectedInt();
-        ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
+        ChartType chartTypeSelected = getChartTypeSelected();
 
         // There's definitely a nicer and safer way to do this.
         AnalysisChart analysisChart = null;
