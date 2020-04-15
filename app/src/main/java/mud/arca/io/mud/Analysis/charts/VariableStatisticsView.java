@@ -120,16 +120,7 @@ public class VariableStatisticsView extends RecyclerView
     }
 
     public void initVariableValues() {
-        variableValues = new ArrayList<>();
-        for (Day day : daysSelected) {
-            Collection<Measurement> measurements = day.getMeasurements();
-            try {
-                Measurement m = Measurement.searchList(measurements, varName);
-                variableValues.add(m.getValue());
-            } catch (NoSuchElementException e) {
-                // Do nothing
-            }
-        }
+        variableValues = Util.getVariableValues(daysSelected, varName);
         //Util.debug("variableValues: " + variableValues);
     }
 

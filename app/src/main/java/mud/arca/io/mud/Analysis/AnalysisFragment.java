@@ -37,6 +37,7 @@ import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableStatisticsView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
+import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
@@ -338,10 +339,19 @@ public class AnalysisFragment extends Fragment {
         return new PersistentSpinner(context, spinner, key);
     }
 
+    public List<String> getVariableLabelsWithMood() {
+        List<String> ret = Util.getVariableLabels();
+        ret.add("Mood");
+        return ret;
+    }
+
     private void initializeView() {
+        Util.debug("^^^^initializeView called");
+
         // Set up variable spinner
         varSpinner = getView().findViewById(R.id.inputVariableDropdown);
-        PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, Util.getVariableLabels(), "varSelectedInt");
+        //PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, Util.getVariableLabels(), "varSelectedInt");
+        PersistentSpinner varPS = setupSpinner(getContext(), varSpinner, getVariableLabelsWithMood(), "varSelectedInt");
 
         varSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -413,6 +423,20 @@ public class AnalysisFragment extends Fragment {
     }
 
     /**
+     * Return the name of the variable that is selected in the variable dropdown.
+     * Handles a special case for "Mood" pseudo-variable.
+     * @return
+     */
+    public String getSelectedVarName() {
+        ArrayList<Variable> varData = User.getCurrentUser().getVarData();
+        if (varData.size() == getVarSelectedInt()) {
+            return Util.MOOD_STRING;
+        } else {
+            return varData.get(getVarSelectedInt()).getName();
+        }
+    }
+
+    /**
      * Looks at the chartTypeSelected and varSelected to update the plot.
      */
     private void updatePlot() {
@@ -423,8 +447,9 @@ public class AnalysisFragment extends Fragment {
             return;
         }
 
-        int varSelectedInt = getVarSelectedInt();
-        String varName = User.getCurrentUser().getVarData().get(varSelectedInt).getName();
+//        int varSelectedInt = getVarSelectedInt();
+//        String varName = User.getCurrentUser().getVarData().get(varSelectedInt).getName();
+        String varName = getSelectedVarName();
 
         int chartTypeSelectedInt = getChartTypeSelectedInt();
         ChartType chartTypeSelected = ChartType.values()[chartTypeSelectedInt];
