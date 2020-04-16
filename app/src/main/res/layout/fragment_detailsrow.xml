@@ -31,6 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="@+id/guideline4"
         tools:text="@tools:sample/lorem"
         android:inputType="numberDecimal"
         android:maxLines="1"
@@ -47,7 +48,7 @@
         android:tint="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/valueTextView"
+        app:layout_constraintStart_toEndOf="@+id/guideline4"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -63,5 +64,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="200dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="300dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
