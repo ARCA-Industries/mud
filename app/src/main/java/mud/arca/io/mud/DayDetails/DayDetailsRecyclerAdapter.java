@@ -79,8 +79,10 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
             nbvh.mValueTextView.setText(mValues.get(position).valueStr);
         } else if (holder instanceof BoolViewHolder) {
             BoolViewHolder bvh = (BoolViewHolder) holder;
-            bvh.mVariableTextView.setText("test123");
-            bvh.mBoolButton.setText("Thing");
+            bvh.mItem = mValues.get(position);
+            bvh.mVariableTextView.setText(mValues.get(position).varName);
+            bvh.updateButton();
+            //mValues.get(position).measurement.getValue()
         }
     }
 
@@ -92,12 +94,45 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
 
     public class BoolViewHolder extends RecyclerView.ViewHolder {
         public final TextView mVariableTextView;
-        public final Button mBoolButton;
+        public Button mBoolButton;
+        public VariableListItem mItem;
+
+        public void updateButton() {
+            String buttonText;
+            if (mItem.measurement == null) {
+                buttonText = "(no value)";
+            } else {
+                float value = mItem.measurement.getValue();
+                if (value > 0.5) {
+                    buttonText = "True";
+                } else {
+                    buttonText = "False";
+                }
+            }
+            mBoolButton.setText(buttonText);
+        }
 
         public BoolViewHolder(View view) {
             super(view);
             mVariableTextView = view.findViewById(R.id.variableTypeTextView);
             mBoolButton = view.findViewById(R.id.boolButton);
+
+            mBoolButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mItem.measurement == null) {
+                        // Create measurement with value 1.0 (true)
+                        Measurement m = new Measurement(1f, mItem.variable);
+                        mItem.day.getMeasurements().add(m);
+                        mItem.measurement = m;
+                    } else {
+                        // Toggle the value of the bool
+                        float value = mItem.measurement.getValue();
+                        mItem.measurement.setValue(1 - value);
+                    }
+                    updateButton();
+                }
+            });
         }
     }
 
