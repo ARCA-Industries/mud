@@ -170,7 +170,7 @@ public class DayDetailsFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(new DayDetailsRecyclerAdapter(DayDetailsContent.getItems(day)));
+        recyclerView.setAdapter(new DayDetailsRecyclerAdapter(day));
 
         // Let activity know when the user saves
         view.findViewById(R.id.recordDetailsSaveButton).setOnClickListener(button -> {

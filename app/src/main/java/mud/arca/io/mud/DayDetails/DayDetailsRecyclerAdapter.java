@@ -11,12 +11,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Variable;
-import mud.arca.io.mud.DayDetails.DayDetailsContent.VariableListItem;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.Util.App;
 import mud.arca.io.mud.Util.Util;
@@ -26,15 +31,54 @@ import mud.arca.io.mud.R;
  * {@link RecyclerView.Adapter} that can display a {@link VariableListItem}
  * TODO: Replace the implementation with code for your data type.
  */
-//public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter<DayDetailsRecyclerAdapter.ViewHolder> {
 public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
 
     private final List<VariableListItem> mValues;
 
     private Context context;
 
-    public DayDetailsRecyclerAdapter(List<VariableListItem> items) {
-        mValues = items;
+    public static class VariableListItem {
+        public final String varName;
+        public final String valueStr;
+        public Measurement measurement;
+        public Variable variable;
+        public Day day;
+
+        public VariableListItem(String varName, String valueStr, Measurement measurement,
+                                Variable variable, Day day) {
+            this.varName = varName;
+            this.valueStr = valueStr;
+            this.measurement = measurement;
+            this.variable = variable;
+            this.day = day;
+        }
+
+        @Override
+        public String toString() {
+            return varName;
+        }
+    }
+
+    public DayDetailsRecyclerAdapter(Day d) {
+        mValues = new ArrayList<>();
+        Collection<Measurement> measurements = d.getMeasurements();
+        for (Variable v : User.getCurrentUser().getVarData()) {
+            String varStr = String.format("%s (%s)", v.getName(), v.getUnit());
+
+            // If there is no measurement found, valueStr is empty string.
+            // The RecyclerView will show hint text.
+            String valueStr = "";
+            Measurement m = null;
+
+            try {
+                m = Measurement.searchList(measurements, v.getName());
+                valueStr = m.getFormattedValue();
+            } catch (NoSuchElementException e) {
+                // do nothing
+            }
+
+            mValues.add(new VariableListItem(varStr, valueStr, m, v, d));
+        }
     }
 
     @Override
@@ -82,6 +126,9 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         return mValues.size();
     }
 
+    /**
+     * A row in the RecyclerView that represents a boolean variable.
+     */
     public class BoolViewHolder extends RecyclerView.ViewHolder {
         public final TextView mVariableTextView;
         public Button mBoolButton;
@@ -147,6 +194,9 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * A row in the RecyclerView that represents a non-boolean variable.
+     */
     public class NonBoolViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mVariableTextView;
