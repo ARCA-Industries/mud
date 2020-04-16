@@ -44,8 +44,8 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter<DayDetailsRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mVariableTextView.setText(mValues.get(position).type);
-        holder.mValueTextView.setText(mValues.get(position).value);
+        holder.mVariableTextView.setText(mValues.get(position).varName);
+        holder.mValueTextView.setText(mValues.get(position).valueStr);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,16 +49,16 @@ public class DayDetailsContent {
      * A dummy item representing a piece of type.
      */
     public static class VariableListItem {
-        public final String type;
-        public final String value;
+        public final String varName;
+        public final String valueStr;
         public Measurement measurement;
         public Variable variable;
         public Day day;
 
-        public VariableListItem(String type, String value, Measurement measurement,
+        public VariableListItem(String varName, String valueStr, Measurement measurement,
                                 Variable variable, Day day) {
-            this.type = type;
-            this.value = value;
+            this.varName = varName;
+            this.valueStr = valueStr;
             this.measurement = measurement;
             this.variable = variable;
             this.day = day;
@@ -66,7 +66,7 @@ public class DayDetailsContent {
 
         @Override
         public String toString() {
-            return type;
+            return varName;
         }
     }
 }
