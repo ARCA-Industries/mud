@@ -9,11 +9,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
+import mud.arca.io.mud.DataStructures.Day;
+import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.R;
@@ -22,6 +26,46 @@ import mud.arca.io.mud.R;
  * A collection of utility functions
  */
 public class Util {
+
+    /**
+     * String used to represent "Variable name" the Mood pseudo-variable.
+     */
+    public static final String MOOD_STRING = "_mood_var";
+
+    /**
+     * Given dayData and varName, return a list of variable values. Days with missing measurements
+     * are ignored. Handles the special case for the Mood pseudo-variable.
+     * @param dayData
+     * @param varName
+     * @return
+     */
+    public static ArrayList<Float> getVariableValues(Collection<Day> dayData, String varName) {
+        ArrayList<Float> variableValues = new ArrayList<>();
+
+        if (varName.equals(Util.MOOD_STRING)) {
+            // Handle special case for Mood pseudo-variable
+            for (Day day : dayData) {
+                try {
+                    variableValues.add(day.getAverageMood());
+                } catch (NoSuchElementException e) {
+                    // Do nothing
+                }
+            }
+        } else {
+            for (Day day : dayData) {
+                Collection<Measurement> measurements = day.getMeasurements();
+                try {
+                    Measurement m = Measurement.searchList(measurements, varName);
+                    variableValues.add(m.getValue());
+                } catch (NoSuchElementException e) {
+                    // Do nothing
+                }
+            }
+        }
+
+        return variableValues;
+    }
+
     /**
      * @param s a String in the format "12-December-2012"
      * @return a Date from parsing the string. The Date has time 12:00 AM.

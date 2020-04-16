@@ -111,16 +111,29 @@ public class VariableVsTimeView extends BarChart
         ArrayList<Date> xs = new ArrayList<>();
         ArrayList<Float> ys = new ArrayList<>();
 
-        for (Day day : dayData) {
-            Collection<Measurement> measurements = day.getMeasurements();
-            try {
-                Measurement m = Measurement.searchList(measurements, varName);
-                ys.add(m.getValue());
-                Date d = day.getDate();
-                xs.add(d);
-                //Util.debug("" + d);
-            } catch (NoSuchElementException e) {
-                // do nothing
+        if (varName.equals(Util.MOOD_STRING)) {
+            // Handle special case for Mood pseudo-variable
+            for (Day day : dayData) {
+                try {
+                    float avgMood = day.getAverageMood();
+                    // If the above line does not throw an exception, add the date and value.
+                    xs.add(day.getDate());
+                    ys.add(avgMood);
+                } catch (NoSuchElementException e) {
+                    // Do nothing
+                }
+            }
+        } else {
+            for (Day day : dayData) {
+                Collection<Measurement> measurements = day.getMeasurements();
+                try {
+                    Measurement m = Measurement.searchList(measurements, varName);
+                    // If the above line does not throw an exception, add the date and value.
+                    ys.add(m.getValue());
+                    xs.add(day.getDate());
+                } catch (NoSuchElementException e) {
+                    // do nothing
+                }
             }
         }
 

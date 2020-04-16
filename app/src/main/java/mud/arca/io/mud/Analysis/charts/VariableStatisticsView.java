@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -23,6 +24,7 @@ import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Util.Util;
 
 public class VariableStatisticsView extends RecyclerView
         implements AnalysisChart, ChartWithVariable, ChartWithDates {
@@ -40,6 +42,16 @@ public class VariableStatisticsView extends RecyclerView
      * Measurements for the selected variable.
      */
     public ArrayList<Float> variableValues;
+
+    /**
+     * Sorted measurements for the selected variable.
+     */
+    public ArrayList<Float> sortedVariableValues;
+
+    /**
+     * The mean of the variableValues. Re-used to calculate standard deviation.
+     */
+    public float mean;
 
     public void setVarName(String varName) {
         this.varName = varName;
@@ -78,6 +90,8 @@ public class VariableStatisticsView extends RecyclerView
 
         initDaysSelected();
         initVariableValues();
+        initSortedVariableValues();
+        initMean();
 
         List<Statistic> statistics = new ArrayList<>();
         statistics.add(getNumDays());
@@ -85,9 +99,12 @@ public class VariableStatisticsView extends RecyclerView
         statistics.add(getDaysWithoutMeasurements());
         statistics.add(getMinimum());
         statistics.add(getMaximum());
+        statistics.add(getMedian());
+        statistics.add(getMean());
+        statistics.add(getStandardDeviation());
+
         MyAdapter myAdapter = new MyAdapter(getContext(), statistics);
         setAdapter(myAdapter);
-
     }
 
     public void setDaysAndVariable(Collection<Day> days, String varName) {
@@ -103,17 +120,13 @@ public class VariableStatisticsView extends RecyclerView
     }
 
     public void initVariableValues() {
-        variableValues = new ArrayList<>();
-        for (Day day : daysSelected) {
-            Collection<Measurement> measurements = day.getMeasurements();
-            try {
-                Measurement m = Measurement.searchList(measurements, varName);
-                variableValues.add(m.getValue());
-            } catch (NoSuchElementException e) {
-                // Do nothing
-            }
-        }
+        variableValues = Util.getVariableValues(daysSelected, varName);
         //Util.debug("variableValues: " + variableValues);
+    }
+
+    public void initSortedVariableValues() {
+        sortedVariableValues = (ArrayList<Float>) variableValues.clone();
+        Collections.sort(sortedVariableValues);
     }
 
     public Statistic getMinimum() {
@@ -136,6 +149,55 @@ public class VariableStatisticsView extends RecyclerView
             value = Collections.max(variableValues);
         }
         return new Statistic("Maximum", value, false);
+    }
+
+    public Statistic getMedian() {
+        float value;
+        int size = sortedVariableValues.size();
+        if (size == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else if (size % 2 == 0) {
+            value = (sortedVariableValues.get(size/2) + sortedVariableValues.get(size/2 - 1)) / 2;
+        } else {
+            value = sortedVariableValues.get(size/2);
+        }
+        return new Statistic("Median", value, false);
+    }
+
+    public Statistic getMean() {
+        return new Statistic("Mean", mean, false);
+    }
+
+    public Statistic getStandardDeviation() {
+        int size = variableValues.size();
+        float value;
+        if (size == 0) {
+            // Set value to NaN
+            value = 0f / 0f;
+        } else {
+            float sum = 0;
+            for (float f : variableValues) {
+                float diff = f - mean;
+                sum += diff * diff;
+            }
+            value = (float) Math.sqrt(sum / size);
+        }
+        return new Statistic("Standard deviation", value, false);
+    }
+
+    public void initMean() {
+        int size = variableValues.size();
+        if (size == 0) {
+            // Set value to NaN
+            mean = 0f / 0f;
+        } else {
+            float sum = 0;
+            for (float f : variableValues) {
+                sum += f;
+            }
+            mean = sum / size;
+        }
     }
 
     /**
