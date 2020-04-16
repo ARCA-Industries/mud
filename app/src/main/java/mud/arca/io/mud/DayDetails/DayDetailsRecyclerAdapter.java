@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.DayDetails.DayDetailsContent.VariableListItem;
 import mud.arca.io.mud.DataStructures.Measurement;
+import mud.arca.io.mud.Util.App;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
 
@@ -62,16 +63,6 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-//        holder.mItem = mValues.get(position);
-//        holder.mVariableTextView.setText(mValues.get(position).varName);
-//        holder.mValueTextView.setText(mValues.get(position).valueStr);
-
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
         if (holder instanceof NonBoolViewHolder) {
             NonBoolViewHolder nbvh = (NonBoolViewHolder) holder;
             nbvh.mItem = mValues.get(position);
@@ -82,7 +73,6 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
             bvh.mItem = mValues.get(position);
             bvh.mVariableTextView.setText(mValues.get(position).varName);
             bvh.updateButton();
-            //mValues.get(position).measurement.getValue()
         }
     }
 
@@ -95,12 +85,18 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
     public class BoolViewHolder extends RecyclerView.ViewHolder {
         public final TextView mVariableTextView;
         public Button mBoolButton;
+        public final ImageView mDeleteButton;
         public VariableListItem mItem;
 
+        /**
+         * Update the button's text and color.
+         */
         public void updateButton() {
             String buttonText;
+            int color;
             if (mItem.measurement == null) {
                 buttonText = "(no value)";
+                color = context.getColor(R.color.gray);
             } else {
                 float value = mItem.measurement.getValue();
                 if (value > 0.5) {
@@ -108,14 +104,17 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
                 } else {
                     buttonText = "False";
                 }
+                color = context.getColor(R.color.green);
             }
             mBoolButton.setText(buttonText);
+            mBoolButton.setBackgroundColor(color);
         }
 
         public BoolViewHolder(View view) {
             super(view);
             mVariableTextView = view.findViewById(R.id.variableTypeTextView);
             mBoolButton = view.findViewById(R.id.boolButton);
+            mDeleteButton = view.findViewById(R.id.variableListDeleteButton);
 
             mBoolButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -131,6 +130,18 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
                         mItem.measurement.setValue(1 - value);
                     }
                     updateButton();
+                }
+            });
+
+            mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mItem.measurement != null) {
+                        // Delete measurement
+                        mItem.day.removeMeasurement(mItem.measurement);
+                        mItem.measurement = null;
+                        updateButton();
+                    }
                 }
             });
         }
