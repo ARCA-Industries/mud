@@ -38,22 +38,15 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
     private Context context;
 
     public static class VariableListItem {
-        public final String varName;
         public Measurement measurement;
         public Variable variable;
         public Day day;
 
-        public VariableListItem(String varName, Measurement measurement,
+        public VariableListItem(Measurement measurement,
                                 Variable variable, Day day) {
-            this.varName = varName;
             this.measurement = measurement;
             this.variable = variable;
             this.day = day;
-        }
-
-        @Override
-        public String toString() {
-            return varName;
         }
 
         public String getValueString() {
@@ -63,25 +56,24 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
                 return measurement.getFormattedValue();
             }
         }
+
+        public String getVarString() {
+            return String.format("%s (%s)", variable.getName(), variable.getUnit());
+        }
     }
 
     public DayDetailsRecyclerAdapter(Day d) {
         mValues = new ArrayList<>();
         Collection<Measurement> measurements = d.getMeasurements();
         for (Variable v : User.getCurrentUser().getVarData()) {
-            String varStr = String.format("%s (%s)", v.getName(), v.getUnit());
-
-            // If there is no measurement found, valueStr is empty string.
-            // The RecyclerView will show hint text.
             Measurement m = null;
-
             try {
                 m = Measurement.searchList(measurements, v.getName());
             } catch (NoSuchElementException e) {
                 // do nothing
             }
 
-            mValues.add(new VariableListItem(varStr, m, v, d));
+            mValues.add(new VariableListItem(m, v, d));
         }
     }
 
@@ -116,13 +108,12 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         if (holder instanceof NonBoolViewHolder) {
             NonBoolViewHolder nbvh = (NonBoolViewHolder) holder;
             nbvh.mItem = mValues.get(position);
-            nbvh.mVariableTextView.setText(mValues.get(position).varName);
-            //nbvh.mValueTextView.setText(mValues.get(position).valueStr);
+            nbvh.mVariableTextView.setText(mValues.get(position).getVarString());
             nbvh.mValueTextView.setText(mValues.get(position).getValueString());
         } else if (holder instanceof BoolViewHolder) {
             BoolViewHolder bvh = (BoolViewHolder) holder;
             bvh.mItem = mValues.get(position);
-            bvh.mVariableTextView.setText(mValues.get(position).varName);
+            bvh.mVariableTextView.setText(mValues.get(position).getVarString());
             bvh.updateButton();
         }
     }
