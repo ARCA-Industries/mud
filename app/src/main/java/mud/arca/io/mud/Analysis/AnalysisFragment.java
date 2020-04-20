@@ -34,6 +34,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
+import mud.arca.io.mud.Analysis.charts.VariableImportancesChart;
 import mud.arca.io.mud.Analysis.charts.VariableStatisticsView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
@@ -51,6 +52,7 @@ public class AnalysisFragment extends Fragment {
         MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
         YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_STATISTICS(VariableStatisticsView.class, "Variable Statistics"),
+        VARIABLE_IMPORTANCES(VariableImportancesChart.class, "Insights"),
         ;
 
         Class<? extends AnalysisChart> view;
