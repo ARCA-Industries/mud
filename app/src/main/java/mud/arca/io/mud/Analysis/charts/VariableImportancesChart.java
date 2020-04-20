@@ -2,6 +2,8 @@ package mud.arca.io.mud.Analysis.charts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,13 +60,31 @@ public class VariableImportancesChart extends LinearLayout implements AnalysisCh
 
 
     @SuppressLint("NewApi")
-    private void onCalcComplete(Map<String, Double> covariances) {
-        String text = covariances.entrySet().stream()
-                .sorted(Comparator.comparing(entry -> Math.abs(((Map.Entry<String, Double>) entry).getValue())).reversed())
-                .map(entry -> String.format("Var: %s\tCov: %f", entry.getKey(), entry.getValue()))
-                .collect(Collectors.joining("\n"));
+    private Spanned getTextForResult(Map<String, Double> correlations) {
+        if (correlations.isEmpty()) {
+            return Html.fromHtml("You don't have enough data to generate insights. Come back when you have more data!");
+        }
 
-        outTextView.setText(text);
+        return Html.fromHtml(
+            // Let the user know about any correlations above .8
+            "<h1>Insights</h1>" +
+            correlations.entrySet().stream()
+                    .filter(entry -> Math.abs(entry.getValue()) >= 0.8)
+                    .sorted(Comparator.comparing(entry -> Math.abs(((Map.Entry<String, Double>) entry).getValue())).reversed())
+                    .map(entry -> String.format("More <b>%s</b> seems to <b>%s</b> your mood.", entry.getKey(), (entry.getValue() > 0) ? "increase" : "decrease"))
+                    .collect(Collectors.joining("<br/>")) +
+
+            // Show the user the correlation coefficients for all variables
+            "<h1>Raw Correlation Data</h1>" +
+            correlations.entrySet().stream()
+                    .sorted(Comparator.comparing(Map.Entry::getKey))
+                    .map(entry -> String.format("%s: %.4f", entry.getKey(), entry.getValue()))
+                    .collect(Collectors.joining("<br/>"))
+        );
+    }
+
+    private void onCalcComplete(Map<String, Double> correlations) {
+        outTextView.setText(getTextForResult(correlations));
     }
 
     @Override
