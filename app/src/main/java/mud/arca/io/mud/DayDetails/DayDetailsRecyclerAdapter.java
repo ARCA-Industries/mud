@@ -98,10 +98,12 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_detailsrow_bool, parent, false);
             return new BoolViewHolder(view);
-        } else { // NOT_BOOL
+        } else if (viewType == RowType.NOT_BOOL) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_detailsrow, parent, false);
             return new NonBoolViewHolder(view);
+        } else {
+            return null;
         }
     }
 
@@ -195,7 +197,7 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * A row in the RecyclerView that represents a non-boolean variable.
+     * A row in the RecyclerView that represents a non-boolean (float or int) variable.
      */
     public class NonBoolViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
@@ -220,11 +222,11 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
 
             mValueTextView.addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    //
+                    // Do nothing
                 }
 
                 public void afterTextChanged(Editable s) {
-                    // Util.debug("afterTextChanged");
+                    // Do nothing
                 }
 
                 // TODO: Currently, this function is called any time the user types a single character. Ideally, it should only be called once when the user leaves the details view.
