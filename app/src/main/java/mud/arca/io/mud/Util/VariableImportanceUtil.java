@@ -14,15 +14,15 @@ import mud.arca.io.mud.DataStructures.Day;
 @SuppressLint("NewApi")
 public class VariableImportanceUtil {
 
-    public static Map<String, Double> calculateCovariances(Collection<Day> days, Collection<String> varNames) {
+    public static Map<String, Double> calculateCorrelations(Collection<Day> days, Collection<String> varNames) {
         return varNames.stream()
                 .collect(Collectors.toMap(
                         Function.identity(),
-                        s -> calcCovOfVar(days, s)
+                        s -> calcCorrelationOfVar(days, s)
                 ));
     }
 
-    public static double calcCovOfVar(Collection<Day> days, String varName) {
+    public static double calcCorrelationOfVar(Collection<Day> days, String varName) {
         // It only makes sense to consume days with both a mood and variable recording here.
         // That limits our data quite a bit. But comparing yesterday's mood to tomorrow's sleep doesn't make sense.
 
@@ -58,7 +58,9 @@ public class VariableImportanceUtil {
             coSum += moodValues[i] * variableValues[i];
         }
 
-        return (coSum) / filteredDays.size();
+        double cov = (coSum) / filteredDays.size();
+
+        return cov/(variableSummaryPlus.getStandardDeviation() * moodSummaryPlus.getStandardDeviation());
     }
 
 
@@ -89,7 +91,7 @@ public class VariableImportanceUtil {
 
         @Override
         protected Map<String, Double> doInBackground(CalculationParams... params) {
-            return VariableImportanceUtil.calculateCovariances(params[0].days, params[0].varNames);
+            return VariableImportanceUtil.calculateCorrelations(params[0].days, params[0].varNames);
         }
 
         @Override
