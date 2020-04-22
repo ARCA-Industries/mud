@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.Analysis.ChartWithVariable;
+import mud.arca.io.mud.Analysis.ShareableChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.Analysis.DayAxisVF;
 import mud.arca.io.mud.DataStructures.Measurement;
@@ -26,7 +27,7 @@ import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 
 public class VariableVsTimeView extends BarChart
-        implements AnalysisChart, ChartWithVariable, ChartWithDates {
+        implements AnalysisChart, ChartWithVariable, ChartWithDates, ShareableChart {
     public VariableVsTimeView(Context context) {
         super(context);
         init(null, 0);
@@ -44,6 +45,10 @@ public class VariableVsTimeView extends BarChart
 
     private void init(AttributeSet attrs, int defStyle) {
 
+    }
+
+    public String getShareChartString() {
+        return "";
     }
 
     public static Date getBaseDate() {

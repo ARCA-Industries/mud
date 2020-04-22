@@ -227,9 +227,11 @@ public class AnalysisFragment extends Fragment {
         }
 
         public void onClick() {
+            String text = "https://quickchart.io/chart?bkg=white&c={type:%27bar%27,data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:%27Users%27,data:[120,60,50,180,120]}]}}";
+
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
@@ -237,16 +239,25 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
-    public List<ToolbarItem> menuDropdownItems = Arrays.asList(
-            new ShareChartItem(),
-            new ItemToSelectDays(7),
-            new ItemToSelectDays(30),
-            new ItemToSelectDays(100)
-    );
+    public List<ToolbarItem> getMenuDropdownItems() {
+        List<ToolbarItem> items = new ArrayList<>();
+        if (ShareableChart.class.isAssignableFrom(getChartTypeSelected().view)) {
+            items.add(new ShareChartItem());
+        }
 
+        int[] numDaysList = new int[]{7, 30, 100};
+        for (int i : numDaysList) {
+            items.add(new ItemToSelectDays(i));
+        }
+        return items;
+    }
 
-    private void setupToolbar(View rootView) {
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+    /**
+     * This function must be called every time the chart type is updated.
+     */
+    public void updateToolbarItems(View rootView) {
+        List<ToolbarItem> menuDropdownItems = getMenuDropdownItems();
+        toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_analysis));
         toolbar.setOnMenuItemClickListener(item -> {
             // Note: This assumes that all menu items in the toolbar are from menuDropdownItems.
@@ -256,10 +267,12 @@ public class AnalysisFragment extends Fragment {
         });
 
         // Inflate menu
+        toolbar.getMenu().clear();
         for (int id = 0; id < menuDropdownItems.size(); id++) {
             ToolbarItem item = menuDropdownItems.get(id);
             toolbar.getMenu().add(Menu.NONE, id, id, item.getText());
         }
+
     }
 
     public DateSelector endDS;
@@ -272,6 +285,7 @@ public class AnalysisFragment extends Fragment {
     MyAnimationHandler startAH;
     MyAnimationHandler endAH;
     MyAnimationHandler varSpinnerAH;
+    Toolbar toolbar;
     View view;
 
     /**
@@ -305,15 +319,14 @@ public class AnalysisFragment extends Fragment {
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Util.debug("onCreateView called");
-        view = inflater.inflate(R.layout.analysis_fragment, container, false);
-
-        setupToolbar(view);
-
+        //Util.debug("onCreateView called");
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        view = inflater.inflate(R.layout.analysis_fragment, container, false);
+        updateToolbarItems(view);
+
         User.getCurrentUser().updateUserData(user -> {
-            initializeView();
+            initializeView(view);
             updateSpinners(getChartTypeSelectedInt());
             updatePlot();
         });
@@ -417,7 +430,7 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
-    private void initializeView() {
+    private void initializeView(View rootView) {
         Util.debug("^^^^initializeView called");
 
         // Set up variable spinner
@@ -472,6 +485,8 @@ public class AnalysisFragment extends Fragment {
                     }
                     varSpinner.setSelection(varSelectedIndex);
                 }
+
+                updateToolbarItems(rootView);
 
                 Util.debug("plotTypeSpinner onItemSelected() called");
                 updatePlot();
