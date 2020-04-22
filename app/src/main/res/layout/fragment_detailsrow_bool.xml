@@ -24,13 +24,14 @@
         tools:text="@tools:sample/date/mmddyy" />
 
     <Button
+        android:id="@+id/boolButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="@+id/guideline4"
-        android:id="@+id/boolButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:singleLine="true"
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="@tools:sample/lorem"
         />
@@ -58,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="200dp" />
+        app:layout_constraintGuide_begin="180dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
