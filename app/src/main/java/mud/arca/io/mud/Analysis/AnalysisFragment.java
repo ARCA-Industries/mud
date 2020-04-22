@@ -186,10 +186,15 @@ public class AnalysisFragment extends Fragment {
         editor.commit();
     }
 
+    public interface ToolbarItem {
+        public String getText();
+        public void onClick();
+    }
+
     /**
      * This class is used to generate dropdown items where the user can select last 7 days, last 30 days, etc.
      */
-    public class ItemToSelectDays {
+    public class ItemToSelectDays implements ToolbarItem {
         private int numDays;
 
         public ItemToSelectDays(int numDays) {
@@ -200,7 +205,7 @@ public class AnalysisFragment extends Fragment {
             return String.format("Select last %d days", numDays);
         }
 
-        public void applyToDateSelectors() {
+        public void onClick() {
             // Add (-numDays+1) Because if you set it to 6 days ago, then the range is 7 days.
             Date newStartDate = Util.intToDate(latestDate, -numDays+1);
 
@@ -215,7 +220,7 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
-    public List<ItemToSelectDays> menuDropdownItems = Arrays.asList(
+    public List<ToolbarItem> menuDropdownItems = Arrays.asList(
             new ItemToSelectDays(7),
             new ItemToSelectDays(30),
             new ItemToSelectDays(100)
@@ -228,13 +233,13 @@ public class AnalysisFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(item -> {
             // Note: This assumes that all menu items in the toolbar are from menuDropdownItems.
             //       If this is no longer the case, we'll need to check IDs first.
-            menuDropdownItems.get(item.getItemId()).applyToDateSelectors();
+            menuDropdownItems.get(item.getItemId()).onClick();
             return true;
         });
 
         // Inflate menu
         for (int id = 0; id < menuDropdownItems.size(); id++) {
-            ItemToSelectDays item = menuDropdownItems.get(id);
+            ToolbarItem item = menuDropdownItems.get(id);
             toolbar.getMenu().add(Menu.NONE, id, id, item.getText());
         }
     }
