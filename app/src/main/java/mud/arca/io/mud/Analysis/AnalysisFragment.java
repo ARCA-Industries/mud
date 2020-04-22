@@ -3,6 +3,7 @@ package mud.arca.io.mud.Analysis;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -220,7 +221,24 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+    public class ShareChartItem implements ToolbarItem {
+        public String getText() {
+            return "Share chart";
+        }
+
+        public void onClick() {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+    }
+
     public List<ToolbarItem> menuDropdownItems = Arrays.asList(
+            new ShareChartItem(),
             new ItemToSelectDays(7),
             new ItemToSelectDays(30),
             new ItemToSelectDays(100)
