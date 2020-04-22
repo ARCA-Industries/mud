@@ -58,7 +58,8 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         }
 
         public String getVarString() {
-            return String.format("%s (%s)", variable.getName(), variable.getUnit());
+            //return String.format("%s (%s)", variable.getName(), variable.getUnit());
+            return variable.getName();
         }
     }
 
