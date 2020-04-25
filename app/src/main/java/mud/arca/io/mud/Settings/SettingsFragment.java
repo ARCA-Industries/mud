@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import mud.arca.io.mud.DataStructures.MockUser;
 import mud.arca.io.mud.DataStructures.User;
+import mud.arca.io.mud.Database.DatabaseExporter;
 import mud.arca.io.mud.LoginScreenActivity;
 import mud.arca.io.mud.Notifications.AlarmReceiver;
 import mud.arca.io.mud.Notifications.MyAlarmManager;
@@ -155,6 +159,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         findPreference("notifications_test").setOnPreferenceClickListener(preference -> {
             Intent broadcastIntent = new Intent(getContext(), AlarmReceiver.class);
             getContext().sendBroadcast(broadcastIntent);
+            return true;
+        });
+
+        findPreference("export_data").setOnPreferenceClickListener(preference -> {
+            try {
+                startActivity(DatabaseExporter.getShareIntent(getContext()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Error: Could not create report.", Toast.LENGTH_LONG).show();
+            }
             return true;
         });
     }

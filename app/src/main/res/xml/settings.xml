@@ -68,6 +68,11 @@
             app:title="Log Out"
             app:summary="@string/preference_auth_logout_summary" />
 
+        <Preference
+            app:key="export_data"
+            app:title="Export"
+            app:summary="Export to CSV" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
