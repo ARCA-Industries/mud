@@ -163,12 +163,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
 
         findPreference("export_data").setOnPreferenceClickListener(preference -> {
-            try {
-                startActivity(DatabaseExporter.getShareIntent(getContext()));
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getContext(), "Error: Could not create report.", Toast.LENGTH_LONG).show();
-            }
+            DatabaseExporter.getShareIntentAsync(getContext(), new DatabaseExporter.ShareIntentCallback() {
+                @Override
+                public void onIntentReady(Intent intent) {
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+                    Toast.makeText(getContext(), "Error: Could not create report.", Toast.LENGTH_LONG).show();
+                }
+            });
             return true;
         });
     }
