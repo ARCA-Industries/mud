@@ -88,7 +88,8 @@ public class Day implements Serializable {
         String varStr = "-";
         try {
             Measurement m = Measurement.searchList(getMeasurements(), varName);
-            varStr = String.format("%.1f", m.getValue());
+            //varStr = String.format("%.1f", m.getValue());
+            varStr = m.getFormattedValue();
         } catch (NoSuchElementException e) {
             // do nothing
         }

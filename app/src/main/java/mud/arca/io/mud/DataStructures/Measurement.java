@@ -60,11 +60,15 @@ public class Measurement implements Serializable {
     public String getFormattedValue() {
         Variable.VarType vt = variable.getVartype();
         if (vt == Variable.VarType.FLOAT) {
-            return String.format("%.3f", value);
+            return String.format("%.2f", value);
         } else if (vt == Variable.VarType.INT) {
             return String.format("%d", Math.round(value));
         } else { // BOOL
-            return String.format("%d", Math.round(value));
+            if (value > 0.5f) {
+                return "True";
+            } else {
+                return "False";
+            }
         }
     }
 

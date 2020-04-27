@@ -29,14 +29,18 @@ import mud.arca.io.mud.R;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link VariableListItem}
- * TODO: Replace the implementation with code for your data type.
  */
 public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
-
+    /**
+     * A list of VariableListItems for the selected day. Each item represents 1 variable.
+     */
     private final List<VariableListItem> mValues;
 
     private Context context;
 
+    /**
+     * A VariableListItem represents one row in the day details view.
+     */
     public static class VariableListItem {
         public Measurement measurement;
         public Variable variable;
@@ -58,11 +62,17 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         }
 
         public String getVarString() {
-            return String.format("%s (%s)", variable.getName(), variable.getUnit());
+            //return String.format("%s (%s)", variable.getName(), variable.getUnit());
+            return variable.getName();
         }
     }
 
+    /**
+     * Create a DayDetailsRecyclerAdapter that holds the variables and measurements for the Day d.
+     * @param d
+     */
     public DayDetailsRecyclerAdapter(Day d) {
+        // Initialize mValues
         mValues = new ArrayList<>();
         Collection<Measurement> measurements = d.getMeasurements();
         for (Variable v : User.getCurrentUser().getVarData()) {
@@ -70,13 +80,18 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
             try {
                 m = Measurement.searchList(measurements, v.getName());
             } catch (NoSuchElementException e) {
-                // do nothing
+                // Do nothing
             }
 
             mValues.add(new VariableListItem(m, v, d));
         }
     }
 
+    /**
+     * We need to override this function to have 2 different view types.
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         if (mValues.get(position).variable.getVartype() == Variable.VarType.BOOL) {
@@ -118,7 +133,6 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -143,12 +157,7 @@ public class DayDetailsRecyclerAdapter extends RecyclerView.Adapter {
                 buttonText = "(no value)";
                 color = context.getColor(R.color.gray);
             } else {
-                float value = mItem.measurement.getValue();
-                if (value > 0.5) {
-                    buttonText = "True";
-                } else {
-                    buttonText = "False";
-                }
+                buttonText = mItem.measurement.getFormattedValue();
                 color = context.getColor(R.color.green);
             }
             mBoolButton.setText(buttonText);
