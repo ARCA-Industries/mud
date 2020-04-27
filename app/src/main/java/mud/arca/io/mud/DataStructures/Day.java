@@ -68,7 +68,12 @@ public class Day implements Serializable {
      */
     @Exclude
     public String getMoodString() {
-        String moodStr = "-";
+        return getMoodString("-");
+    }
+
+    @Exclude
+    public String getMoodString(String def) {
+        String moodStr = def;
         try {
             double avgMood = getAverageMood();
             moodStr = String.format("%.1f", avgMood);
@@ -85,7 +90,12 @@ public class Day implements Serializable {
      */
     @Exclude
     public String getVarString(String varName) {
-        String varStr = "-";
+        return getVarString(varName, "-");
+    }
+
+    @Exclude
+    public String getVarString(String varName, String def) {
+        String varStr = def;
         try {
             Measurement m = Measurement.searchList(getMeasurements(), varName);
             varStr = String.format("%.1f", m.getValue());
