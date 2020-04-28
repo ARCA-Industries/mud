@@ -287,11 +287,11 @@ public class AnalysisFragment extends Fragment {
                 Chart chart = (Chart) analysisChart;
                 Uri uri = saveImage(chart.getChartBitmap());
 
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.setType("image/png");
-                startActivity(intent);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                shareIntent.setType("image/png");
+                startActivity(Intent.createChooser(shareIntent, "Send to"));
             }
         }
     }
