@@ -84,7 +84,13 @@ public class TimePreference extends DialogPreference {
 
     @Override
     public int getDialogLayoutResource() {
-        return R.layout.pref_dialog_time;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean useSpinner = sharedPrefs.getBoolean("use_spinner_timepicker", false);
+        if (useSpinner) {
+            return R.layout.pref_dialog_time;
+        } else {
+            return R.layout.pref_dialog_time_clock;
+        }
     }
 
     @Override

@@ -26,9 +26,15 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            app:title="Use spinner DatePicker"
+            app:title="Use spinner date picker"
             app:key="use_spinner_datepicker"
-            android:summary="Use spinner DatePicker instead of calendar DatePicker."
+            android:summary="For date picker, use spinner style instead of calendar style."
+            />
+
+        <SwitchPreference
+            app:title="Use spinner time picker"
+            app:key="use_spinner_timepicker"
+            android:summary="For time picker, use spinner style instead of clock style"
             />
 
     </PreferenceCategory>
