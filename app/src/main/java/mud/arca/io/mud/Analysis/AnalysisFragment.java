@@ -227,7 +227,11 @@ public class AnalysisFragment extends Fragment {
         }
 
         public void onClick() {
-            String text = "https://quickchart.io/chart?bkg=white&c={type:%27bar%27,data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:%27Users%27,data:[120,60,50,180,120]}]}}";
+            String text = null;
+            if (analysisChart instanceof ShareableChart) {
+                ShareableChart sc = (ShareableChart) analysisChart;
+                text = sc.getShareChartString();
+            }
 
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -236,6 +240,8 @@ public class AnalysisFragment extends Fragment {
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
+
+            Util.debug("Sharing text: " + text);
         }
     }
 
@@ -287,6 +293,7 @@ public class AnalysisFragment extends Fragment {
     MyAnimationHandler varSpinnerAH;
     Toolbar toolbar;
     View view;
+    AnalysisChart analysisChart;
 
     /**
      * Earliest Date in the current User.
@@ -543,7 +550,8 @@ public class AnalysisFragment extends Fragment {
         ChartType chartTypeSelected = getChartTypeSelected();
 
         // There's definitely a nicer and safer way to do this.
-        AnalysisChart analysisChart = null;
+        //AnalysisChart analysisChart = null;
+        analysisChart = null;
         try {
             analysisChart = chartTypeSelected.view.getDeclaredConstructor(Context.class).newInstance(getContext());
         } catch (IllegalAccessException | java.lang.InstantiationException | NoSuchMethodException | InvocationTargetException e) {
