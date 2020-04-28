@@ -5,7 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -16,6 +19,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +29,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.preference.PreferenceManager;
@@ -39,11 +48,14 @@ import mud.arca.io.mud.Analysis.charts.VariableImportancesChart;
 import mud.arca.io.mud.Analysis.charts.VariableStatisticsView;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Analysis.charts.YearSummaryView;
+import mud.arca.io.mud.BuildConfig;
 import mud.arca.io.mud.DataStructures.Variable;
 import mud.arca.io.mud.Util.MyAnimationHandler;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class AnalysisFragment extends Fragment {
 
@@ -221,27 +233,66 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+
+    /**
+     * Saves the image as PNG to the app's cache directory.
+     * @param image Bitmap to save.
+     * @return Uri of the saved file or null
+     */
+    public Uri saveImage(Bitmap image) {
+        // TODO - Should be processed in another thread
+        File imagesFolder = new File(getContext().getCacheDir(), "images");
+        Uri uri = null;
+        try {
+            imagesFolder.mkdirs();
+            File file = new File(imagesFolder, "chart.png");
+
+            FileOutputStream stream = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(Objects.requireNonNull(getContext()),
+                    BuildConfig.APPLICATION_ID + ".provider", file);
+
+        } catch (IOException e) {
+            Log.d("TAG12", "IOException while trying to write file for sharing: " + e.getMessage());
+        }
+        return uri;
+    }
+
     public class ShareChartItem implements ToolbarItem {
         public String getText() {
             return "Share chart";
         }
 
         public void onClick() {
-            String text = null;
-            if (analysisChart instanceof ShareableChart) {
-                ShareableChart sc = (ShareableChart) analysisChart;
-                text = sc.getShareChartString();
+//            String text = null;
+//            if (analysisChart instanceof ShareableChart) {
+//                ShareableChart sc = (ShareableChart) analysisChart;
+//                text = sc.getShareChartString();
+//            }
+//
+//            Intent sendIntent = new Intent();
+//            sendIntent.setAction(Intent.ACTION_SEND);
+//            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+//            sendIntent.setType("text/plain");
+//
+//            Intent shareIntent = Intent.createChooser(sendIntent, null);
+//            startActivity(shareIntent);
+//
+//            Util.debug("Sharing text: " + text);
+
+
+            if (analysisChart instanceof Chart) {
+                Chart chart = (Chart) analysisChart;
+                Uri uri = saveImage(chart.getChartBitmap());
+
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setType("image/png");
+                startActivity(intent);
             }
-
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-            sendIntent.setType("text/plain");
-
-            Intent shareIntent = Intent.createChooser(sendIntent, null);
-            startActivity(shareIntent);
-
-            Util.debug("Sharing text: " + text);
         }
     }
 
@@ -280,6 +331,9 @@ public class AnalysisFragment extends Fragment {
         }
 
     }
+
+
+
 
     public DateSelector endDS;
     public DateSelector startDS;

@@ -55,7 +55,7 @@ public class VariableVsTimeView extends BarChart
             dateStrings.add(Util.formatDate(x));
         }
 
-        Util.debug("SSS: " + dateStrings);
+        Util.debug("dateStrings: " + dateStrings);
 
         return "test678";
     }
