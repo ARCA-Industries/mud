@@ -23,9 +23,7 @@ public class DayAxisVF extends ValueFormatter {
      */
     @Override
     public String getFormattedValue(float value) {
-        // For some reason you have to add 1 to value to get the correct axis label.
-        // Maybe because of Daylight Saving Time?
-        Date d = Util.floatToDate(VariableVsTimeView.getBaseDate(), value + 1);
+        Date d = Util.floatToDate(value);
         return Util.formatDate(d);
     }
 }

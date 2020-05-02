@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -28,6 +29,7 @@ import mud.arca.io.mud.Util.Util;
 
 public class VariableVsTimeView extends BarChart
         implements AnalysisChart, ChartWithVariable, ChartWithDates, ShareableChart {
+
     public VariableVsTimeView(Context context) {
         super(context);
         init(null, 0);
@@ -48,21 +50,29 @@ public class VariableVsTimeView extends BarChart
     }
 
     public String getShareChartString() {
-        return "";
+        ArrayList<String> dateStrings = new ArrayList<>();
+        for (Date x : xValues) {
+            dateStrings.add(Util.formatDate(x));
+        }
+
+        Util.debug("dateStrings: " + dateStrings);
+
+        return "test678";
     }
 
     public static Date getBaseDate() {
         return Util.parseDate("01-January-1970");
     }
 
-    private String varName;
-
     public void setVarName(String varName) {
         this.varName = varName;
     }
 
+    ArrayList<Date> xValues;
+    ArrayList<Float> yValues;
     private Date startDate;
     private Date endDate;
+    private String varName;
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -73,11 +83,6 @@ public class VariableVsTimeView extends BarChart
     }
 
     static void plotFloats(ArrayList<Float> xs, ArrayList<Float> ys, BarChart barChart) {
-//        setContentView(R.layout.activity_chart_test);
-
-        // This view is a BarChart
-        //BarChart barChart = this;
-
         List<BarEntry> entries = new ArrayList<>();
         for (int i = 0; i < xs.size(); i++) {
             entries.add(new BarEntry(xs.get(i), ys.get(i)));
@@ -95,6 +100,7 @@ public class VariableVsTimeView extends BarChart
         legend.setEnabled(false);
         Description description = barChart.getDescription();
         description.setEnabled(false);
+
         // Disable the text labeling data points
         barChart.setMaxVisibleValueCount(0);
     }
@@ -113,8 +119,8 @@ public class VariableVsTimeView extends BarChart
     // Input: a list of days, variable name
     // Plots the variable over those days.
     void plotListOfDays(Collection<Day> dayData, String varName) {
-        ArrayList<Date> xs = new ArrayList<>();
-        ArrayList<Float> ys = new ArrayList<>();
+        xValues = new ArrayList<>();
+        yValues = new ArrayList<>();
 
         if (varName.equals(Util.MOOD_STRING)) {
             // Handle special case for Mood pseudo-variable
@@ -122,8 +128,8 @@ public class VariableVsTimeView extends BarChart
                 try {
                     float avgMood = day.getAverageMood();
                     // If the above line does not throw an exception, add the date and value.
-                    xs.add(day.getDate());
-                    ys.add(avgMood);
+                    xValues.add(day.getDate());
+                    yValues.add(avgMood);
                 } catch (NoSuchElementException e) {
                     // Do nothing
                 }
@@ -134,15 +140,21 @@ public class VariableVsTimeView extends BarChart
                 try {
                     Measurement m = Measurement.searchList(measurements, varName);
                     // If the above line does not throw an exception, add the date and value.
-                    ys.add(m.getValue());
-                    xs.add(day.getDate());
+                    yValues.add(m.getValue());
+                    xValues.add(day.getDate());
                 } catch (NoSuchElementException e) {
                     // do nothing
                 }
             }
         }
 
-        plotDates(xs, ys, this);
+        plotDates(xValues, yValues, this);
+
+        // Set x axis range
+        XAxis xAxis = this.getXAxis();
+        xAxis.setAxisMinimum(Util.dateToFloat(startDate));
+        xAxis.setAxisMaximum(Util.dateToFloat(endDate));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 
     /**

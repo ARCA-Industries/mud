@@ -20,13 +20,14 @@ import java.util.NoSuchElementException;
 import mud.arca.io.mud.Analysis.AnalysisChart;
 import mud.arca.io.mud.Analysis.ChartWithDates;
 import mud.arca.io.mud.Analysis.ChartWithVariable;
+import mud.arca.io.mud.Analysis.ShareableChart;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 
 public class MoodVsVariableView extends ScatterChart
-        implements AnalysisChart, ChartWithVariable, ChartWithDates {
+        implements AnalysisChart, ChartWithVariable, ChartWithDates, ShareableChart {
     public MoodVsVariableView(Context context) {
         super(context);
         init(null, 0);

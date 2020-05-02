@@ -1,10 +1,15 @@
 package mud.arca.io.mud.Util;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +21,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.core.content.FileProvider;
+import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.Measurement;
 import mud.arca.io.mud.DataStructures.User;
@@ -28,7 +35,7 @@ import mud.arca.io.mud.R;
 public class Util {
 
     /**
-     * String used to represent "Variable name" the Mood pseudo-variable.
+     * String used to represent the "Variable name" of the Mood pseudo-variable.
      */
     public static final String MOOD_STRING = "_mood_var";
 
@@ -98,6 +105,12 @@ public class Util {
         return intToDate(baseDate, (int) f);
     }
 
+    public static Date floatToDate(float f) {
+        // For some reason you have to add 1 to value to get the correct axis label.
+        // Maybe because of Daylight Saving Time?
+        return Util.floatToDate(VariableVsTimeView.getBaseDate(), f + 1);
+    }
+
     /**
      * Returns the number of days passed since base date.
      * @param d
@@ -105,6 +118,12 @@ public class Util {
      * @return
      */
     public static float dateToFloat(Date d, Date baseDate) {
+        long diff = d.getTime() - baseDate.getTime();
+        return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
+    public static float dateToFloat(Date d) {
+        Date baseDate = VariableVsTimeView.getBaseDate();
         long diff = d.getTime() - baseDate.getTime();
         return (float) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
@@ -258,4 +277,6 @@ public class Util {
             return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays ;
         }
     }
+
+
 }
