@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Date;
@@ -30,7 +32,7 @@ import mud.arca.io.mud.Util.ColorGradientUtil;
 /**
  * TODO: document your custom view class.
  */
-public class YearSummaryView extends RecyclerView implements AnalysisChart {
+public class YearSummaryView extends LinearLayout implements AnalysisChart {
     public static AnalysisChart newInstance(Context context) {
         return new YearSummaryView(context);
     }
@@ -52,6 +54,8 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
 
     ColorGradientUtil colorGradientUtil;
 
+    RecyclerView recyclerView;
+
     private void init(AttributeSet attrs, int defStyle) {
 
         // Initialize a ColorGradientUtil
@@ -71,6 +75,24 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
                 getResources().getIntArray(R.array.gradient_moodindicator_colors)
         );
 
+        setOrientation(VERTICAL);
+
+        LinearLayout weekdayHeader = new LinearLayout(getContext());
+
+        String[] daysOfWeek = new String[]{"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"};
+        for (String s : daysOfWeek) {
+            TextView textView = new TextView(getContext());
+            textView.setText(s);
+            textView.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+            textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            weekdayHeader.addView(textView);
+        }
+
+        addView(weekdayHeader);
+        recyclerView = new RecyclerView(getContext());
+        recyclerView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addView(recyclerView);
+
     }
 
 
@@ -78,7 +100,7 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
     public void setData(Collection<Day> days) {
         System.out.println("days = " + days);
 
-        setLayoutManager(new GridLayoutManager(getContext(), 7));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 7));
 
         List<Day> dayList = new ArrayList<>(days);
         dayList.sort(Comparator.comparing(Day::getDate));
@@ -107,10 +129,10 @@ public class YearSummaryView extends RecyclerView implements AnalysisChart {
 
 
         MyAdapter myAdapter = new MyAdapter(getContext(), dayList);
-        setAdapter(myAdapter);
+        recyclerView.setAdapter(myAdapter);
 
         // Scroll to end
-        scrollToPosition(myAdapter.getItemCount() - 1);
+        recyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
 
 //        System.out.println("getAdapter().getItemCount() = " + getAdapter().getItemCount());
     }
