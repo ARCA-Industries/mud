@@ -2,5 +2,6 @@
 <resources>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <cache-path name="shared_images" path="images/"/>
+    <external-files-path name="export" path="Documents" />
 </paths>
 </resources>
