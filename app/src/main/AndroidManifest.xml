@@ -50,6 +50,17 @@
             android:label="Variable Management" />
 
         <receiver android:name=".Notifications.AlarmReceiver"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="io.arca.mud.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filestreampaths" />
+        </provider>
+
     </application>
 
 
