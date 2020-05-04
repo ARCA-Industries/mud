@@ -13,6 +13,7 @@ import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,5 +99,8 @@ public class MoodVsDayOfWeekView extends BarChart
 
         // Apply the value formatter DayOfWeekVF
         this.getXAxis().setValueFormatter(new DayOfWeekVF(this));
+
+        XAxis xAxis = this.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 }
