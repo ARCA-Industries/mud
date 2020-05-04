@@ -46,7 +46,6 @@ public class VariableVsTimeView extends BarChart
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-
     }
 
     public String getShareChartString() {
@@ -114,6 +113,11 @@ public class VariableVsTimeView extends BarChart
 
         // Apply the value formatter DayAxisVF
         barChart.getXAxis().setValueFormatter(new DayAxisVF(barChart));
+
+//        Util.debug("Days of week:");
+//        for (Date d : xs) {
+//            Util.debug("" + d + " //// " + Util.getDayOfWeek(d));
+//        }
     }
 
     // Input: a list of days, variable name

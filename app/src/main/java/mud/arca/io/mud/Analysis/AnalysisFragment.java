@@ -42,6 +42,7 @@ import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.preference.PreferenceManager;
+import mud.arca.io.mud.Analysis.charts.MoodVsDayOfWeekView;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableImportancesChart;
@@ -60,9 +61,10 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class AnalysisFragment extends Fragment {
 
     private enum ChartType {
-        VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
-        // MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
-        MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
+        VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs. Time"),
+        // MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs. Time"),
+        MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs. Variable"),
+        MOOD_VS_DAY_OF_WEEK(MoodVsDayOfWeekView.class, "Mood vs. Day of Week"),
         YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_STATISTICS(VariableStatisticsView.class, "Variable Statistics"),
         VARIABLE_IMPORTANCES(VariableImportancesChart.class, "Insights"),

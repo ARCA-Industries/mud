@@ -279,4 +279,27 @@ public class Util {
     }
 
 
+    /**
+     * Returns int based on day of week.
+     * Sunday is 1, Monday is 2, ..., Saturday is 7.
+     * @param date
+     * @return
+     */
+    public static int getDayOfWeek(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+
+    public static float getAverage(List<Float> xs) {
+        float sum = 0;
+        if (xs.size() != 0) {
+            for (Float x : xs) {
+                sum += x;
+            }
+            return sum / xs.size();
+        } else {
+            return 0f;
+        }
+    }
 }
