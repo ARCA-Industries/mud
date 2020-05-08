@@ -42,6 +42,7 @@ import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.preference.PreferenceManager;
+import mud.arca.io.mud.Analysis.charts.MoodVsDayOfWeekView;
 import mud.arca.io.mud.Analysis.charts.MoodVsTimeView;
 import mud.arca.io.mud.Analysis.charts.MoodVsVariableView;
 import mud.arca.io.mud.Analysis.charts.VariableImportancesChart;
@@ -58,11 +59,15 @@ import mud.arca.io.mud.R;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class AnalysisFragment extends Fragment {
-
+    /**
+     * The ChartType enum keeps track of all the chart types to add to the chart type dropdown.
+     */
+    // TODO: Using singleton class instantiations instead of references to the class itself would probably make the code nicer.
     private enum ChartType {
-        VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs Time"),
-        // MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs Time"),
-        MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs Variable"),
+        VARIABLE_VS_TIME_CHART(VariableVsTimeView.class, "Variable vs. Time"),
+        // MOOD_VS_TIME_CHART(MoodVsTimeView.class, "Mood vs. Time"),
+        MOOD_VS_VARIABLE_CHART(MoodVsVariableView.class, "Mood vs. Variable"),
+        MOOD_VS_DAY_OF_WEEK(MoodVsDayOfWeekView.class, "Mood vs. Day of Week"),
         YEAR_SUMMARY_CHART(YearSummaryView.class, "Year Summary"),
         VARIABLE_STATISTICS(VariableStatisticsView.class, "Variable Statistics"),
         VARIABLE_IMPORTANCES(VariableImportancesChart.class, "Insights"),
@@ -75,6 +80,18 @@ public class AnalysisFragment extends Fragment {
             this.view = view;
             this.label = label;
         }
+    }
+
+    /**
+     * Return a list of labels for the chart type dropdown.
+     * @return
+     */
+    public List<String> getChartTypeLabels() {
+        List<String> ret = new ArrayList<>();
+        for (ChartType ct : ChartType.values()) {
+            ret.add(ct.label);
+        }
+        return ret;
     }
 
     /**
@@ -105,12 +122,14 @@ public class AnalysisFragment extends Fragment {
             }
         }
 
+        /**
+         * Update the text, the field in AnalysisFragment, and shared preferences.
+         * @param dateSelected
+         */
         public void setDate(Date dateSelected) {
-            // Set text of EditText
             String dateString = Util.formatDateWithYear(dateSelected);
             et.setText(dateString);
 
-            // Save to field in AnalysisFragment and sharedPrefs
             if (isStartDate) {
                 startDate = dateSelected;
             } else {
@@ -130,6 +149,7 @@ public class AnalysisFragment extends Fragment {
             // We have to set focusable to false, otherwise the user must click twice to set the date.
             et.setFocusable(false);
 
+            // When the EditText is clicked, it brings up a date picker dialog.
             et.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -199,6 +219,9 @@ public class AnalysisFragment extends Fragment {
         editor.commit();
     }
 
+    /**
+     * ToolbarItem is an item in the toolbar three dots dropdown.
+     */
     public interface ToolbarItem {
         public String getText();
         public void onClick();
@@ -260,6 +283,9 @@ public class AnalysisFragment extends Fragment {
         return uri;
     }
 
+    /**
+     * A dropdown item to share an image of the chart.
+     */
     public class ShareChartItem implements ToolbarItem {
         public String getText() {
             return "Share chart";
@@ -296,6 +322,10 @@ public class AnalysisFragment extends Fragment {
         }
     }
 
+    /**
+     * Return a list of all the toolbar items to populate the dropdown with.
+     * @return
+     */
     public List<ToolbarItem> getMenuDropdownItems() {
         List<ToolbarItem> items = new ArrayList<>();
         if (ShareableChart.class.isAssignableFrom(getChartTypeSelected().view)) {
@@ -311,6 +341,7 @@ public class AnalysisFragment extends Fragment {
 
     /**
      * This function must be called every time the chart type is updated.
+     * It will hide the "Share chart" item depending on if the chart selected implements ShareableChart.
      */
     public void updateToolbarItems(View rootView) {
         List<ToolbarItem> menuDropdownItems = getMenuDropdownItems();
@@ -333,49 +364,45 @@ public class AnalysisFragment extends Fragment {
     }
 
 
+    // Date selectors for start and end date
+    private DateSelector startDS;
+    private DateSelector endDS;
 
+    // Animation handlers to handle expanding/collapsing views
+    private MyAnimationHandler startAH;
+    private MyAnimationHandler endAH;
+    private MyAnimationHandler varSpinnerAH;
 
-    public DateSelector endDS;
-    public DateSelector startDS;
-    SharedPreferences sharedPrefs;
-    AppCompatSpinner varSpinner;
-    AppCompatSpinner plotTypeSpinner;
-    TextInputLayout inputStartLayout;
-    TextInputLayout inputEndLayout;
-    MyAnimationHandler startAH;
-    MyAnimationHandler endAH;
-    MyAnimationHandler varSpinnerAH;
-    Toolbar toolbar;
-    View view;
-    AnalysisChart analysisChart;
+    // Various UI elements
+    private TextInputLayout inputStartLayout;
+    private TextInputLayout inputEndLayout;
+    private SharedPreferences sharedPrefs;
+    private AppCompatSpinner varSpinner;
+    private AppCompatSpinner plotTypeSpinner;
+    private Toolbar toolbar;
+    private View view;
+    private AnalysisChart analysisChart;
 
     /**
      * Earliest Date in the current User.
      */
-    Date earliestDate;
+    private Date earliestDate;
 
     /**
      * Latest Date in the current User.
      */
-    Date latestDate;
+    private Date latestDate;
 
     /**
      * Start Date for the graph.
      */
-    Date startDate;
+    private Date startDate;
 
     /**
      * End Date for the graph.
      */
-    Date endDate;
+    private Date endDate;
 
-    public List<String> getChartTypeLabels() {
-        List<String> ret = new ArrayList<>();
-        for (ChartType ct : ChartType.values()) {
-            ret.add(ct.label);
-        }
-        return ret;
-    }
 
     @SuppressLint("NewApi")
     @Override
@@ -394,7 +421,6 @@ public class AnalysisFragment extends Fragment {
 
         return view;
     }
-
 
     /**
      * Expand/collapse spinners based on chartTypeSelectedInt.
@@ -441,12 +467,6 @@ public class AnalysisFragment extends Fragment {
         spinner.setAdapter(arrayAdapter);
     }
 
-    public List<String> getVariableLabelsWithMood() {
-        List<String> ret = Util.getVariableLabels();
-        ret.add("Mood");
-        return ret;
-    }
-
     public List<ChartType> chartsWithMoodPseudoVariable = Arrays.asList(
             ChartType.VARIABLE_VS_TIME_CHART,
             ChartType.VARIABLE_STATISTICS
@@ -485,14 +505,16 @@ public class AnalysisFragment extends Fragment {
      */
     public List<String> getVariableLabels() {
         if (chartsWithMoodPseudoVariable.contains(getChartTypeSelected())) {
-            return getVariableLabelsWithMood();
+            List<String> ret = Util.getVariableLabels();
+            ret.add("Mood");
+            return ret;
         } else {
             return Util.getVariableLabels();
         }
     }
 
     private void initializeView(View rootView) {
-        Util.debug("^^^^initializeView called");
+        //Util.debug("^^^^initializeView called");
 
         // Set up variable spinner
         varSpinner = getView().findViewById(R.id.inputVariableDropdown);
@@ -585,9 +607,6 @@ public class AnalysisFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
-
-
 
     /**
      * Looks at the chartTypeSelected and varSelected to update the plot.

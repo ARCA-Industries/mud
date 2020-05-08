@@ -8,8 +8,10 @@ import java.util.Date;
 import mud.arca.io.mud.Analysis.charts.VariableVsTimeView;
 import mud.arca.io.mud.Util.Util;
 
-// Custom Value formatter.
-// It is used to convert the x-axis date values (stored as floats) to strings.
+/**
+ * X-axis Value formatter.
+ * It is used to convert the x-axis date values (stored as floats) to strings.
+ */
 public class DayAxisVF extends ValueFormatter {
     private final BarLineChartBase<?> chart;
 

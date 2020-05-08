@@ -114,6 +114,22 @@ public class MockUser extends User {
     }
 
     /**
+     * Index 0 corresponds to nothing. Index 1 corresponds to Sunday.
+     */
+    private static ArrayList<Float> dayOfWeekToMood = new ArrayList<Float>(
+            Arrays.asList(0f, 0.9f, 0.2f, 0.5f, 0.7f, 0.6f, 0.8f, 1f));
+
+    /**
+     * For the given day, calculate the component of mood determined by day of week.
+     * @param day
+     * @return
+     */
+    private static float getDayOfWeekComponent(Day day) {
+        int dayOfWeek = Util.getDayOfWeek(day.getDate());
+        return 2 * (dayOfWeekToMood.get(dayOfWeek) - 0.5f);
+    }
+
+    /**
      * Generate one mood recording for the day.
      * @param day
      * @param mockMeasurements
@@ -123,14 +139,15 @@ public class MockUser extends User {
         Timestamp timestamp = new Timestamp(day.getDate().getTime() + r.nextInt(MS_PER_DAY));
 
         try {
+            // Mood is calculated as the sum of 3 components: sleep, day of week, and noise.
             Measurement m = Measurement.searchList(mockMeasurements, "Sleep");
-            // Mood is calculated as a linear function of Sleep plus some random noise.
-            // Note that this occasionally results in sleep > 10.0, which is bad.
-            // So clip to 10.0. This will technically result in skewed probability, but oh well.
-            float linear = m.getValue() - 1;
+            float sleep = m.getValue() - 1;
+            float dayOfWeek = getDayOfWeekComponent(day);
             float noise = r.nextFloat()*2 - 1;
-            MoodRecording recording = new MoodRecording(timestamp, Math.min(linear+noise, 10));
-            return recording;
+
+            // Clip the moodVal to be between 0 and 10.
+            float moodVal = Math.max(0, Math.min(sleep + dayOfWeek + noise, 10));
+            return new MoodRecording(timestamp, moodVal);
         } catch (NoSuchElementException e) {
             // do nothing
             throw e;

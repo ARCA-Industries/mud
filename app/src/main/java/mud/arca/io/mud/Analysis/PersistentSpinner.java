@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.preference.PreferenceManager;
+import mud.arca.io.mud.Util.Util;
 
 public class PersistentSpinner {
     /**
@@ -34,7 +35,12 @@ public class PersistentSpinner {
 
     // Initialize the selection of the spinner to the position stored in sharedPrefs
     public void setSelectionToSharedPref() {
-        int varSelectedInt = sharedPrefs.getInt(key, 0);
-        spinner.setSelection(varSelectedInt, false);
+        // Selection starts at 0. So it is at most (count-1).
+        int selection = sharedPrefs.getInt(key, 0);
+        int count = spinner.getAdapter().getCount();
+        //Util.debug("selection: " + selection + ", count: " + count);
+        if (selection <= count-1) {
+            spinner.setSelection(selection, false);
+        }
     }
 }
