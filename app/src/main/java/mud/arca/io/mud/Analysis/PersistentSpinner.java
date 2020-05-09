@@ -7,14 +7,31 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.preference.PreferenceManager;
 import mud.arca.io.mud.Util.Util;
 
+/**
+ * A PersistentSpinner is used to manage a spinner that saves the item selected to shared preferences.
+ */
 public class PersistentSpinner {
     /**
      * The key used to store the spinner position in shared preferences.
      */
     public String key;
 
+    /**
+     * A reference to the shared preferences
+     */
     public SharedPreferences sharedPrefs;
+
+    /**
+     * A reference to the spinner that this PersistentSpinner manages.
+     */
     public AppCompatSpinner spinner;
+
+    public PersistentSpinner(Context context, AppCompatSpinner spinner, String key) {
+        this.key = key;
+        this.spinner = spinner;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        setSelectionToSharedPref();
+    }
 
     /**
      * Save the position pos to shared preferences.
@@ -26,19 +43,13 @@ public class PersistentSpinner {
         editor.commit();
     }
 
-    public PersistentSpinner(Context context, AppCompatSpinner spinner, String key) {
-        this.key = key;
-        this.spinner = spinner;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        setSelectionToSharedPref();
-    }
-
-    // Initialize the selection of the spinner to the position stored in sharedPrefs
+    /**
+     * Initialize the selection of the spinner to the position stored in sharedPrefs
+     */
     public void setSelectionToSharedPref() {
-        // Selection starts at 0. So it is at most (count-1).
         int selection = sharedPrefs.getInt(key, 0);
         int count = spinner.getAdapter().getCount();
-        //Util.debug("selection: " + selection + ", count: " + count);
+        // The selection starts counting from 0, so it must be between 0 and (count-1).
         if (selection <= count-1) {
             spinner.setSelection(selection, false);
         }
