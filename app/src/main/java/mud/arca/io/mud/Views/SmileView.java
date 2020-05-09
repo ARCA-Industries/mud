@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 
-public class SmileMorphView extends View {
+public class SmileView extends View {
     private int mExampleColor = Color.BLACK; // TODO: use a default from R.color...
     private ShapeDrawable mMouthDrawable;
     private ShapeDrawable mEyeDrawable;
@@ -21,17 +21,17 @@ public class SmileMorphView extends View {
 
     private float progress = 0.5f;
 
-    public SmileMorphView(Context context) {
+    public SmileView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public SmileMorphView(Context context, AttributeSet attrs) {
+    public SmileView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public SmileMorphView(Context context, AttributeSet attrs, int defStyle) {
+    public SmileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
