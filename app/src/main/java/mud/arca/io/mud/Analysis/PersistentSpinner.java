@@ -26,6 +26,12 @@ public class PersistentSpinner {
      */
     public AppCompatSpinner spinner;
 
+    /**
+     * Initialize a PersistentSpinner with the given context, spinner, and key.
+     * @param context
+     * @param spinner
+     * @param key
+     */
     public PersistentSpinner(Context context, AppCompatSpinner spinner, String key) {
         this.key = key;
         this.spinner = spinner;
