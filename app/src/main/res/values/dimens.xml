@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="variable_management_padding">4dp</dimen>
+    <dimen name="daydetails_smileview_height">128dp</dimen>
 </resources>
