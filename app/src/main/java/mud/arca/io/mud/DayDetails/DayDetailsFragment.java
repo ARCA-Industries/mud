@@ -26,10 +26,12 @@ import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.MoodRecording;
 import mud.arca.io.mud.Util.Util;
 import mud.arca.io.mud.R;
+import mud.arca.io.mud.Views.SmileView;
 
 public class DayDetailsFragment extends Fragment {
 
     private TextView moodTextView;
+    private SmileView smileView;
     private SeekBar seekbar;
     private ImageView moodDeleteButton;
     private boolean moodRecExists = false;
@@ -73,6 +75,7 @@ public class DayDetailsFragment extends Fragment {
     public void updateMoodText(float moodVal) {
         String val = String.format("Mood (%.1f)", moodVal);
         moodTextView.setText(val);
+        smileView.setProgress(moodVal/10.0f);
     }
 
     /**
@@ -98,6 +101,7 @@ public class DayDetailsFragment extends Fragment {
     public void displayNullMood() {
         updateSeekBar(5f);
         moodTextView.setText("Mood (no value)");
+        smileView.setProgress(0.5f);
         setSeekbarColor(App.getContext().getColor(R.color.gray));
     }
 
@@ -120,6 +124,7 @@ public class DayDetailsFragment extends Fragment {
 
         // Initialize fields
         moodTextView = view.findViewById(R.id.moodTextView);
+        smileView = view.findViewById(R.id.smileView);
         seekbar = view.findViewById(R.id.seekBar);
         moodDeleteButton = view.findViewById(R.id.moodDeleteButton);
 
