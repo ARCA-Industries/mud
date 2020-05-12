@@ -130,25 +130,25 @@ public class HomeFragment extends Fragment {
         DecoView avgMoodArc = rootView.findViewById(R.id.avg_mood_arc);
         DecoView avgSleepArc = rootView.findViewById(R.id.avg_sleep_arc);
 
-        avgMoodArc.addSeries(new SeriesItem.Builder(Color.argb(255, 66, 66, 66))
+        avgMoodArc.addSeries(new SeriesItem.Builder(Color.argb(255, 50, 50, 50))
                 .setRange(0, 100, 100)
                 .setInitialVisibility(true)
                 .setLineWidth(32f)
                 .build());
 
-        avgSleepArc.addSeries(new SeriesItem.Builder(Color.argb(255, 66, 66, 66))
+        avgSleepArc.addSeries(new SeriesItem.Builder(Color.argb(255, 50, 50, 50))
                 .setRange(0, 100, 100)
                 .setInitialVisibility(true)
                 .setLineWidth(32f)
                 .build());
 
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.CYAN)
                 .setRange(0, 100, 0)
                 .setLineWidth(32f)
                 .setSpinClockwise(false)
                 .build();
 
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.CYAN)
                 .setRange(0, 100, 0)
                 .setLineWidth(32f)
                 .setSpinClockwise(false)
@@ -180,14 +180,14 @@ public class HomeFragment extends Fragment {
         if (sleep_mean >= 0 && sleep_mean <= 2.6) {
             // No sleep :(
             averageSleepSuggestion.setText(getString(R.string.suggestion_low_sleep));
-        } else if (mood_mean > 2.6 && mood_mean <= 5.2) {
+        } else if (sleep_mean > 2.6 && sleep_mean <= 5.2) {
             // Meh :|
             averageSleepSuggestion.setText(getString(R.string.suggestion_med_sleep));
-        } else if (mood_mean > 5.2 && mood_mean <= 8) {
+        } else if (sleep_mean > 5.2 && sleep_mean <= 8) {
             // Good sleep! :D
             averageSleepSuggestion.setText(getString(R.string.suggestion_hi_sleep));
         }
-        avgSleepArc.addEvent(new DecoEvent.Builder((sleep_mean) * 10).setIndex(series2Index).build());
+        avgSleepArc.addEvent(new DecoEvent.Builder(((sleep_mean) / 8) * 100).setIndex(series2Index).build());
 
 
     }
