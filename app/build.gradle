@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
+    implementation 'com.github.bmarrdev:android-DecoView-charting:v1.2'
 }

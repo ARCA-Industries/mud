@@ -1,6 +1,7 @@
 package mud.arca.io.mud;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import com.hookedonplay.decoviewlib.DecoView;
+import com.hookedonplay.decoviewlib.charts.SeriesItem;
+import com.hookedonplay.decoviewlib.events.DecoEvent;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -38,8 +43,6 @@ public class HomeFragment extends Fragment {
         setupToolbar(view);
         getAverages(view);
         getTimeFromAndroid(view);
-
-
         return view;
     }
 
@@ -124,6 +127,39 @@ public class HomeFragment extends Fragment {
         TextView averageMoodSuggestion = rootView.findViewById(R.id.avg_mood_suggestion);
         TextView averageSleepValue = rootView.findViewById(R.id.avg_sleep_value);
         TextView averageSleepSuggestion = rootView.findViewById(R.id.avg_sleep_suggestion);
+        DecoView avgMoodArc = rootView.findViewById(R.id.avg_mood_arc);
+        DecoView avgSleepArc = rootView.findViewById(R.id.avg_sleep_arc);
+
+        avgMoodArc.addSeries(new SeriesItem.Builder(Color.argb(255, 66, 66, 66))
+                .setRange(0, 100, 100)
+                .setInitialVisibility(true)
+                .setLineWidth(32f)
+                .build());
+
+        avgSleepArc.addSeries(new SeriesItem.Builder(Color.argb(255, 66, 66, 66))
+                .setRange(0, 100, 100)
+                .setInitialVisibility(true)
+                .setLineWidth(32f)
+                .build());
+
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
+                .setRange(0, 100, 0)
+                .setLineWidth(32f)
+                .setSpinClockwise(false)
+                .build();
+
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 255, 255, 255))
+                .setRange(0, 100, 0)
+                .setLineWidth(32f)
+                .setSpinClockwise(false)
+                .build();
+
+        int series1Index = avgMoodArc.addSeries(seriesItem1);
+        int series2Index = avgSleepArc.addSeries(seriesItem2);
+
+
+
+
         getWeekDateRange(current, last);
         mood_mean = calculateAverage(Util.MOOD_STRING);
         averageMoodValue.setText(String.format("%.2f", mood_mean));
@@ -137,6 +173,7 @@ public class HomeFragment extends Fragment {
             // Good mood! :D
             averageMoodSuggestion.setText(getString(R.string.suggestion_hi_mood));
         }
+        avgMoodArc.addEvent(new DecoEvent.Builder((mood_mean) * 10).setIndex(series1Index).build());
 
         sleep_mean = calculateAverage("Sleep");
         averageSleepValue.setText(String.format("%.2f", sleep_mean));
@@ -150,6 +187,7 @@ public class HomeFragment extends Fragment {
             // Good sleep! :D
             averageSleepSuggestion.setText(getString(R.string.suggestion_hi_sleep));
         }
+        avgSleepArc.addEvent(new DecoEvent.Builder((sleep_mean) * 10).setIndex(series2Index).build());
 
 
     }

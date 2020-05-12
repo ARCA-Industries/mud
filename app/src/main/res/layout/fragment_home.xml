@@ -22,93 +22,117 @@
 
     <TextView
         android:id="@+id/time_of_day"
-        android:layout_width="359dp"
+        android:layout_width="381dp"
         android:layout_height="83dp"
         android:text="@string/greeting_morning"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.307"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.097" />
 
     <TextView
         android:id="@+id/avg_mood_title"
-        android:layout_width="145dp"
-        android:layout_height="34dp"
+        android:layout_width="220dp"
+        android:layout_height="29dp"
         android:text="Average Mood"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.71"
+        app:layout_constraintHorizontal_bias="0.921"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.474" />
-
-    <TextView
-        android:id="@+id/avg_mood_suggestion"
-        android:layout_width="222dp"
-        android:layout_height="87dp"
-        android:text="Mood suggestion here."
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.577" />
+        app:layout_constraintVertical_bias="0.462" />
 
     <TextView
         android:id="@+id/avg_sleep_suggestion"
-        android:layout_width="222dp"
-        android:layout_height="87dp"
+        android:layout_width="220dp"
+        android:layout_height="91dp"
         android:text="Sleep suggestion here."
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.921"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.838" />
+        app:layout_constraintVertical_bias="0.839" />
+
+    <TextView
+        android:id="@+id/avg_mood_suggestion"
+        android:layout_width="220dp"
+        android:layout_height="91dp"
+        android:text="Mood suggestion here."
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.921"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.562" />
 
     <TextView
         android:id="@+id/avg_sleep_value"
-        android:layout_width="141dp"
-        android:layout_height="115dp"
+        android:layout_width="161dp"
+        android:layout_height="131dp"
         android:gravity="center"
         android:text="0.0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.782" />
+        app:layout_constraintVertical_bias="0.831" />
 
     <TextView
         android:id="@+id/avg_mood_value"
-        android:layout_width="141dp"
-        android:layout_height="115dp"
+        android:layout_width="161dp"
+        android:layout_height="131dp"
         android:gravity="center"
         android:text="0.0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.541" />
 
     <TextView
         android:id="@+id/avg_sleep_title"
-        android:layout_width="131dp"
-        android:layout_height="34dp"
+        android:layout_width="220dp"
+        android:layout_height="29dp"
         android:text="Average Sleep"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.675"
+        app:layout_constraintHorizontal_bias="0.921"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715" />
+        app:layout_constraintVertical_bias="0.71" />
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/avg_mood_arc"
+        android:layout_width="161dp"
+        android:layout_height="131dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.541" />
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/avg_sleep_arc"
+        android:layout_width="161dp"
+        android:layout_height="131dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.831" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
