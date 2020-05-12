@@ -139,13 +139,13 @@ public class HomeFragment extends Fragment {
                 .setLineWidth(32f)
                 .build());
 
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.CYAN)
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 126, 207, 192))
                 .setRange(0, 100, 0)
                 .setLineWidth(32f)
                 .setSpinClockwise(false)
                 .build();
 
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.CYAN)
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 126, 207, 192))
                 .setRange(0, 100, 0)
                 .setLineWidth(32f)
                 .setSpinClockwise(false)
