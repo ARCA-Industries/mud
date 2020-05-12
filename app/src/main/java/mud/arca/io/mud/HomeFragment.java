@@ -1,34 +1,27 @@
 package mud.arca.io.mud;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import mud.arca.io.mud.Analysis.charts.VariableStatisticsView;
 import mud.arca.io.mud.DataStructures.Day;
 import mud.arca.io.mud.DataStructures.User;
 import mud.arca.io.mud.Util.Util;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class HomeFragment extends Fragment {
 
@@ -60,6 +53,7 @@ public class HomeFragment extends Fragment {
 
     private void getTimeFromAndroid(View rootView) {
         TextView timeOfDay = rootView.findViewById(R.id.time_of_day);
+        TextView userName = rootView.findViewById(R.id.user_first);
         Date dt = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
@@ -77,6 +71,9 @@ public class HomeFragment extends Fragment {
             timeOfDay.setText(getString(R.string.greeting_evening));
 
         }
+
+        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
     }
 
 

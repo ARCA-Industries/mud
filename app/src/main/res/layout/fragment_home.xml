@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/user_first"
+        android:layout_width="381dp"
+        android:layout_height="166dp"
+        android:text="@string/fui_missing_first_and_last_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161" />
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/custom_actionbar"
@@ -23,7 +37,7 @@
     <TextView
         android:id="@+id/time_of_day"
         android:layout_width="381dp"
-        android:layout_height="83dp"
+        android:layout_height="31dp"
         android:text="@string/greeting_morning"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +45,7 @@
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.097" />
+        app:layout_constraintVertical_bias="0.086" />
 
     <TextView
         android:id="@+id/avg_mood_title"
