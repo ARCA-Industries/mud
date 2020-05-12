@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         ANALYSIS(new AnalysisFragment(), R.string.title_analysis),
         DASHBOARD(new DayListFragment(), R.string.title_dashboard),
         SETTINGS(new SettingsFragment(), R.string.title_profile),
+        HOME(new HomeFragment(), R.string.title_home),
         ;
 
         Fragment fragment;
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     switchToFragment(MudFragment.SETTINGS);
                     return true;
+                case R.id.navigation_home:
+                    switchToFragment(MudFragment.HOME);
+                    return true;
             }
 
             return false;
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_dashboard);
+        navigation.setSelectedItemId(R.id.navigation_home);
 
         DatabaseHelper.ensureDefaultVariables();
 

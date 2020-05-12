@@ -3,8 +3,22 @@
     <string name="title_analysis">Analysis</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Settings</string>
+    <string name="title_home">Profile</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+
+
+    <string name="greeting_morning">Good morning,</string>
+    <string name="greeting_afternoon">Good afternoon,</string>
+    <string name="greeting_evening">Good evening,</string>
+
+    <string name="suggestion_low_mood">You\'ve been feeling a little down lately. Don\'t worry, it\'ll pass soon!</string>
+    <string name="suggestion_med_mood">This last week could\'ve gone better, but it also could\'ve been worse. Try making more time for things you enjoy!</string>
+    <string name="suggestion_hi_mood">You\'ve been feeling pretty good lately!</string>
+
+    <string name="suggestion_low_sleep">You could use some rest. Be sure to take time this week to sleep!</string>
+    <string name="suggestion_med_sleep">You\'re not quite getting the hours of sleep you need. Consider getting more rest to stay at your peak performance!</string>
+    <string name="suggestion_hi_sleep">You\'re getting a pretty good amount of sleep!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment"></string>
