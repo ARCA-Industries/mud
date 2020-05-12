@@ -121,7 +121,7 @@ public class VariableStatisticsView extends RecyclerView
 
     public void initVariableValues() {
         variableValues = Util.getVariableValues(daysSelected, varName);
-        //Util.debug("variableValues: " + variableValues);
+        // Util.debug("variableValues: " + variableValues);
     }
 
     public void initSortedVariableValues() {
