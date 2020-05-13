@@ -19,7 +19,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build and sign apk
+    - name: Build with Gradle
+      run: ./gradlew build
+    - name: Build debug APK
+      run: ./gradlew assembleRelease
+    - name: Sign apk
       id: sign-android-app
       uses: r0adkll/sign-android-release@v1
       with:
