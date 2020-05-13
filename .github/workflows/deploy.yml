@@ -27,8 +27,10 @@ jobs:
         releaseDirectory: app/build/outputs/apk/release/
         signingKeyBase64: ${{ secrets.APK_SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}      
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}  
+    - name: Rename apk
+      run: mv ${{ steps.sign-android-app.outputs.signedReleaseFile }} mud.apk
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ steps.sign-android-app.outputs.signedReleaseFile }}
+        artifacts: mud.apk
         token: ${{ secrets.GITHUB_TOKEN }}
