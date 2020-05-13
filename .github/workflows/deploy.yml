@@ -2,15 +2,12 @@ name: Android CD
 
 on: 
   push:
-    branches:
-      - master
-      - cdtest
     tags:
       - '*'
 
 jobs:
   build:
-
+    if: github.event.base_ref == 'refs/heads/cdtest'
     runs-on: ubuntu-latest
 
     steps:
